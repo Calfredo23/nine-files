@@ -106,7 +106,7 @@ export default function Image() {
                 color: "#E3A44B",
               }}
             >
-              TWO DETECTIVES · NINE CLUES · THREE IN A ROW
+              TWO PLAYERS · NINE CARDS · THREE IN A ROW
             </div>
             <div
               style={{

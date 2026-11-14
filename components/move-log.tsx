@@ -14,7 +14,7 @@ export function MoveLog({ moves }: { moves: readonly Move[] }) {
     <section className="border border-manila/15 bg-coal/60 p-4">
       <div className="flex items-baseline justify-between gap-3">
         <h2 className="font-display text-sm font-semibold tracking-[0.18em] text-paper">
-          CASE NOTES
+          MOVE HISTORY
         </h2>
         <span className="font-mono text-[9px] tracking-[0.16em] text-smoke">
           NEWEST FIRST
@@ -23,7 +23,7 @@ export function MoveLog({ moves }: { moves: readonly Move[] }) {
 
       {moves.length === 0 ? (
         <p className="mt-4 font-serif text-sm italic text-smoke">
-          No clues filed. The wall&apos;s empty.
+          No moves yet.
         </p>
       ) : (
         <ol

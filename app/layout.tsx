@@ -29,7 +29,7 @@ const siteUrl =
 
 const title = "The Nine Files — a tic-tac-toe case";
 const description =
-  "Two detectives. Nine clues. Three in a row cracks the case. A tic-tac-toe game built with Next.js and React.";
+  "A tic-tac-toe game built with Next.js and React. Two players, nine cards, and a winning line drawn in red yarn.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

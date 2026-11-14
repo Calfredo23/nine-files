@@ -12,7 +12,7 @@ export function SoundToggle({
       type="button"
       data-testid="sound-toggle"
       aria-pressed={on}
-      aria-label={on ? "Mute sound — SFX on" : "Enable sound — SFX off"}
+      aria-label={on ? "Mute sound — SFX on" : "Turn sound on — SFX off"}
       onClick={onToggle}
       className="inline-flex min-h-11 items-center gap-2 border border-manila/20 px-3 py-2 font-mono text-[9px] tracking-[0.16em] text-smoke transition hover:border-tungsten/50 hover:text-paper"
     >

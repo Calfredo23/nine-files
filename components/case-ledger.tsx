@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 const ROWS = [
   { key: "cross", label: "CROSS", tone: "text-paper" },
   { key: "orourke", label: "O'ROURKE", tone: "text-paper" },
-  { key: "cold", label: "COLD", tone: "text-smoke" },
+  { key: "cold", label: "DRAWS", tone: "text-smoke" },
 ] as const;
 
 export function CaseLedger({
@@ -46,20 +46,16 @@ export function CaseLedger({
     <section className="border border-manila/15 bg-coal/60 p-4">
       <div className="flex items-baseline justify-between gap-3">
         <h2 className="font-display text-sm font-semibold tracking-[0.18em] text-paper">
-          THE LEDGER
+          SCOREBOARD
         </h2>
         <button
           type="button"
           data-testid="reset-ledger"
           onClick={handleReset}
-          aria-label={
-            confirming
-              ? "Confirm shred ledger — reset scoreboard"
-              : "Shred ledger — reset scoreboard"
-          }
+          aria-label={confirming ? "Confirm reset scores" : "Reset scores"}
           className="font-mono text-[9px] tracking-[0.16em] text-smoke underline-offset-4 hover:text-paper hover:underline"
         >
-          {confirming ? "CONFIRM SHRED" : "SHRED LEDGER"}
+          {confirming ? "CONFIRM RESET" : "RESET SCORES"}
         </button>
       </div>
 
@@ -90,7 +86,7 @@ export function CaseLedger({
       </div>
 
       <p className="mt-3 font-mono text-[9px] tracking-[0.14em] text-smoke">
-        KEPT ON THIS MACHINE · NO ACCOUNT
+        SAVED IN THIS BROWSER
       </p>
     </section>
   );

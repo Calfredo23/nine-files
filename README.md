@@ -4,49 +4,49 @@
 
 ### A tic-tac-toe case in nine clues.
 
-Two detectives. Nine clues. Three in a row cracks the case.
+Two players, nine cards, one wall.
 
-[**Play the live game**](https://nine-files.vercel.app) · [Source](https://github.com/Calfredo23/nine-files)
+[Source](https://github.com/Calfredo23/nine-files)
 
-<img src="docs/screenshots/desktop-win.webp" alt="The Nine Files — a noir case wall with three Xs joined by red yarn and a CASE CLOSED stamp" width="920" />
+<img src="docs/screenshots/desktop-win.webp" alt="A noir case wall with three X cards joined by red yarn and a taped CASE CLOSED label" width="920" />
 
 </div>
 
 ## What this is
 
-Built for the **SUpost / CapM junior React + Next.js application test**. The brief asks
-for a working two-player tic-tac-toe on a public Vercel URL, and explicitly rewards
-style and personality. This is the case-wall version.
+Built for the SUpost / CapM junior React + Next.js application test. The brief asks
+for a working two-player tic-tac-toe on a public Vercel URL and says style and
+personality count. This is the version I built.
 
-- **Two players alternate.** Cross (X) and O'Rourke (O) claim clues on a nine-card board.
-- **The result is explicit.** `CROSS WINS — CASE CLOSED`, `O'ROURKE WINS — CASE CLOSED`, or `DRAW — COLD CASE`.
-- **New Game** clears the board and keeps the ledger.
-- **The ledger** counts each detective's wins and cold cases, and survives a reload.
-- **The rules are never hidden by the theme.** The cells show X and O, the button says NEW GAME, and the result says WINS or DRAW.
+It does the required things first:
 
-## The signature
+- Two players alternate. Cross plays X, O'Rourke plays O.
+- The result is explicit: `CROSS WINS — CASE CLOSED` or `DRAW — COLD CASE`.
+- New Game clears the board and keeps the scores.
+- The scoreboard counts wins and draws and survives a reload.
 
-The winning line is **red yarn** drawn pin-to-pin across the three claimed cards. A
-taped **CASE CLOSED** label slams onto the board with a camera flash, the winner's ID
-card is promoted, and the typewriter files the verdict. The board is a cork wall of
-manila evidence cards, black pushpins, and a brass monocle for O. The palette is
-charcoal, manila, tungsten, and oxblood; the type is Oswald, Source Serif 4, and
-Courier Prime. Every texture is CSS or inline SVG — there are no image assets.
+The game is readable without the theme: the cells show X and O, the main button says
+NEW GAME, and the result says WINS or DRAW.
+
+## The board
+
+The board is a cork case wall. Each square is a pinned evidence card. X is a black
+marker tag; O is a brass monocle. The winning line is red yarn pulled from card to
+card. A taped CASE CLOSED label lands on the board, the winner's ID card is marked,
+and the verdict types itself out.
+
+The palette is charcoal, manila, tungsten, and oxblood. The type is Oswald, Source
+Serif 4, and Courier Prime. Textures, cards, pins, and the monocle are CSS and inline
+SVG; the app ships no image assets.
 
 ## Stack
 
-| Layer | Choice |
-|---|---|
-| Framework | Next.js 16.4 (App Router, Turbopack, static export of the page) |
-| UI | React 19.3, TypeScript strict |
-| Styling | Tailwind CSS 4 with a small custom token layer |
-| Motion | Motion 14 (`motion/react`) + CSS keyframes + one canvas burst |
-| Tests | Vitest, Playwright, axe-core |
-| Hosting | Vercel |
-
-No backend, no accounts, no analytics, no cookies.
+Next.js 16.4 (App Router), React 19.3, TypeScript, Tailwind CSS 4, and Motion 14.
+No backend, no accounts, no analytics.
 
 ## Quality gates
+
+All numbers below are from the production build on this machine.
 
 | Gate | Result |
 |---|---|
@@ -54,8 +54,8 @@ No backend, no accounts, no analytics, no cookies.
 | E2E (Playwright) | **13 passing** — alternation, win, draw, New Game, persistence, keyboard, occupied cell |
 | axe (WCAG 2.1 A/AA) | **0 violations** on the opening screen and after a win |
 | Contrast (`scripts/contrast.mjs`) | Every measured pair passes |
-| Lighthouse desktop | **99 performance · 100 accessibility · 100 best practices · 100 SEO** |
-| Lighthouse mobile | **91 performance · 100 accessibility · 100 best practices · 100 SEO** |
+| Lighthouse desktop | **100 performance · 100 accessibility · 100 best practices · 100 SEO** |
+| Lighthouse mobile | **94 performance · 100 accessibility · 100 best practices · 100 SEO** |
 | Production build | Static `/`, `/icon.svg`, `/opengraph-image`; no console errors |
 
 Measured contrast (WCAG 2.x relative luminance):
@@ -73,15 +73,16 @@ Measured contrast (WCAG 2.x relative luminance):
 
 ## Accessibility
 
-- The board is a real `grid` / `row` / `gridcell` structure. Arrows move focus,
-  Home/End jump, Enter or Space files a clue.
-- Turns are announced politely; the verdict heading receives focus when the game ends.
-- Focus rings are tungsten, 2px, never removed. Tap targets are at least 44px.
-- `prefers-reduced-motion` removes the shake, flash, paper burst, grain drift, rain,
-  lamp flicker, typewriter reveal, and spotlight.
-- X and O differ by shape and material, not only colour.
-- Sound is optional, labelled, and failure-safe; muting never blocks play.
-- Measured at 360, 390, 768, and 1440 widths with no horizontal scroll.
+- The board is a real grid. Arrows move focus, Home and End jump, and Enter or Space
+  plays.
+- Turns and the result are announced. Focus moves to the verdict when the game ends.
+- Focus rings are visible, tap targets are at least 44px, and the layout fits 360,
+  390, 768, and 1440 widths.
+- Reduced motion removes the shake, flash, paper burst, grain drift, rain, lamp
+  flicker, typewriter, and spotlight.
+- X and O differ by shape and material, not only colour. Sound is optional and never
+  blocks play.
+- Contrast is measured, not eyeballed.
 
 ## Run it
 
@@ -101,7 +102,7 @@ land in `submission/screenshots/`.
 ```
 app/                 layout, page, metadata, OG image, icon, 404
 components/          board, cells, marks, yarn, stamp, ledger, log, overlays
-hooks/               ledger and sound preference via useSyncExternalStore
+hooks/               score and sound preference via useSyncExternalStore
 lib/                 pure game logic, commentary, storage, sound, client store
 tests/unit/          Vitest
 tests/e2e/           Playwright, axe, screenshot capture
@@ -111,14 +112,15 @@ docs/velitaxis/      project state and the design contract
 
 ## Decisions and limits
 
-- **No AI opponent.** The brief asks for two players; the board stays unambiguous. The
-  minimax "Oracle" mode is the next feature, not a hidden default.
-- **Scores are local.** `localStorage` only; no account, no leaderboard, no PII.
-- **The theme never owns the rules.** A reviewer can read X, O, NEW GAME, WINS, and DRAW
-  without decoding the fiction.
-- **Motion is bounded.** Transform/opacity only, particles capped at 44, reduced-motion
-  path fully intact. Mobile TBT is 390ms; desktop is 100ms.
-- **No third-party art.** All card, pin, monocle, texture, and grain work is CSS or SVG.
+- **No AI opponent.** The brief asks for two players, so the game stays two-player. A
+  minimax mode is the next feature, not a hidden default.
+- **Scores are local.** `localStorage` only: no account, no leaderboard, no personal
+  data.
+- **Motion is restrained.** Transform and opacity only, at most 44 particles, and a
+  complete reduced-motion path. Mobile TBT is 240ms; desktop is 40ms.
+- **No third-party art.** Textures, cards, pins, and the monocle are CSS or SVG.
+- **The screenshots are from the production build.** They are regenerated by the
+  Playwright screenshot test.
 
 ## Screenshots
 

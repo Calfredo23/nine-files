@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+﻿import { expect, test, type Page } from "@playwright/test";
 
 async function play(page: Page, indexes: readonly number[]) {
   for (const index of indexes) {
@@ -9,16 +9,16 @@ async function play(page: Page, indexes: readonly number[]) {
 test("two players alternate and marks appear", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page.getByTestId("turn-label")).toHaveText("CROSS TO FILE");
+  await expect(page.getByTestId("turn-label")).toHaveText("CROSS'S TURN");
   await expect(page.getByTestId("cell-0")).toHaveAttribute("aria-label", /empty/);
 
   await page.getByTestId("cell-0").click();
   await expect(page.getByTestId("cell-0")).toHaveAttribute("aria-label", /CROSS/);
-  await expect(page.getByTestId("turn-label")).toHaveText("O'ROURKE TO FILE");
+  await expect(page.getByTestId("turn-label")).toHaveText("O'ROURKE'S TURN");
 
   await page.getByTestId("cell-1").click();
   await expect(page.getByTestId("cell-1")).toHaveAttribute("aria-label", /O'ROURKE/);
-  await expect(page.getByTestId("turn-label")).toHaveText("CROSS TO FILE");
+  await expect(page.getByTestId("turn-label")).toHaveText("CROSS'S TURN");
 
   await expect(page.getByTestId("move-log")).toContainText("A1");
   await expect(page.getByTestId("move-log")).toContainText("A2");
@@ -55,7 +55,7 @@ test("new game clears the board and keeps the ledger", async ({ page }) => {
   await page.getByTestId("new-game").click();
 
   await expect(page.getByTestId("result")).toHaveCount(0);
-  await expect(page.getByTestId("turn-label")).toHaveText("CROSS TO FILE");
+  await expect(page.getByTestId("turn-label")).toHaveText("CROSS'S TURN");
   for (let index = 0; index < 9; index += 1) {
     await expect(page.getByTestId(`cell-${index}`)).toHaveAttribute(
       "aria-label",
@@ -103,6 +103,6 @@ test("an occupied cell cannot be claimed twice", async ({ page }) => {
   await page.getByTestId("cell-4").click();
   await page.getByTestId("cell-4").click({ force: true });
   await expect(page.getByTestId("cell-4")).toHaveAttribute("aria-label", /CROSS/);
-  await expect(page.getByTestId("turn-label")).toHaveText("O'ROURKE TO FILE");
+  await expect(page.getByTestId("turn-label")).toHaveText("O'ROURKE'S TURN");
   await expect(page.getByTestId("move-log")).toContainText("B2");
 });

@@ -6,7 +6,7 @@ import { PLAYERS } from "@/lib/players";
 import { MarkO, MarkX } from "@/components/marks";
 import { cn } from "@/lib/cn";
 
-export type DetectiveStatus = "FILING" | "STANDBY" | "LEAD" | "UNSOLVED";
+export type DetectiveStatus = "TURN" | "WAITING" | "WINNER" | "DRAW" | "OUT";
 
 export function DetectiveCard({
   mark,

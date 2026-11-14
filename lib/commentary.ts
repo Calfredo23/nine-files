@@ -11,41 +11,40 @@ export type CommentaryMood =
 
 export const COMMENTARY: Record<CommentaryMood, readonly string[]> = {
   idle: [
-    "The city's quiet. Too quiet.",
-    "Nine clues on the wall. Nobody's talking yet.",
-    "A fresh case. The lamp's still warm.",
+    "Nine squares. X starts.",
+    "The board is empty. Pick a square.",
+    "Nothing pinned yet. X goes first.",
   ],
   opening: [
-    "The first clue is always a lie.",
-    "Somebody's nervous. Good.",
-    "The wall's filling up. So is the story.",
-    "A quiet start. It never stays quiet.",
+    "One card up. The rest is guesswork.",
+    "Early moves. Nothing is decided.",
+    "A quiet start. It won't stay quiet.",
   ],
   mid: [
-    "Three clues in. The picture's getting ugly.",
-    "The pattern's there. Nobody wants to see it.",
-    "Somewhere, a suspect checks the time.",
-    "Half the wall's covered. Half the truth isn't.",
+    "The pattern is starting to show.",
+    "Half the board is claimed. Watch the lines.",
+    "A few clues in. Nobody has blinked.",
+    "The board is filling up. Look for the third.",
   ],
   last: [
-    "One cell left. Somebody's lying.",
-    "Nine clues, one empty pin. Make it count.",
-    "The room goes quiet. The last card waits.",
+    "One square left. This is the one.",
+    "Eight moves down. The last one decides it.",
+    "Everything comes down to the last square.",
   ],
   "win-x": [
-    "CASE CLOSED. Cross gets the collar.",
-    "The yarn doesn't lie. Cross takes it.",
-    "Three in a row. Cross signs the report.",
+    "Case closed. Cross takes it.",
+    "Three in a row. Cross signs off.",
+    "That's the line. Cross closes the file.",
   ],
   "win-o": [
-    "CASE CLOSED. O'Rourke takes the glory.",
-    "O'Rourke saw it first. The wall agrees.",
-    "Three in a row. O'Rourke closes the file.",
+    "Case closed. O'Rourke takes it.",
+    "Three in a row. O'Rourke signs off.",
+    "That's the line. O'Rourke closes the file.",
   ],
   draw: [
-    "COLD CASE. Nine clues, no answers.",
-    "A perfect dead end. File it under tomorrow.",
-    "Nobody blinked. Nobody won.",
+    "No winner. The case goes cold.",
+    "A draw. Nobody cracked it.",
+    "Nine moves, no line. The file stays open.",
   ],
 };
 

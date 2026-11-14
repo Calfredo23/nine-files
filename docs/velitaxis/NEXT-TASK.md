@@ -13,6 +13,18 @@ THE NINE FILES — tic-tac-toe submission build
 Build, test, deploy, and package a noir-themed tic-tac-toe app that satisfies the
 SUpost / CapM test on a live Vercel URL, and that doubles as a portfolio piece.
 
+## Status
+
+Built and tested. 22 unit, 13 e2e, axe 0, contrast 13/13, Lighthouse desktop
+100/100/100/100 and mobile 94/100/100/100. Repo private at
+`github.com/Calfredo23/nine-files`. Local preview on `:3210`.
+
+## Next action
+
+1. Owner reviews the local build and the copy.
+2. `npx vercel --prod` (owner completes the login), then add the live URL to the README.
+3. Make the repo public and submit the form with screenshots and the optional demo.
+
 ## Acceptance criteria
 
 1. Live production URL: two players alternate; win and draw are shown; NEW GAME resets.

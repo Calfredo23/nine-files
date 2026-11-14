@@ -108,21 +108,21 @@ Only `transform` and `opacity` are animated. No layout animation on the board.
 
 ## 5. Copy
 
-Voice: dry, period, never campy. No pop-culture quotes, no puns about cats.
+Voice: dry and understated. No parody, no pop-culture quotes, no hard-boiled clichés.
+Plain labels where clarity matters (NEW GAME, SCOREBOARD, RESET SCORES, DRAWS).
 
 - Title: THE NINE FILES
 - Subtitle: A tic-tac-toe case in nine clues.
-- Header: DIVISION 9 · CASE FILE № 003
-- Turn: CROSS TO FILE / O'ROURKE TO FILE
-- Idle: "The city's quiet. Too quiet."
-- Mid: "Three clues in. The picture's getting ugly."
-- Last cell: "One cell left. Somebody's lying."
-- Win: "CASE CLOSED. Cross gets the collar."
-- Draw: "COLD CASE. Nine clues, no answers."
-- New case: "Another case. Another night."
-- Ledger reset: "Shredded. Don't ask."
-- Instructions: "Take turns. Three in a row cracks it. New Game opens a fresh board
-  and keeps the ledger."
+- Turn: CROSS'S TURN / O'ROURKE'S TURN
+- Idle: "Nine squares. X starts."
+- Mid: "Half the board is claimed. Watch the lines."
+- Last cell: "One square left. This is the one."
+- Win: "Case closed. Cross takes it."
+- Draw: "No winner. The case goes cold."
+- New case: "New board. Same scores."
+- Score reset: "Reset scores."
+- Instructions: "Two players. Nine squares. Take turns; three in a row wins. X goes
+  first. New Game clears the board and keeps the scores."
 
 ## 6. Accessibility
 

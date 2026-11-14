@@ -13,18 +13,18 @@ All values measured in this project, not estimated.
 
 | Preset | Perf | A11y | Best practices | SEO |
 |---|---|---|---|---|
-| Desktop | 99 | 100 | 100 | 100 |
-| Mobile | 91 | 100 | 100 | 100 |
+| Desktop | 100 | 100 | 100 | 100 |
+| Mobile | 94 | 100 | 100 | 100 |
 
 Metrics:
 
 | Metric | Desktop | Mobile |
 |---|---|---|
-| FCP | 0.3 s | 0.9 s |
-| LCP | 0.3 s | 0.9 s |
-| TBT | 100 ms | 390 ms |
+| FCP | 0.2 s | 1.7 s |
+| LCP | 0.2 s | 1.7 s |
+| TBT | 40 ms | 240 ms |
 | CLS | 0 | 0 |
-| Speed Index | 1.0 s | 2.2 s |
+| Speed Index | 0.9 s | 2.3 s |
 
 ## Layout
 

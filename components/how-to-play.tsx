@@ -12,17 +12,17 @@ export function HowToPlay() {
       </summary>
       <div className="mt-3 space-y-2 font-serif text-sm leading-relaxed text-smoke">
         <p>
-          Two detectives. Nine clues. Take turns; three in a row cracks the
-          case.
+          Two players. Nine squares. Take turns; three in a row wins. X goes
+          first.
         </p>
         <p>
-          <strong className="text-paper">NEW GAME</strong> opens a fresh board
-          and keeps the ledger.{" "}
-          <strong className="text-paper">SHRED LEDGER</strong> wipes the scores,
+          <strong className="text-paper">NEW GAME</strong> clears the board and
+          keeps the scores.{" "}
+          <strong className="text-paper">RESET SCORES</strong> clears the scores,
           not the board.
         </p>
         <p className="font-mono text-[10px] leading-relaxed tracking-[0.12em]">
-          KEYBOARD: ARROWS MOVE · ENTER FILES · HOME / END JUMP
+          KEYBOARD: ARROWS MOVE · ENTER PLAYS · HOME / END JUMP
         </p>
       </div>
     </details>

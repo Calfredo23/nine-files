@@ -13,22 +13,22 @@ export function TurnBanner({ state }: { state: GameState }) {
     ? state.outcome?.kind === "win"
       ? `${PLAYERS[state.outcome.mark].short} WINS`
       : "DRAW"
-    : `${player.short} TO FILE`;
+    : `${player.short}'S TURN`;
 
   const announcement = done
     ? state.outcome?.kind === "win"
       ? `${PLAYERS[state.outcome.mark].short} wins.`
-      : "Draw."
-    : `${player.name} to file.`;
+      : "It's a draw."
+    : `${player.name}'s turn.`;
 
   return (
-    <div className="flex flex-col gap-2 border-b border-manila/15 pb-3">
+    <div className="flex flex-col gap-1.5 border-b border-manila/15 pb-2.5">
       <div className="flex items-center justify-between gap-3">
         <p className="font-mono text-[10px] tracking-[0.24em] text-smoke">
-          NOW FILING
+          {done ? "RESULT" : "TURN"}
         </p>
         <p className="font-mono text-[10px] tracking-[0.18em] text-smoke">
-          CLUE {String(state.moves.length).padStart(2, "0")} / 09
+          MOVE {String(state.moves.length).padStart(2, "0")} / 09
         </p>
       </div>
 
@@ -51,7 +51,7 @@ export function TurnBanner({ state }: { state: GameState }) {
         />
       </div>
 
-      <p className="min-h-[2.5em] font-serif text-sm italic leading-snug text-smoke">
+      <p className="min-h-[2.2em] font-serif text-sm italic leading-snug text-smoke">
         <Typewriter text={commentaryFor(state)} />
       </p>
 

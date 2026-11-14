@@ -25,12 +25,19 @@ import { TurnBanner } from "@/components/turn-banner";
 
 function statusFor(mark: Mark, state: GameState): DetectiveStatus {
   if (state.outcome?.kind === "win") {
-    return state.outcome.mark === mark ? "LEAD" : "STANDBY";
+    return state.outcome.mark === mark ? "WINNER" : "OUT";
   }
   if (state.outcome?.kind === "draw") {
-    return "UNSOLVED";
+    return "DRAW";
   }
-  return state.turn === mark ? "FILING" : "STANDBY";
+  return state.turn === mark ? "TURN" : "WAITING";
+}
+
+function isHighlighted(mark: Mark, state: GameState): boolean {
+  if (state.outcome?.kind === "win") {
+    return state.outcome.mark === mark;
+  }
+  return !state.outcome && state.turn === mark;
 }
 
 export function CaseFile() {
@@ -90,23 +97,23 @@ export function CaseFile() {
       <Ambient />
 
       <div className="relative z-10">
-        <header className="mx-auto flex w-full max-w-[1280px] flex-col gap-4 px-4 pb-6 pt-7 sm:flex-row sm:items-end sm:justify-between sm:px-6 lg:px-8">
+        <header className="mx-auto flex w-full max-w-[1280px] flex-col gap-4 px-4 pb-4 pt-5 sm:flex-row sm:items-end sm:justify-between sm:px-6 lg:px-8">
           <div>
             <p className="font-mono text-[10px] tracking-[0.3em] text-smoke">
               DIVISION 9 · CASE FILE № 003
             </p>
-            <h1 className="mt-1 font-display text-[clamp(2.6rem,7vw,4.6rem)] font-bold leading-[0.9] tracking-[0.02em] text-paper">
+            <h1 className="mt-1 font-display text-[clamp(2.4rem,6.4vw,4.2rem)] font-bold leading-[0.9] tracking-[0.02em] text-paper">
               THE NINE FILES
             </h1>
-            <p className="mt-2 max-w-md font-serif text-sm italic text-smoke">
-              A tic-tac-toe case in nine clues. Two detectives. One wall.
+            <p className="mt-1.5 max-w-md font-serif text-sm italic text-smoke">
+              A tic-tac-toe case in nine clues.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <span className="live-dot" aria-hidden="true" />
             <span className="font-mono text-[9px] tracking-[0.22em] text-smoke">
-              LIVE
+              OPEN
             </span>
             <SoundToggle on={soundOn} onToggle={toggleSound} />
           </div>
@@ -119,12 +126,12 @@ export function CaseFile() {
             </p>
             <DetectiveCard
               mark="X"
-              active={!state.outcome && state.turn === "X"}
+              active={isHighlighted("X", state)}
               status={statusFor("X", state)}
             />
             <DetectiveCard
               mark="O"
-              active={!state.outcome && state.turn === "O"}
+              active={isHighlighted("O", state)}
               status={statusFor("O", state)}
             />
 
@@ -133,8 +140,7 @@ export function CaseFile() {
                 THE CASE
               </p>
               <p className="mt-2 font-serif text-sm leading-relaxed text-smoke">
-                Nine clues pinned to one wall. Two detectives. Three in a row
-                and the file closes.
+                Two players claim cards. Three in a row wins.
               </p>
             </div>
           </div>
@@ -142,7 +148,7 @@ export function CaseFile() {
           <div className="order-1 mx-auto flex w-full max-w-[560px] flex-col lg:order-2">
             <TurnBanner state={state} />
 
-            <div className="mt-4">
+            <div className="mt-3">
               <CaseBoard
                 board={state.board}
                 turn={state.turn}
@@ -160,7 +166,7 @@ export function CaseFile() {
             <NewGameButton onClick={handleNewGame} />
 
             <p className="mt-3 font-serif text-sm italic text-smoke">
-              Take turns. Three in a row cracks it.
+              X goes first. Three in a row wins.
             </p>
           </div>
 
@@ -188,7 +194,7 @@ export function CaseFile() {
               rel="noreferrer"
               className="transition hover:text-paper"
             >
-              CALFREDO
+              PORTFOLIO
             </a>
           </p>
         </footer>

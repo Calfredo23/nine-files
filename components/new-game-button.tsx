@@ -18,7 +18,7 @@ export function NewGameButton({ onClick }: { onClick: () => void }) {
         </span>
       </button>
       <p className="font-mono text-[10px] tracking-[0.16em] text-smoke">
-        FRESH CASE · LEDGER KEPT
+        NEW BOARD · SCORES KEPT
       </p>
     </div>
   );
