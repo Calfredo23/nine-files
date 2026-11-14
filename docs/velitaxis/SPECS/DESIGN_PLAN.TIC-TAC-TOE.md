@@ -1,0 +1,150 @@
+# DESIGN PLAN — THE NINE FILES
+
+> Namespaced plan. The hub's `DESIGN_PLAN.md` binds the GitHub profile README and is
+> not re-scoped by this file.
+> Version 1.0 · Date 2026-11-14 · Owner approved (QUALITY)
+
+## 1. Brief
+
+A tic-tac-toe game for the SUpost / CapM junior React + Next.js test. The test is the
+whole application; a working game passes, style and personality decide the impression.
+
+**Audience:** a startup founder who will open the link for 30–90 seconds, plus any
+engineer who reads the repo afterwards.
+
+**Success:** the reviewer understands the game in under three seconds, plays a full
+round, and remembers the win animation. The code and README make the build look
+deliberate rather than generated.
+
+## 2. Concept
+
+**The Nine Files.** Two detectives, Cross (X) and O'Rourke (O), claim clues on a cork
+case wall. Three connected clues crack the case.
+
+The metaphor is load-bearing, not a skin:
+
+| Game element | Fiction |
+|---|---|
+| Board | cork case wall, nine pinned evidence cards |
+| X | black marker on a manila tag, black pushpin |
+| O | brass monocle ring, brass pushpin |
+| Turn | which detective is filing |
+| Winning line | red yarn stretched pin to pin |
+| Win | CASE CLOSED stamp + ink splatter + camera flash |
+| Draw | COLD CASE stamp, rain thickens |
+| Scoreboard | the case ledger |
+| New Game | a fresh case, same ledger |
+
+Literal labels are kept so the test cannot be misread: cells show X and O, the primary
+button says **NEW GAME**, and the result says **WINS** or **DRAW**.
+
+## 3. Visual system
+
+### Palette
+
+| Token | Hex | Use |
+|---|---|---|
+| INK | `#0B0C0E` | page |
+| COAL | `#14161A` | panels, frame |
+| CORK | `#6F4A2D` | board surface |
+| CORK-DARK | `#4A2F1B` | board shadow |
+| MANILA | `#D8C39A` | evidence cards |
+| MANILA-DEEP | `#B99E70` | card edges |
+| PAPER | `#EFE6D2` | primary text |
+| OXBLOOD | `#8E2B33` | yarn, stamp, accent |
+| TUNGSTEN | `#E3A44B` | lamp, active state, focus |
+| BRASS | `#B08D57` | monocle, pins, brackets |
+| SMOKE | `#9A958A` | secondary text |
+
+Rules: red is reserved for the winning yarn and the stamp so it stays meaningful.
+Text on manila is ink, never smoke. Every pair is measured by `scripts/contrast.mjs`.
+
+### Type
+
+| Role | Family | Use |
+|---|---|---|
+| Display | Oswald 500/600/700 | title, stamps, result, buttons |
+| Body | Source Serif 4 400/600 + italic | prose, instructions, commentary |
+| Mono | Courier Prime 400/700 | case numbers, labels, ledger, move log |
+
+Scale: 12 / 14 / 16 / 18 / 22 / 28 / clamp(40, 7vw, 76) for the title.
+Tracking: display +0.02em, mono +0.12em on labels.
+
+### Layout
+
+- Max width 1280px. Page padding 16px mobile, 24px tablet, 32px desktop.
+- Desktop: `1fr / minmax(0, 560px) / 1fr`. Center column: turn banner, board, result,
+  New Game. Left: detective IDs, case note, how to play. Right: ledger, move log.
+- Tablet: board centered, IDs and ledger in a 2-up row below.
+- Mobile: turn banner → board → result/New Game → IDs → ledger → move log.
+- Board `min(100%, 560px)`, square, 8px gaps, 12px frame padding.
+- Tap targets ≥44×44.
+
+### Signature details
+
+- Cork texture built from layered radial gradients, no image.
+- Cards rotate deterministically −1.4°…+1.2° so the wall feels hand-pinned.
+- Cursor spotlight follows the pointer across the cork (fine pointers only).
+- Pushpin drops with spring; card flexes 0.5%; mark presses in.
+- Monocle has a brass gradient rim, dark glass, one specular arc.
+- Yarn is a quadratic path with a small sag, drawn with `pathLength`, then a slow pluck.
+- CASE CLOSED stamp: double oxblood border, multiply blend, 2.6× → 1 with a slam and
+  300ms screen shake.
+- Film grain 5–6%, vignette, tungsten lamp flicker, rain streaks. All CSS.
+
+## 4. Motion
+
+| Event | Motion | Reduced motion |
+|---|---|---|
+| Cell hover | lift 3px, straighten rotation, spotlight | no lift |
+| Place mark | mark scale 1.35→1, rotate −12→0, 380ms spring | fade 150ms |
+| Pin | drop from −18px, spring 600/18 | static |
+| Turn change | ID card lift + tungsten edge, 250ms | instant |
+| Win | yarn 600ms → stamp slam → flash → paper burst | yarn instant, stamp fade |
+| Draw | stamp fade, rain opacity up | same |
+| Overlay | result bar fades/slides 12px | fade only |
+
+Only `transform` and `opacity` are animated. No layout animation on the board.
+
+## 5. Copy
+
+Voice: dry, period, never campy. No pop-culture quotes, no puns about cats.
+
+- Title: THE NINE FILES
+- Subtitle: A tic-tac-toe case in nine clues.
+- Header: DIVISION 9 · CASE FILE № 003
+- Turn: CROSS TO FILE / O'ROURKE TO FILE
+- Idle: "The city's quiet. Too quiet."
+- Mid: "Three clues in. The picture's getting ugly."
+- Last cell: "One cell left. Somebody's lying."
+- Win: "CASE CLOSED. Cross gets the collar."
+- Draw: "COLD CASE. Nine clues, no answers."
+- New case: "Another case. Another night."
+- Ledger reset: "Shredded. Don't ask."
+- Instructions: "Take turns. Three in a row cracks it. New Game opens a fresh board
+  and keeps the ledger."
+
+## 6. Accessibility
+
+- `role="grid"` > `role="row"` > `role="gridcell"` buttons; roving tabindex; arrows,
+  Home/End, Enter/Space.
+- Visually hidden `aria-live="polite"` for turns, `assertive` for the result.
+- Result heading receives focus once (`preventScroll`) when the game ends.
+- Focus ring: 2px tungsten, 3px offset, never removed.
+- X and O differ by shape and material, not only colour.
+- Contrast AA for all text; target 4.5:1 minimum, measured.
+- `prefers-reduced-motion` removes shake, burst, drift, flicker, typewriter.
+- Sound is optional, off via one labelled button, and failure-safe.
+
+## 7. Engineering
+
+- Pure `lib/game.ts`; reducer tested in isolation.
+- No server, no data fetching, no secrets.
+- Motion imported in client components only.
+- localStorage guarded and validated; in-memory fallback.
+- CI runs typecheck, lint, unit, build, e2e.
+
+## 8. Out of scope
+
+- AI opponent (TASK-0032), accounts, online multiplayer, leaderboards.
+- Analytics, cookies, PII.
