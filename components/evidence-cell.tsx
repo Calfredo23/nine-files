@@ -1,12 +1,10 @@
-"use client";
+﻿"use client";
 
 import type { CSSProperties, KeyboardEvent } from "react";
-import { motion, useReducedMotion } from "motion/react";
 import { cellLabel, type Mark } from "@/lib/game";
 import { PLAYERS } from "@/lib/players";
 import { MarkO, MarkX } from "@/components/marks";
 import { Pushpin } from "@/components/pushpin";
-import { cn } from "@/lib/cn";
 
 const TILTS = [-1.4, 0.9, -0.5, 1.2, -0.8, 0.6, -1.1, 0.4, -0.7];
 
@@ -33,7 +31,6 @@ export function EvidenceCell({
   tabIndex: number;
   buttonRef: (node: HTMLButtonElement | null) => void;
 }) {
-  const reduced = useReducedMotion();
   const label = cellLabel(index);
   const occupant = mark ? PLAYERS[mark].name : null;
 
@@ -63,26 +60,12 @@ export function EvidenceCell({
       </span>
 
       {mark ? (
-        <motion.span
+        <span
           key={`${mark}-${index}`}
-          className={cn(
-            "absolute inset-[18%] flex items-center justify-center",
-            mark === "X" ? "text-ink" : "text-ink",
-          )}
-          initial={
-            reduced
-              ? { opacity: 0 }
-              : { opacity: 0, scale: 1.35, rotate: -12, y: -6 }
-          }
-          animate={{ opacity: 1, scale: 1, rotate: 0, y: 0 }}
-          transition={
-            reduced
-              ? { duration: 0.15 }
-              : { type: "spring", stiffness: 420, damping: 26 }
-          }
+          className="mark-in absolute inset-[18%] flex items-center justify-center text-ink"
         >
           {mark === "X" ? <MarkX /> : <MarkO />}
-        </motion.span>
+        </span>
       ) : null}
 
       {!mark && !disabled ? (
@@ -100,3 +83,4 @@ export function EvidenceCell({
     </button>
   );
 }
+

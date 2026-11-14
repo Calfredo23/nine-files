@@ -1,6 +1,6 @@
-export function HowToPlay() {
+﻿export function HowToPlay() {
   return (
-    <details className="group border border-manila/15 bg-coal/40 p-4">
+    <details className="group border border-manila/15 bg-coal/40 p-3">
       <summary className="flex cursor-pointer list-none items-center justify-between font-display text-sm font-semibold tracking-[0.18em] text-paper [&::-webkit-details-marker]:hidden">
         HOW TO PLAY
         <span
@@ -10,7 +10,7 @@ export function HowToPlay() {
           +
         </span>
       </summary>
-      <div className="mt-3 space-y-2 font-serif text-sm leading-relaxed text-smoke">
+      <div className="mt-2 space-y-1.5 font-serif text-xs leading-relaxed text-smoke">
         <p>
           Two players. Nine squares. Take turns; three in a row wins. X goes
           first.
@@ -28,3 +28,4 @@ export function HowToPlay() {
     </details>
   );
 }
+

@@ -1,8 +1,7 @@
-"use client";
+﻿"use client";
 
 import type { CSSProperties, KeyboardEvent, PointerEvent } from "react";
 import { useRef, useState } from "react";
-import { useReducedMotion } from "motion/react";
 import {
   BOARD_SIZE,
   type Board,
@@ -31,7 +30,6 @@ export function CaseBoard({
   round: number;
   onPlay: (index: number) => void;
 }) {
-  const reduced = useReducedMotion();
   const [focusIndex, setFocusIndex] = useState(0);
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
   const disabled = outcome !== null;
@@ -70,7 +68,7 @@ export function CaseBoard({
   };
 
   const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    if (reduced || event.pointerType !== "mouse") {
+    if (event.pointerType !== "mouse") {
       return;
     }
     const rect = event.currentTarget.getBoundingClientRect();
@@ -89,7 +87,7 @@ export function CaseBoard({
       <div
         className={cn(
           "case-frame",
-          outcome?.kind === "win" && !reduced && "case-shake",
+          outcome?.kind === "win" && "case-shake",
         )}
       >
         <span className="bracket tl" aria-hidden="true" />
@@ -153,7 +151,7 @@ export function CaseBoard({
             </div>
           ) : null}
 
-          {outcome?.kind === "win" && !reduced ? (
+          {outcome?.kind === "win" ? (
             <span
               key={`flash-${round}`}
               aria-hidden="true"
@@ -167,3 +165,4 @@ export function CaseBoard({
     </div>
   );
 }
+

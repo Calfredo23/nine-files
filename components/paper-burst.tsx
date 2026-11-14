@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useReducedMotion } from "motion/react";
 
 type Particle = {
   x: number;
@@ -19,12 +18,15 @@ const COLORS = ["#D8C39A", "#EFE6D2", "#8E2B33", "#B99E70", "#6F4A2D"];
 
 export function PaperBurst({ trigger }: { trigger: string }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const reduced = useReducedMotion();
 
   useEffect(() => {
-    if (reduced || trigger === "none") {
+    if (trigger === "none") {
       return;
     }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
     const canvas = canvasRef.current;
     const parent = canvas?.parentElement;
     if (!canvas || !parent) {
@@ -110,7 +112,7 @@ export function PaperBurst({ trigger }: { trigger: string }) {
       cancelAnimationFrame(raf);
       ctx.clearRect(0, 0, rect.width, rect.height);
     };
-  }, [trigger, reduced]);
+  }, [trigger]);
 
   return (
     <canvas

@@ -57,6 +57,43 @@ test("layouts fit 360, 768 and 1440 without horizontal scroll", async ({
   }
 });
 
+test("desktop fits the whole game without page scroll", async ({ page }) => {
+  for (const [width, height] of [
+    [1440, 900],
+    [1366, 768],
+    [1280, 800],
+    [1024, 768],
+  ] as const) {
+    await page.setViewportSize({ width, height });
+    await page.goto("/");
+    const report = await page.evaluate(() => ({
+      scrollHeight: document.documentElement.scrollHeight,
+      innerHeight: window.innerHeight,
+      newGameBottom:
+        document
+          .querySelector('[data-testid="new-game"]')
+          ?.getBoundingClientRect().bottom ?? Number.POSITIVE_INFINITY,
+    }));
+    expect(report.scrollHeight).toBeLessThanOrEqual(report.innerHeight + 1);
+    expect(report.newGameBottom).toBeLessThanOrEqual(report.innerHeight);
+  }
+});
+
+test("the captain reacts to a move", async ({ page }) => {
+  await page.goto("/");
+  const coach = page.locator('[data-testid="coach"]:visible');
+  await expect(coach).toContainText(/X starts/i);
+
+  await page.getByTestId("cell-4").click();
+  await expect(coach).toContainText(/center/i);
+  await expect(
+    page.locator('[data-testid="coach-grade"]:visible'),
+  ).toHaveText("GOOD");
+  await expect(
+    page.locator(".captain.captain-speaking:visible"),
+  ).toHaveCount(1);
+});
+
 test("reduced motion still produces a complete result", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");

@@ -23,12 +23,14 @@ and the result text says WINS or DRAW.
 - Local: `EPIC PORTFOLIO INCOMING/tic-tac-toe/` — own git repo; the hub `.gitignore`
   ignores everything outside `docs/`, so this folder is not tracked by the hub.
 - Public repo: `github.com/Calfredo23/nine-files`
-- Live: `nine-files.vercel.app` (fallback `tic-tac-toe-calfredo.vercel.app`)
+- Live: pending the Vercel deploy; intended `nine-files.vercel.app` (fallback
+  `tic-tac-toe-calfredo.vercel.app`)
 
 ## Constraints
 
 - Stack required by the challenge: React + Next.js. Chosen: Next 16.4.6, React 19.3,
-  TypeScript strict, Tailwind v4, Motion 12.
+  TypeScript strict, Tailwind v4. Animations are CSS keyframes/transitions plus one
+  canvas burst; no animation library.
 - Public repo and a public production URL are required for submission.
 - No backend, no accounts, no PII, no analytics.
 - No copyrighted assets; all art is inline SVG/CSS; fonts are Google Fonts (OFL).
@@ -37,4 +39,5 @@ and the result text says WINS or DRAW.
 
 ## Current state
 
-TASK-0031 in progress. See `NEXT-TASK.md` and `TASKS.md`.
+TASK-0031 built and tested: 31 unit, 15 e2e, axe 0, single-screen desktop, Capt. Hale
+move coach. Deploy pending owner review. See `NEXT-TASK.md` and `TASKS.md`.

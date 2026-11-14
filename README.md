@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
 
 # THE NINE FILES
 
@@ -8,7 +8,7 @@ Two players, nine cards, one wall.
 
 [Source](https://github.com/Calfredo23/nine-files)
 
-<img src="docs/screenshots/desktop-win.webp" alt="A noir case wall with three X cards joined by red yarn and a taped CASE CLOSED label" width="920" />
+<img src="docs/screenshots/desktop-win.webp" alt="A noir case wall with three X cards joined by red yarn, a taped CASE CLOSED label, and a captain watching" width="920" />
 
 </div>
 
@@ -28,21 +28,26 @@ It does the required things first:
 The game is readable without the theme: the cells show X and O, the main button says
 NEW GAME, and the result says WINS or DRAW.
 
-## The board
+## The board and the captain
 
 The board is a cork case wall. Each square is a pinned evidence card. X is a black
 marker tag; O is a brass monocle. The winning line is red yarn pulled from card to
-card. A taped CASE CLOSED label lands on the board, the winner's ID card is marked,
-and the verdict types itself out.
+card. A taped CASE CLOSED label lands on the board, and the winner's ID card is marked.
+
+A captain, **Capt. Hale**, watches from the corner. After every move he calls it:
+best, good, inaccuracy, mistake, or blunder, and says why. The grade is real: the
+coach runs a full minimax evaluation plus threat detection, so it can tell a fork from
+a wasted edge. The note reveals while he talks.
 
 The palette is charcoal, manila, tungsten, and oxblood. The type is Oswald, Source
-Serif 4, and Courier Prime. Textures, cards, pins, and the monocle are CSS and inline
-SVG; the app ships no image assets.
+Serif 4, and Courier Prime. Textures, cards, pins, the monocle, and the captain are CSS
+and inline SVG; the app ships no image assets.
 
 ## Stack
 
-Next.js 16.4 (App Router), React 19.3, TypeScript, Tailwind CSS 4, and Motion 14.
-No backend, no accounts, no analytics.
+Next.js 16.4 (App Router), React 19.3, TypeScript, and Tailwind CSS 4. No animation
+library: CSS keyframes, transitions, and one canvas burst. No backend, no accounts, no
+analytics.
 
 ## Quality gates
 
@@ -50,13 +55,13 @@ All numbers below are from the production build on this machine.
 
 | Gate | Result |
 |---|---|
-| Unit tests (Vitest) | **22 passing** — every win line, draw, illegal move, reset, commentary |
-| E2E (Playwright) | **13 passing** — alternation, win, draw, New Game, persistence, keyboard, occupied cell |
+| Unit tests (Vitest) | **31 passing** — every win line, draw, illegal move, reset, and a minimax move grade |
+| E2E (Playwright) | **15 passing** — alternation, win, draw, New Game, persistence, keyboard, coach, no-scroll desktop |
 | axe (WCAG 2.1 A/AA) | **0 violations** on the opening screen and after a win |
 | Contrast (`scripts/contrast.mjs`) | Every measured pair passes |
-| Lighthouse desktop | **100 performance · 100 accessibility · 100 best practices · 100 SEO** |
-| Lighthouse mobile | **94 performance · 100 accessibility · 100 best practices · 100 SEO** |
+| Lighthouse | **100 accessibility · 100 best practices · 100 SEO** on every run; performance 74–99 desktop and 74–92 mobile across repeated runs on a busy host |
 | Production build | Static `/`, `/icon.svg`, `/opengraph-image`; no console errors |
+| Desktop fit | No page scroll at 1440×900, 1366×768, 1280×800, or 1024×768 |
 
 Measured contrast (WCAG 2.x relative luminance):
 
@@ -75,11 +80,13 @@ Measured contrast (WCAG 2.x relative luminance):
 
 - The board is a real grid. Arrows move focus, Home and End jump, and Enter or Space
   plays.
-- Turns and the result are announced. Focus moves to the verdict when the game ends.
-- Focus rings are visible, tap targets are at least 44px, and the layout fits 360,
-  390, 768, and 1440 widths.
+- Turns and the result are announced. Focus moves to the result when the game ends.
+- The captain's note is announced; the portrait is decorative and hidden from assistive
+  tech.
+- Focus rings are visible, tap targets are at least 44px, and the layout fits 360, 390,
+  768, and 1440 widths.
 - Reduced motion removes the shake, flash, paper burst, grain drift, rain, lamp
-  flicker, typewriter, and spotlight.
+  flicker, captain's mouth, note reveal, and mark animation.
 - X and O differ by shape and material, not only colour. Sound is optional and never
   blocks play.
 - Contrast is measured, not eyeballed.
@@ -101,9 +108,9 @@ land in `submission/screenshots/`.
 
 ```
 app/                 layout, page, metadata, OG image, icon, 404
-components/          board, cells, marks, yarn, stamp, ledger, log, overlays
-hooks/               score and sound preference via useSyncExternalStore
-lib/                 pure game logic, commentary, storage, sound, client store
+components/          board, cells, marks, yarn, stamp, captain, coach, ledger, log
+hooks/               game coach, score, and sound preference
+lib/                 pure game logic, minimax coach, storage, sound, client store
 tests/unit/          Vitest
 tests/e2e/           Playwright, axe, screenshot capture
 scripts/             contrast measurement, WebP optimisation
@@ -112,13 +119,15 @@ docs/velitaxis/      project state and the design contract
 
 ## Decisions and limits
 
-- **No AI opponent.** The brief asks for two players, so the game stays two-player. A
-  minimax mode is the next feature, not a hidden default.
+- **No AI opponent.** The brief asks for two players, so the game stays two-player. The
+  coach is analysis, not an opponent: it grades moves and never plays one. A minimax
+  opponent is the next feature, not a hidden default.
 - **Scores are local.** `localStorage` only: no account, no leaderboard, no personal
   data.
-- **Motion is restrained.** Transform and opacity only, at most 44 particles, and a
-  complete reduced-motion path. Mobile TBT is 240ms; desktop is 40ms.
-- **No third-party art.** Textures, cards, pins, and the monocle are CSS or SVG.
+- **Animation is CSS-led.** Keyframes and transitions, at most 44 particles, and a
+  complete reduced-motion path. There is no animation library in the bundle.
+- **No third-party art.** Textures, cards, pins, the monocle, and the captain are CSS
+  or SVG.
 - **The screenshots are from the production build.** They are regenerated by the
   Playwright screenshot test.
 

@@ -23,3 +23,23 @@
   manifest whose CSS chunk 500'd. Clean rebuild + restart fixed it. Do not build over a
   running server.
 - Next: owner review, then `vercel --prod`, make the repo public, submit the form.
+
+## 2026-11-14 (c) — captain, coach, and a single-screen desktop
+
+- Added **Capt. Hale**, an original SVG captain with a speaking mouth, blinking eyes,
+  head bob, brow lift, and mug tilt while the note reveals. His note grades every move:
+  best, good, inaccuracy, mistake, blunder, win, or draw, backed by a full minimax
+  evaluation plus threat/fork detection (`lib/coach.ts`, 12 unit tests).
+- Desktop is now a fixed single screen: no page scroll at 1440×900, 1366×768,
+  1280×800, or 1024×768. The board sizes from the viewport (`calc(100dvh - 330px)`),
+  the result lives in the turn banner, and New Game stays visible. A Playwright test
+  asserts both the scroll height and the New Game bottom edge.
+- Removed the Motion dependency and the per-character typewriter. Every animation is
+  CSS now (mark, yarn draw, stamp slam, tally, note reveal, coach pop, captain talk),
+  plus one canvas paper burst. The coach is mounted once and grid-placed, not duplicated.
+- Copy pass: plain labels (SCOREBOARD, RESET SCORES, DRAWS, MOVE HISTORY, MOVE 05/09),
+  title-case coach prose, understated lines. README rewritten.
+- Gates: 31 unit, 15 e2e, axe 0, contrast 13/13. Lighthouse a11y/BP/SEO 100 in every
+  run; performance 74–99 desktop and 74–92 mobile while a second dev server was live
+  (99/92 in quiet runs).
+- Repo: `github.com/Calfredo23/nine-files` (private). Deploy still pending owner review.

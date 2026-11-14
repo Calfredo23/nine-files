@@ -7,22 +7,14 @@ export function Typewriter({
   text: string;
   className?: string;
 }) {
+  const duration = Math.min(1800, Math.max(600, text.length * 24));
+
   return (
-    <span className={cn("typewriter", className)}>
-      <span key={text} className="typewriter-chars">
-        {Array.from(text).map((char, index) => (
-          <span
-            key={`${index}-${char}`}
-            className="type-char"
-            style={{ animationDelay: `${index * 22}ms` }}
-          >
-            {char}
-          </span>
-        ))}
-      </span>
-      <span className="type-cursor" aria-hidden="true">
-        ▌
-      </span>
+    <span
+      className={cn("bubble-reveal", className)}
+      style={{ animationDuration: `${duration}ms` }}
+    >
+      {text}
     </span>
   );
 }

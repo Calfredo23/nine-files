@@ -139,8 +139,9 @@ Plain labels where clarity matters (NEW GAME, SCOREBOARD, RESET SCORES, DRAWS).
 ## 7. Engineering
 
 - Pure `lib/game.ts`; reducer tested in isolation.
+- `lib/coach.ts` grades each move with minimax plus threat/fork detection.
 - No server, no data fetching, no secrets.
-- Motion imported in client components only.
+- Animations are CSS keyframes/transitions plus one canvas burst; no animation library.
 - localStorage guarded and validated; in-memory fallback.
 - CI runs typecheck, lint, unit, build, e2e.
 
@@ -148,3 +149,19 @@ Plain labels where clarity matters (NEW GAME, SCOREBOARD, RESET SCORES, DRAWS).
 
 - AI opponent (TASK-0032), accounts, online multiplayer, leaderboards.
 - Analytics, cookies, PII.
+
+## 9. Revision 2026-11-14 — captain and single-screen desktop
+
+- **Capt. Hale** joins as the coach: an original SVG portrait that blinks, bobs, lifts a
+  brow, and moves its mouth while the note reveals. The note grades every move (best,
+  good, inaccuracy, mistake, blunder, win, draw) using minimax values plus immediate
+  threat and fork detection. He never plays.
+- The coach is mounted once and grid-placed: front-left on desktop, above the board on
+  mobile. It is not duplicated.
+- Desktop is a fixed single screen. The board width is `min(100%, 560px, calc(100dvh -
+  330px))`; the result lives in the turn banner, so New Game never leaves the viewport.
+- The Motion dependency and the per-character typewriter were removed. Mark, yarn,
+  stamp, tally, note reveal, coach pop, move log, and captain motion are CSS; the paper
+  burst is the only canvas.
+- Labels use plain language where clarity matters: SCOREBOARD, RESET SCORES, DRAWS,
+  MOVE HISTORY, NEW GAME, WINNER/OUT.

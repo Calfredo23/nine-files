@@ -1,7 +1,6 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
 import type { Ledger } from "@/lib/storage";
 import { cn } from "@/lib/cn";
 
@@ -43,7 +42,7 @@ export function CaseLedger({
   };
 
   return (
-    <section className="border border-manila/15 bg-coal/60 p-4">
+    <section className="border border-manila/15 bg-coal/60 p-3">
       <div className="flex items-baseline justify-between gap-3">
         <h2 className="font-display text-sm font-semibold tracking-[0.18em] text-paper">
           SCOREBOARD
@@ -59,7 +58,7 @@ export function CaseLedger({
         </button>
       </div>
 
-      <div className="mt-4 grid grid-cols-3 gap-2">
+      <div className="mt-3 grid grid-cols-3 gap-2">
         {ROWS.map((row) => {
           const value = ledger[row.key];
           return (
@@ -67,25 +66,22 @@ export function CaseLedger({
               <p className="font-mono text-[9px] tracking-[0.18em] text-smoke">
                 {row.label}
               </p>
-              <motion.p
+              <p
                 key={`${row.key}-${value}`}
-                initial={{ opacity: 0, y: -6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.25 }}
                 data-testid={`ledger-${row.key}`}
                 className={cn(
-                  "font-display text-3xl font-semibold tracking-[0.04em]",
+                  "tally font-display text-2xl font-semibold tracking-[0.04em]",
                   row.tone,
                 )}
               >
                 {String(value).padStart(2, "0")}
-              </motion.p>
+              </p>
             </div>
           );
         })}
       </div>
 
-      <p className="mt-3 font-mono text-[9px] tracking-[0.14em] text-smoke">
+      <p className="mt-2 font-mono text-[9px] tracking-[0.14em] text-smoke">
         SAVED IN THIS BROWSER
       </p>
     </section>

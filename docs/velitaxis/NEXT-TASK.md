@@ -15,8 +15,8 @@ SUpost / CapM test on a live Vercel URL, and that doubles as a portfolio piece.
 
 ## Status
 
-Built and tested. 22 unit, 13 e2e, axe 0, contrast 13/13, Lighthouse desktop
-100/100/100/100 and mobile 94/100/100/100. Repo private at
+Built and tested. 31 unit, 15 e2e, axe 0, contrast 13/13. Desktop fits one screen with
+no page scroll; Capt. Hale grades every move. Repo private at
 `github.com/Calfredo23/nine-files`. Local preview on `:3210`.
 
 ## Next action
@@ -35,14 +35,18 @@ Built and tested. 22 unit, 13 e2e, axe 0, contrast 13/13, Lighthouse desktop
 6. Public GitHub repo with README, screenshots, and CI badge.
 7. Submission assets: desktop/tablet/mobile screenshots, win screenshot, reviewer notes,
    optional demo script.
-8. No secret is committed or read by the session.
+8. Desktop fits without page scroll at 1440×900, 1366×768, 1280×800, and 1024×768;
+   New Game is always visible.
+9. Capt. Hale grades each move and the note is announced; the captain animates while
+   the note reveals.
+10. No secret is committed or read by the session.
 
 ## Build order
 
 1. Scaffold, VELLITAXIS state, design contract (`SPECS/DESIGN_PLAN.TIC-TAC-TOE.md`).
 2. Pure game logic + unit tests.
 3. Board, marks, responsive shell — playable at all widths.
-4. Motion pass: pin, monocle, yarn, stamp, flash, sound.
+4. Animation pass: pin, monocle, yarn, stamp, flash, sound.
 5. Accessibility, reduced motion, keyboard.
 6. E2E, axe, screenshots, Lighthouse.
 7. Metadata, OG image, 404, README, review pass.

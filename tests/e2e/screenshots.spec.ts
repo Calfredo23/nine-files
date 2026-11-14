@@ -21,7 +21,7 @@ async function capture(
 
   await page.goto("/");
   await expect(page.getByTestId("turn-label")).toBeVisible();
-  await page.waitForTimeout(700);
+  await page.waitForTimeout(1300);
   await page.screenshot({ path: `${OUT}/${name}-board.png`, fullPage: true });
 
   for (const index of MOVES) {

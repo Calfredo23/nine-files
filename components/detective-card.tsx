@@ -1,6 +1,5 @@
-"use client";
+﻿"use client";
 
-import { motion, useReducedMotion } from "motion/react";
 import type { Mark } from "@/lib/game";
 import { PLAYERS } from "@/lib/players";
 import { MarkO, MarkX } from "@/components/marks";
@@ -18,31 +17,26 @@ export function DetectiveCard({
   status: DetectiveStatus;
 }) {
   const player = PLAYERS[mark];
-  const reduced = useReducedMotion();
 
   return (
-    <motion.article
+    <article
       data-testid={`detective-${mark}`}
       data-active={active}
-      animate={reduced ? undefined : { y: active ? -4 : 0 }}
-      transition={{ type: "spring", stiffness: 360, damping: 28 }}
       className={cn(
-        "relative flex items-center gap-3 border bg-coal/70 p-3",
+        "relative flex items-center gap-3 border bg-coal/70 p-2.5 transition-transform duration-300 ease-out motion-reduce:transition-none",
         active
-          ? "border-tungsten/50 shadow-[0_0_32px_-10px_rgba(227,164,75,.45)]"
+          ? "-translate-y-1 border-tungsten/50 shadow-[0_0_32px_-10px_rgba(227,164,75,.45)]"
           : "border-manila/15",
       )}
     >
       <span
         className={cn(
-          "grid h-12 w-12 shrink-0 place-items-center border",
-          active
-            ? "border-tungsten/40 bg-ink/60"
-            : "border-manila/20 bg-ink/40",
+          "grid h-10 w-10 shrink-0 place-items-center border",
+          active ? "border-tungsten/40 bg-ink/60" : "border-manila/20 bg-ink/40",
         )}
         aria-hidden="true"
       >
-        <span className="h-7 w-7 text-paper">
+        <span className="h-6 w-6 text-paper">
           {mark === "X" ? <MarkX /> : <MarkO />}
         </span>
       </span>
@@ -71,6 +65,6 @@ export function DetectiveCard({
         />
         {status}
       </span>
-    </motion.article>
+    </article>
   );
 }

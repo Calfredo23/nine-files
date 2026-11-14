@@ -1,6 +1,3 @@
-"use client";
-
-import { motion, useReducedMotion } from "motion/react";
 import type { WinLine } from "@/lib/game";
 
 type Point = { x: number; y: number };
@@ -31,7 +28,6 @@ function yarnPath(line: WinLine): string {
 }
 
 export function YarnLine({ line }: { line: WinLine }) {
-  const reduced = useReducedMotion();
   const path = yarnPath(line);
 
   return (
@@ -50,16 +46,15 @@ export function YarnLine({ line }: { line: WinLine }) {
         vectorEffect="non-scaling-stroke"
         transform="translate(0 .035)"
       />
-      <motion.path
+      <path
+        className="yarn-path"
         d={path}
         fill="none"
         stroke="#A8323B"
         strokeWidth={5}
         strokeLinecap="round"
         vectorEffect="non-scaling-stroke"
-        initial={reduced ? { opacity: 1 } : { pathLength: 0, opacity: 1 }}
-        animate={{ pathLength: 1, opacity: 1 }}
-        transition={{ duration: reduced ? 0 : 0.6, ease: "easeInOut" }}
+        pathLength={1}
         style={{ filter: "drop-shadow(0 2px 2px rgba(0,0,0,.45))" }}
       />
       {line.map((index) => {

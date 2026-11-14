@@ -2,7 +2,7 @@
 
 export function NewGameButton({ onClick }: { onClick: () => void }) {
   return (
-    <div className="mt-3 flex flex-wrap items-center gap-3">
+    <div className="flex flex-wrap items-center gap-3">
       <button
         type="button"
         data-testid="new-game"

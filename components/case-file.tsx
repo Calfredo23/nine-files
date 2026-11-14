@@ -9,17 +9,19 @@ import {
   type GameState,
   type Mark,
 } from "@/lib/game";
+import { coachForMove, resetScoresLine, startLine } from "@/lib/coach";
+import { useCoach } from "@/hooks/use-coach";
 import { useLedger } from "@/hooks/use-ledger";
 import { useSoundPreference } from "@/hooks/use-sound-preference";
 import { sound } from "@/lib/sound";
 import { Ambient } from "@/components/ambient";
+import { CaptainCard } from "@/components/captain-card";
 import { CaseBoard } from "@/components/case-board";
 import { CaseLedger } from "@/components/case-ledger";
 import { DetectiveCard, type DetectiveStatus } from "@/components/detective-card";
 import { HowToPlay } from "@/components/how-to-play";
 import { MoveLog } from "@/components/move-log";
 import { NewGameButton } from "@/components/new-game-button";
-import { ResultBar } from "@/components/result-bar";
 import { SoundToggle } from "@/components/sound-toggle";
 import { TurnBanner } from "@/components/turn-banner";
 
@@ -44,6 +46,7 @@ export function CaseFile() {
   const [state, dispatch] = useReducer(gameReducer, INITIAL_GAME);
   const { ledger, record, reset: resetLedger } = useLedger();
   const { on: soundOn, toggle: toggleSound } = useSoundPreference();
+  const coach = useCoach();
   const resultRef = useRef<HTMLHeadingElement | null>(null);
 
   useEffect(() => {
@@ -64,6 +67,14 @@ export function CaseFile() {
 
     const nextBoard = place(state.board, index, state.turn);
     const outcome = getOutcome(nextBoard);
+    coach.say(
+      coachForMove(
+        state.board,
+        index,
+        state.turn,
+        state.moves.length + state.round * 7 + index,
+      ),
+    );
     dispatch({ type: "move", index });
 
     if (outcome) {
@@ -84,30 +95,34 @@ export function CaseFile() {
 
   const handleNewGame = () => {
     dispatch({ type: "reset" });
+    coach.say(startLine(state.round + 1));
     sound.play("paper");
   };
 
   const handleResetLedger = () => {
     resetLedger();
+    coach.say(resetScoresLine());
     sound.play("click");
   };
 
   return (
-    <div className="relative min-h-dvh">
+    <div className="app-shell relative min-h-dvh bg-ink">
       <Ambient />
 
-      <div className="relative z-10">
-        <header className="mx-auto flex w-full max-w-[1280px] flex-col gap-4 px-4 pb-4 pt-5 sm:flex-row sm:items-end sm:justify-between sm:px-6 lg:px-8">
+      <div className="relative z-10 flex min-h-dvh flex-col lg:h-full lg:min-h-0">
+        <header className="mx-auto flex w-full max-w-[1320px] shrink-0 flex-col gap-2 px-4 pb-3 pt-4 sm:flex-row sm:items-end sm:justify-between sm:px-6 lg:px-8">
           <div>
-            <p className="font-mono text-[10px] tracking-[0.3em] text-smoke">
+            <p className="font-mono text-[9px] tracking-[0.3em] text-smoke">
               DIVISION 9 · CASE FILE № 003
             </p>
-            <h1 className="mt-1 font-display text-[clamp(2.4rem,6.4vw,4.2rem)] font-bold leading-[0.9] tracking-[0.02em] text-paper">
-              THE NINE FILES
-            </h1>
-            <p className="mt-1.5 max-w-md font-serif text-sm italic text-smoke">
-              A tic-tac-toe case in nine clues.
-            </p>
+            <div className="mt-0.5 flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+              <h1 className="font-display text-[clamp(1.9rem,3.6vw,2.6rem)] font-bold leading-none tracking-[0.02em] text-paper">
+                THE NINE FILES
+              </h1>
+              <p className="font-serif text-sm italic text-smoke">
+                A tic-tac-toe case in nine clues.
+              </p>
+            </div>
           </div>
 
           <div className="flex items-center gap-3">
@@ -119,9 +134,16 @@ export function CaseFile() {
           </div>
         </header>
 
-        <main className="mx-auto grid w-full max-w-[1280px] gap-6 px-4 pb-16 pt-2 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,560px)_minmax(0,1fr)] lg:items-start lg:gap-8 lg:px-8">
-          <div className="order-2 flex flex-col gap-3 lg:order-1">
-            <p className="font-mono text-[10px] tracking-[0.24em] text-smoke">
+        <main className="app-main mx-auto grid w-full max-w-[1320px] flex-1 gap-4 px-4 pb-4 pt-1 sm:px-6 lg:grid-cols-[260px_minmax(0,1fr)_260px] lg:grid-rows-[auto_minmax(0,1fr)] lg:items-start lg:gap-6 lg:px-8">
+          <div className="order-1 lg:col-start-1 lg:row-start-1">
+            <CaptainCard message={coach.message} speaking={coach.speaking} />
+          </div>
+
+          <aside
+            aria-label="The detectives"
+            className="order-3 flex min-h-0 flex-col gap-2 lg:col-start-1 lg:row-start-2"
+          >
+            <p className="font-mono text-[9px] tracking-[0.24em] text-smoke">
               THE DETECTIVES
             </p>
             <DetectiveCard
@@ -134,50 +156,40 @@ export function CaseFile() {
               active={isHighlighted("O", state)}
               status={statusFor("O", state)}
             />
+          </aside>
 
-            <div className="border border-manila/15 bg-coal/40 p-4">
-              <p className="font-mono text-[10px] tracking-[0.24em] text-smoke">
-                THE CASE
-              </p>
-              <p className="mt-2 font-serif text-sm leading-relaxed text-smoke">
-                Two players claim cards. Three in a row wins.
-              </p>
+          <section className="order-2 mx-auto flex min-h-0 w-full max-w-[560px] flex-col lg:col-start-2 lg:row-span-2 lg:row-start-1">
+            <div className="board-wrap mx-auto flex w-full flex-col">
+              <TurnBanner state={state} resultRef={resultRef} />
+
+              <div className="mt-2">
+                <CaseBoard
+                  board={state.board}
+                  turn={state.turn}
+                  outcome={state.outcome}
+                  lastMove={state.lastMove}
+                  round={state.round}
+                  onPlay={handlePlay}
+                />
+              </div>
+
+              <div className="mt-2">
+                <NewGameButton onClick={handleNewGame} />
+              </div>
             </div>
-          </div>
+          </section>
 
-          <div className="order-1 mx-auto flex w-full max-w-[560px] flex-col lg:order-2">
-            <TurnBanner state={state} />
-
-            <div className="mt-3">
-              <CaseBoard
-                board={state.board}
-                turn={state.turn}
-                outcome={state.outcome}
-                lastMove={state.lastMove}
-                round={state.round}
-                onPlay={handlePlay}
-              />
-            </div>
-
-            {state.outcome ? (
-              <ResultBar outcome={state.outcome} resultRef={resultRef} />
-            ) : null}
-
-            <NewGameButton onClick={handleNewGame} />
-
-            <p className="mt-3 font-serif text-sm italic text-smoke">
-              X goes first. Three in a row wins.
-            </p>
-          </div>
-
-          <div className="order-3 flex flex-col gap-3">
+          <aside
+            aria-label="Scores and move history"
+            className="order-4 flex min-h-0 flex-col gap-3 lg:col-start-3 lg:row-span-2 lg:row-start-1"
+          >
             <CaseLedger ledger={ledger} onReset={handleResetLedger} />
             <MoveLog moves={state.moves} />
             <HowToPlay />
-          </div>
+          </aside>
         </main>
 
-        <footer className="mx-auto flex w-full max-w-[1280px] flex-col gap-2 border-t border-manila/10 px-4 py-6 font-mono text-[9px] tracking-[0.14em] text-smoke sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+        <footer className="mx-auto flex w-full max-w-[1320px] shrink-0 flex-col gap-1 border-t border-manila/10 px-4 py-2 font-mono text-[9px] tracking-[0.14em] text-smoke sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <p>NEXT.JS 16 · REACT 19 · TAILWIND 4</p>
           <p className="flex gap-5">
             <a

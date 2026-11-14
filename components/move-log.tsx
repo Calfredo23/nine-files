@@ -1,6 +1,5 @@
-"use client";
+﻿"use client";
 
-import { motion } from "motion/react";
 import { cellLabel, type Move } from "@/lib/game";
 import { PLAYERS } from "@/lib/players";
 import { MarkO, MarkX } from "@/components/marks";
@@ -11,7 +10,7 @@ export function MoveLog({ moves }: { moves: readonly Move[] }) {
     .reverse();
 
   return (
-    <section className="border border-manila/15 bg-coal/60 p-4">
+    <section className="border border-manila/15 bg-coal/60 p-3">
       <div className="flex items-baseline justify-between gap-3">
         <h2 className="font-display text-sm font-semibold tracking-[0.18em] text-paper">
           MOVE HISTORY
@@ -27,16 +26,13 @@ export function MoveLog({ moves }: { moves: readonly Move[] }) {
         </p>
       ) : (
         <ol
-          className="case-scroll mt-3 max-h-56 space-y-1.5 overflow-y-auto pr-1"
+          className="case-scroll mt-3 max-h-[232px] space-y-1.5 overflow-y-auto pr-1"
           data-testid="move-log"
         >
           {recent.map(({ move, number }) => (
-            <motion.li
+            <li
               key={`${number}-${move.index}`}
-              initial={{ opacity: 0, x: -6 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.2 }}
-              className="flex items-center gap-2 border-b border-manila/10 pb-1.5 font-mono text-[11px] text-smoke"
+              className="move-in flex items-center gap-2 border-b border-manila/10 pb-1.5 font-mono text-[11px] text-smoke"
             >
               <span className="w-6 text-smoke">
                 {String(number).padStart(2, "0")}
@@ -48,7 +44,7 @@ export function MoveLog({ moves }: { moves: readonly Move[] }) {
               <span className="ml-auto text-tungsten/80">
                 {cellLabel(move.index)}
               </span>
-            </motion.li>
+            </li>
           ))}
         </ol>
       )}
