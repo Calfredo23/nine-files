@@ -274,3 +274,14 @@
   **31/31**, including a two-player toss start, blank-name fallbacks, axe, and layouts.
   Refreshed `setup-two-player-toss.webp` and the README references.
 - Change is local and unpushed. Next: owner authorizes push, then submit.
+
+## 2026-11-15 (u) — CI caught a 2px mobile overflow
+
+- Pushed `eafe91e`. The verify job passed, but Playwright failed one assertion:
+  `scrollWidth 362` against a 361 limit at 360px. The page rendered correctly; the
+  offending rect was the animated grain layer extending to 363.6px outside the viewport.
+- Fixed at the source: `overflow-x: clip` on `html` and `body`, so decorative fixed layers
+  cannot extend the document. The strict 1px test tolerance was kept.
+- Local recheck: `npm run verify` passed (61 unit); full Playwright passed **31/31**,
+  including the 360/768/1440 layout test. Screenshots regenerated.
+- Pending: push the fix and confirm CI + live.

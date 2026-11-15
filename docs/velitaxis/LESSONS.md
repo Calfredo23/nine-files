@@ -19,3 +19,7 @@
 - **The ARIA grid needs `grid > row > gridcell` directly.** A padded wrapper div
   between the row and the cell breaks `aria-required-parent`. Use the grid's `gap`
   instead; the yarn's 2–3px centre offset is invisible.
+- **Animated decorative layers can extend document scrollWidth.** A 360px CI run failed
+  with 362px while local passed; the only out-of-viewport rect was the grain layer during
+  its translate animation. `overflow-x: clip` on `html`/`body` fixes the source. Keep the
+  strict test tolerance; raising it hides the next real overflow.
