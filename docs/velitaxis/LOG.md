@@ -127,3 +127,13 @@
   `NEXT_PUBLIC_SITE_URL` and update the README live link.
 - **Next:** live smoke, screenshots to the form, optional demo, submit at
   `apply.capm.us` (Tic-Tac-Toe).
+
+## 2026-11-15 (i) — repository renamed
+
+- GitHub repo renamed `nine-files` → `the-nine-files`; the old URLs redirect. Local
+  `origin` updated; the public repo and Actions continue under the new name.
+- README Source, CI badge, clone command, and project state updated. Package name and
+  local folder stay `tic-tac-toe`; the app title stays **The Nine Files**.
+- The owner is renaming the Vercel project manually. The README live links and
+  `metadataBase` will be updated when the new production URL is known.
+- Submission repo URL: `https://github.com/Calfredo23/the-nine-files`.

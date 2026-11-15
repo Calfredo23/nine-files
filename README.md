@@ -6,9 +6,9 @@
 
 Two players. Nine cards. One wall.
 
-[**Play the live game**](https://nine-files.vercel.app) · [Source](https://github.com/Calfredo23/nine-files)
+[**Play the live game**](https://nine-files.vercel.app) · [Source](https://github.com/Calfredo23/the-nine-files)
 
-[![CI](https://github.com/Calfredo23/nine-files/actions/workflows/ci.yml/badge.svg)](https://github.com/Calfredo23/nine-files/actions/workflows/ci.yml)
+[![CI](https://github.com/Calfredo23/the-nine-files/actions/workflows/ci.yml/badge.svg)](https://github.com/Calfredo23/the-nine-files/actions/workflows/ci.yml)
 [![Next.js](https://img.shields.io/badge/Next.js-16.4-000000?logo=nextdotjs)](https://nextjs.org)
 [![React](https://img.shields.io/badge/React-19-087EA4?logo=react)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)](https://www.typescriptlang.org)
@@ -128,7 +128,7 @@ No backend, no database, no accounts, no analytics, no cookies.
 ## Quick start
 
 ```bash
-git clone https://github.com/Calfredo23/nine-files.git
+git clone https://github.com/Calfredo23/the-nine-files.git
 cd nine-files
 npm install
 npm run dev

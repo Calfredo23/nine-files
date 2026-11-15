@@ -6,9 +6,9 @@
   tested; deploy pending owner review.** QUALITY mode, noir case-wall concept, core +
   deep polish, Capt. Hale briefing, move coach, post-match voice, full-screen/name
   setup, right-side CASE CONTROL, saved match history, post-match takeover, visible
-  score reset, single-screen desktop. 40 unit, 24 e2e. Repo private at
-  `github.com/Calfredo23/nine-files`. Remaining: `vercel --prod`, make the repo public,
-  submit the form. Acceptance in `NEXT-TASK.md`.
+  score reset, single-screen desktop. 40 unit, 24 e2e. Repo public at
+  `github.com/Calfredo23/the-nine-files`. Remaining: `vercel --prod` and submit the form.
+  Acceptance in `NEXT-TASK.md`.
 
 ## Ready
 
