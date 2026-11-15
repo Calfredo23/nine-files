@@ -10,7 +10,6 @@ import {
 } from "@/lib/storage";
 import {
   MATCHES_KEY,
-  MATCH_LIMIT,
   loadMatches,
   saveMatches,
   type MatchRecord,
@@ -185,8 +184,8 @@ export function subscribeMatches(callback: () => void): () => void {
 
 export function writeMatches(next: readonly MatchRecord[]): void {
   saveMatches(next);
-  const value = next.slice(0, MATCH_LIMIT);
-  matchCache = { raw: JSON.stringify(value), value: [...value] };
+  const value = [...next];
+  matchCache = { raw: JSON.stringify(value), value };
   if (typeof window !== "undefined") {
     window.dispatchEvent(new Event(MATCHES_EVENT));
   }

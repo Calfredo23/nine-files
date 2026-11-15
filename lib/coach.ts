@@ -173,7 +173,7 @@ export function startLine(
 export function resetScoresLine(): CoachLine {
   return {
     grade: "start",
-    text: "Scores and history reset. The board stays.",
+    text: "Scores reset. Match history is still on file.",
   };
 }
 

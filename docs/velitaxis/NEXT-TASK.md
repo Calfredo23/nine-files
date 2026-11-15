@@ -16,17 +16,16 @@ SUpost / CapM test on a live Vercel URL, and that doubles as a portfolio piece.
 ## Status
 
 Vercel production is live at `https://the-nine-files.vercel.app`. Repo is public at
-`https://github.com/Calfredo23/the-nine-files`. Commit `60c9ded` is pushed to `main`;
-GitHub CI passes, and live smoke verified the CALFREDO footer and an Analytics `POST
-/view` returning HTTP 200. Owner reports Web Analytics enabled on Hobby. Two-player
-setup now collects both names and tosses to assign X and the opening move; blank names
-become Secret Detective 1/2. Locally verified with 61 unit and 31 e2e tests, unpushed.
-README, reviewer notes, demo script, and refreshed screenshots are updated.
+`https://github.com/Calfredo23/the-nine-files`. Commit `ee4070b` is pushed to `main`;
+GitHub CI passes. Two-player setup collects both names, tosses to assign X and the opening
+move, and uses Secret Detective 1/2 for blank names. Live smoke verified the toss result
+and the correct player-to-mark mapping with no console errors. README, reviewer notes,
+demo script, and refreshed screenshots are updated. The repo is public and the submission
+assets are current.
 
 ## Next action
 
-1. Push the two-player naming/toss update, then submit the form with the live URL,
-   refreshed screenshots, and optional demo.
+1. Submit the form with the live URL, refreshed screenshots, and optional demo.
 
 ## Acceptance criteria
 
@@ -36,8 +35,9 @@ README, reviewer notes, demo script, and refreshed screenshots are updated.
 3. Two-player setup asks for both names and a coin toss assigns X and the opening move;
    blank names become Secret Detective 1 and 2. Solo toss picks the player's side. Both
    animate and play a dedicated SFX.
-4. NEW GAME restarts from briefing, full-screen prompt, names, mode, and toss/side; RESET
-   SCORES clears the ledger and match history.
+4. NEW GAME restarts from briefing, full-screen prompt, names, mode, and toss/side and
+   resets the scoreboard. RESET SCORES also resets only the scoreboard; every finished
+   match is kept until CLEAR HISTORY in the history dialog.
 5. Scoreboard counts wins and draws and survives a reload.
 6. 360 / 768 / 1440 layouts have no horizontal scroll and 44px tap targets.
 7. Keyboard-only play works; axe reports zero violations; contrast is measured.

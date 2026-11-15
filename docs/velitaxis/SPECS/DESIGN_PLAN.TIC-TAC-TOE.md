@@ -241,3 +241,16 @@ Plain labels where clarity matters (NEW GAME, SCOREBOARD, RESET SCORES, DRAWS).
 - `EDIT NAME` continues to edit player one only; a full restart reaches both names.
 - Verification: 61 unit tests, 31 Playwright tests, axe 0, refreshed two-player toss
   screenshot.
+
+## 16. Revision 2026-11-15 — score reset and history are separate
+
+- Completing a **NEW GAME** restart now resets the scoreboard. Match history is not
+  touched by a restart.
+- **RESET SCORES** (scoreboard panel and post-match verdict) resets only the counts.
+  Match history survives it.
+- **CLEAR HISTORY** in the match-history dialog is the only action that clears saved
+  matches, and it leaves the scoreboard counts alone. There is no automatic match cap;
+  every completed match persists until that action is used.
+- The check is explicit: finish a game, restart it, then confirm scores at 00 and the
+  finished match still listed; reset scores and confirm the history row remains; clear
+  history and confirm only the rows disappear.

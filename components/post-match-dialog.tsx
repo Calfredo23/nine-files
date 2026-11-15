@@ -126,7 +126,9 @@ export function PostMatchDialog({
             data-testid="post-match-reset"
             onClick={handleReset}
             aria-label={
-              confirming ? "Confirm reset scores" : "Reset scores and history"
+              confirming
+                ? "Confirm reset scores; match history is kept"
+                : "Reset scores; match history is kept"
             }
             className="min-h-11 border border-manila/20 px-3 py-2 font-mono text-[10px] tracking-[0.16em] text-smoke transition hover:border-manila/50 hover:text-paper"
           >

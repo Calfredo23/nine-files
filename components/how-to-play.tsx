@@ -17,9 +17,9 @@
         </p>
         <p>
           <strong className="text-paper">NEW GAME</strong> restarts the case from
-          the briefing and setup; the record stays.{" "}
-          <strong className="text-paper">RESET SCORES</strong> clears the scores,
-          not the board.
+          the briefing and setup and resets the scoreboard.{" "}
+          <strong className="text-paper">RESET SCORES</strong> also keeps the match
+          history; clear it from the history dialog.
         </p>
         <p className="font-mono text-[10px] leading-relaxed tracking-[0.12em]">
           KEYBOARD: ARROWS MOVE · ENTER PLAYS · HOME / END JUMP

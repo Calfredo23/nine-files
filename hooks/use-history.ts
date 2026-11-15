@@ -7,7 +7,7 @@ import {
   subscribeMatches,
   writeMatches,
 } from "@/lib/client-store";
-import { MATCH_LIMIT, type MatchRecord } from "@/lib/history";
+import { type MatchRecord } from "@/lib/history";
 
 export function useHistory() {
   const matches = useSyncExternalStore(
@@ -17,7 +17,7 @@ export function useHistory() {
   );
 
   const add = useCallback((match: MatchRecord) => {
-    const next = [match, ...getMatchesSnapshot()].slice(0, MATCH_LIMIT);
+    const next = [match, ...getMatchesSnapshot()];
     writeMatches(next);
   }, []);
 

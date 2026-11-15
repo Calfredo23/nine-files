@@ -67,8 +67,8 @@ export function CaseLedger({
           onClick={handleReset}
           aria-label={
             confirming
-              ? "Confirm reset scores and match history"
-              : "Reset scores and match history"
+              ? "Confirm reset scores; match history is kept"
+              : "Reset scores; match history is kept"
           }
           className="min-h-8 border border-manila/20 px-2 py-1 font-mono text-[9px] tracking-[0.14em] text-smoke transition hover:border-manila/50 hover:text-paper"
         >

@@ -43,8 +43,9 @@ with an X/O side choice and a coin toss.
 ## Current state
 
 Solo mode, coin toss, full-restart NEW GAME, the Case Control icon rail, production
-analytics, and the CALFREDO footer are live. Commit `60c9ded` is pushed to `main`.
-Two-player setup now collects both names and tosses to assign X and the first move;
-blank names become Secret Detective 1/2. Local verification: 61 unit and 31 e2e pass;
-this feature is unpushed. Vercel Analytics is production-only and was verified by a live
-`POST /view` returning HTTP 200. Remaining: push the two-player update, then submit.
+analytics, and the CALFREDO footer are live. Commit `ee4070b` is pushed to `main`; CI
+passes. Two-player setup collects both names, tosses to assign X and the first move, and
+uses Secret Detective 1/2 for blank names; live smoke verified Owen/X vs Mara/O with no
+console errors. Repo is public and the submission assets are current. New Game and RESET
+SCORES reset the scoreboard; every finished match is kept, with no automatic cap, until
+CLEAR HISTORY. This reset/history fix is local and unpushed.

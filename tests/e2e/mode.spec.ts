@@ -139,7 +139,7 @@ test("new game restarts into a fresh solo setup", async ({ page }) => {
   await expect(page.getByTestId("mode-label")).toContainText("SINGLE · YOU O");
   await expect(page.getByTestId("detective-X")).toContainText("THE HOUSE");
   await expect(page.getByTestId("detective-O")).toContainText("DET. CEDRIC");
-  await expect(page.getByTestId("ledger-cross")).toHaveText("01");
+  await expect(page.getByTestId("ledger-cross")).toHaveText("00");
   await expect(page.getByTestId("turn-label")).toHaveText("CEDRIC'S TURN", {
     timeout: 4000,
   });

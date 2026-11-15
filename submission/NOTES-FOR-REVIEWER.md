@@ -29,12 +29,12 @@ minimax evaluation, not a random line. The subtitle reveals word by word while h
 **The verdict:** 1.6 s after a match, the captain takes over the screen. He names the
 winner and offers **CONTINUE** after your win, **TRY AGAIN** after a loss, or **ONE MORE**
 after a draw. That primary button starts a quick rematch with the same mode and side.
-**STAY ON THE BOARD** closes it; **RESET SCORES** clears the scoreboard and match log from
-there (the scoreboard has its own visible reset too).
+**STAY ON THE BOARD** closes it; **RESET SCORES** zeros the scoreboard. Match history
+stays until you use **CLEAR HISTORY** in the history dialog.
 
 **NEW GAME:** the top-right button restarts the full experience: briefing, full-screen
-prompt, both names, mode, and the toss/side. Scores and history stay unless you use
-**RESET SCORES**.
+prompt, both names, mode, and the toss/side. It also resets the scoreboard. Match history
+stays until you clear it from the history dialog.
 
 **Sound:** a procedural noir loop (no audio files) and a soft per-word voice under the
 captain's subtitles, plus pin, paper, stamp, win, draw, and coin cues. **MUSIC** and
@@ -42,7 +42,8 @@ captain's subtitles, plus pin, paper, stamp, win, draw, and coin cues. **MUSIC**
 so audio starts on the first click or key press.
 
 **Saved history:** every finished game is recorded in the browser. Open **MATCH HISTORY**
-in the CASE CONTROL panel to see the last 25 results with the winner's name and move list.
+in the CASE CONTROL panel to see every result with the winner's name and move list. Records
+stay until you use **CLEAR HISTORY**.
 
 **Analytics:** the root layout includes Vercel Web Analytics in production only. Once
 enabled in the Vercel project dashboard, it reports aggregate page views, referrers, and

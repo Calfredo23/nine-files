@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MATCH_LIMIT, parseMatches, type MatchRecord } from "../../lib/history";
+import { parseMatches, type MatchRecord } from "../../lib/history";
 
 function record(overrides: Partial<MatchRecord> = {}): MatchRecord {
   return {
@@ -48,10 +48,13 @@ describe("parseMatches", () => {
     expect(parseMatches(null)).toEqual([]);
   });
 
-  it("caps the history", () => {
-    const entries = Array.from({ length: MATCH_LIMIT + 5 }, (_, index) =>
+  it("keeps every valid record without an automatic cap", () => {
+    const entries = Array.from({ length: 100 }, (_, index) =>
       record({ id: `match-${index}` }),
     );
-    expect(parseMatches(entries)).toHaveLength(MATCH_LIMIT);
+    const parsed = parseMatches(entries);
+    expect(parsed).toHaveLength(100);
+    expect(parsed[0].id).toBe("match-0");
+    expect(parsed[99].id).toBe("match-99");
   });
 });

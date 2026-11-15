@@ -12,7 +12,6 @@ export type MatchRecord = {
 };
 
 export const MATCHES_KEY = "nine-files:matches:v1";
-export const MATCH_LIMIT = 25;
 
 function isMove(value: unknown): value is Move {
   if (typeof value !== "object" || value === null) {
@@ -92,10 +91,6 @@ export function parseMatches(value: unknown): MatchRecord[] {
       finishedAt: record.finishedAt,
       round: record.round,
     });
-
-    if (matches.length >= MATCH_LIMIT) {
-      break;
-    }
   }
 
   return matches;
@@ -121,10 +116,7 @@ export function saveMatches(matches: readonly MatchRecord[]): void {
     return;
   }
   try {
-    window.localStorage.setItem(
-      MATCHES_KEY,
-      JSON.stringify(matches.slice(0, MATCH_LIMIT)),
-    );
+    window.localStorage.setItem(MATCHES_KEY, JSON.stringify(matches));
   } catch {
     // Storage can be unavailable; the in-memory history still works.
   }

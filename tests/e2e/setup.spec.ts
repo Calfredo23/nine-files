@@ -52,7 +52,7 @@ test("full-screen tip, name, and mode selection", async ({ page }) => {
   await expect(setup).toBeHidden();
   await expect(page.getByTestId("detective-X")).toContainText(`DET. ${xPlayerName}`);
   await expect(page.getByTestId(`detective-${playerTwoMark}`)).toContainText(
-    playerOneMark === "X" ? "DET. OWEN" : "DET. MARA",
+    "DET. OWEN",
   );
   await expect(page.getByTestId("mode-label")).toContainText(
     `TWO PLAYERS · P1 ${playerOneMark}`,

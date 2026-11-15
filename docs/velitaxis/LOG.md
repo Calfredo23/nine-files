@@ -285,3 +285,45 @@
 - Local recheck: `npm run verify` passed (61 unit); full Playwright passed **31/31**,
   including the 360/768/1440 layout test. Screenshots regenerated.
 - Pending: push the fix and confirm CI + live.
+
+## 2026-11-15 (v) — two-player update deployed
+
+- `ee4070b` pushed. CI run `43718624074` passed both jobs; the Playwright job ran all
+  31 tests green on Ubuntu.
+- Live smoke used an isolated browser: intro -> full-screen -> player one "Mara" ->
+  two players -> player two "Owen" -> toss -> start. The toss reported "Owen gets X and
+  opens. Mara takes O."; the board showed DET. OWEN on X, DET. MARA on O, mode
+  `TWO PLAYERS · P1 O`, turn `OWEN'S TURN`, and no console errors.
+- Next: submit the application form. This closeout state update is local-only.
+
+## 2026-11-15 (w) — submission readiness confirmed
+
+- Repo `Calfredo23/the-nine-files` changed from private to public with owner approval.
+  Anonymous GitHub page returns HTTP 200; raw README screenshot returns HTTP 200.
+- Final checks: live app HTTP 200, browser console 0 errors, CI run `43718624074` green
+  (61 unit, 31 e2e), 12 README image references present, submission PNGs current.
+- Ready for the application form. Known non-blockers: 8 moderate npm findings confined to
+  the dev lint toolchain; production audit 0. Three VELLITAXIS closeout notes remain
+  local-only.
+
+## 2026-11-15 (x) — score reset separated from match history
+
+- **NEW GAME** now resets the scoreboard when the restart setup completes, but leaves
+  match history intact.
+- **RESET SCORES** now resets only the counts. It no longer calls `clearHistory()`.
+  **CLEAR HISTORY** in the match-history dialog remains the only history-clearing action.
+- Updated the coach line, button labels, How To Play, README, reviewer notes, design plan,
+  and acceptance criteria. Reworked the e2e tests: one covers scores 00 with the finished
+  match still listed after a restart; another verifies RESET SCORES keeps the history and
+  CLEAR HISTORY removes it.
+- Verification: `npm run verify` passed (61 unit); full Playwright passed **31/31**.
+- Change is local and unpushed.
+
+## 2026-11-15 (y) — unlimited match history
+
+- Removed the 25-match cap. Every completed match is now kept until **CLEAR HISTORY**;
+  there is no automatic truncation in parsing, saving, or the store.
+- Updated the history unit test to verify 100 records survive with order preserved, plus
+  README, reviewer notes, measurements, design plan, and acceptance criteria.
+- Verification: `npm run verify` passed (61 unit); full Playwright passed **31/31**.
+- Change is local and unpushed.

@@ -127,7 +127,6 @@ export function CaseFile() {
     saveIntroSeen();
     setIntroOpen(false);
     if (restartPending) {
-      setRestartPending(false);
       openSetup("setup");
     } else if (!setupSeen) {
       openSetup("setup");
@@ -136,6 +135,7 @@ export function CaseFile() {
 
   const handleSaveSetup = (value: string, nextSettings: GameSettings) => {
     const name = cleanName(value);
+    const isRestart = restartPending;
     writeDetectiveName(name);
     writeSettings(nextSettings);
     saveSetupSeen();
@@ -147,6 +147,9 @@ export function CaseFile() {
       cancelPostMatch();
       setPostMatch(null);
       dispatch({ type: "reset" });
+      if (isRestart) {
+        resetLedger();
+      }
       coachSay(welcomeLine(name, nextSettings));
       sound.play("paper");
       return;
@@ -281,7 +284,6 @@ export function CaseFile() {
   const handleResetLedger = () => {
     cancelPostMatch();
     resetLedger();
-    clearHistory();
     coachSay(resetScoresLine());
     sound.play("click");
   };

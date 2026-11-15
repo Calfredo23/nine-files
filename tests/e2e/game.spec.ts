@@ -85,7 +85,9 @@ test("the verdict starts a quick rematch and keeps the ledger", async ({
   await expect(page.getByTestId("ledger-cross")).toHaveText("01");
 });
 
-test("new game restarts from the briefing", async ({ page }) => {
+test("new game restarts from the briefing and resets the scoreboard", async ({
+  page,
+}) => {
   await page.goto("/");
   await play(page, [0, 3, 1, 4, 2]);
 
@@ -101,6 +103,23 @@ test("new game restarts from the briefing", async ({ page }) => {
   await expect(setup).toBeVisible();
   await expect(setup).toContainText("FULL SCREEN");
   await expect(page.getByTestId("ledger-cross")).toHaveText("01");
+
+  await page.getByTestId("setup-next").click();
+  await page.getByTestId("setup-next").click();
+  await page.getByTestId("setup-next").click();
+  await page.getByTestId("setup-next").click();
+  await page.getByTestId("setup-toss").click();
+  await expect(page.getByTestId("coin-result")).toContainText(
+    /gets X and opens/,
+    { timeout: 4000 },
+  );
+  await page.getByTestId("setup-start").click();
+
+  await expect(setup).toBeHidden();
+  await expect(page.getByTestId("ledger-cross")).toHaveText("00");
+  await page.getByTestId("open-history").click();
+  await expect(page.getByTestId("history-dialog")).toContainText("CROSS WINS");
+  await page.getByTestId("history-close").click();
 });
 
 test("the ledger survives a reload", async ({ page }) => {
@@ -112,7 +131,7 @@ test("the ledger survives a reload", async ({ page }) => {
   await expect(page.getByTestId("ledger-cross")).toHaveText("01");
 });
 
-test("match history survives a reload and clears with the scores", async ({
+test("match history survives a reload and a score reset, and clears only from history", async ({
   page,
 }) => {
   await page.goto("/");
@@ -137,7 +156,11 @@ test("match history survives a reload and clears with the scores", async ({
 
   await page.getByTestId("reset-ledger").click();
   await page.getByTestId("reset-ledger").click();
+  await expect(page.getByTestId("ledger-cross")).toHaveText("00");
   await page.getByTestId("open-history").click();
+  await expect(page.getByTestId("history-dialog")).toContainText("CROSS WINS");
+  await page.getByTestId("history-clear").click();
+  await page.getByTestId("history-clear").click();
   await expect(page.getByTestId("history-dialog")).toContainText(
     "No finished cases yet",
   );

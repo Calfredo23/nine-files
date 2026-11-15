@@ -46,7 +46,7 @@ FCP/LCP 0.8 s, TBT 350 ms, CLS 0.
 | Key | What | Limit |
 |---|---|---|
 | `nine-files:ledger:v1` | Wins by X/lead, O/opponent, and draws | - |
-| `nine-files:matches:v1` | Finished games: winner, winner name, moves, date | 25 |
+| `nine-files:matches:v1` | Every finished game: winner, winner name, moves, date | Until CLEAR HISTORY |
 | `nine-files:name:v1` | Player one's detective name (any mode) | 18 chars |
 | `nine-files:settings:v1` | Mode (`two`/`single`), player one's assigned mark (`X`/`O`), and player two's name | 18 chars per name |
 | `nine-files:intro:v1` | Story briefing seen | - |

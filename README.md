@@ -65,8 +65,8 @@ The House is not unbeatable. It plays the best move most of the time, with a del
 | **Coin toss** | Pick X or O by hand, or let the coin decide with an animated flip and a metallic SFX. |
 | **Move coach** | Every move is graded best / good / inaccuracy / mistake / blunder using minimax plus threat and fork detection. |
 | **Post-match verdict** | 1.6 s after the result, the captain takes over with CONTINUE, TRY AGAIN, ONE MORE, STAY ON THE BOARD, and RESET SCORES. |
-| **Saved history** | The last 25 finished games persist in the browser with winner name, move list, and date. |
-| **Full restart** | **NEW GAME** returns to the briefing, full-screen prompt, both names, mode, and the toss/side. **RESET SCORES** clears the counts and match log. |
+| **Saved history** | Every finished game persists in the browser with winner name, move list, and date. |
+| **Full restart** | **NEW GAME** returns to the briefing, full-screen prompt, both names, mode, and the toss/side, and resets the scoreboard. Match history stays until **CLEAR HISTORY** in the history dialog. |
 | **Sound** | A procedural noir loop and a soft per-word voice, plus pin, stamp, paper, win, draw, and coin cues. MUSIC and SFX toggle independently and default on. |
 | **Analytics** | Vercel Web Analytics reports aggregated page views, referrers, and coarse device/browser/location metrics. Vercel states it uses no cookies and collects no personal identifiers. |
 | **Desktop fit** | The whole game fits one screen at 1440×900, 1366×768, 1280×800, and 1024×768 with no page scroll. |
@@ -111,8 +111,9 @@ The House is not unbeatable. It plays the best move most of the time, with a del
    or ONE MORE after a draw. That button starts a quick rematch with the same mode and
    side.
 5. **NEW GAME** is always in the top-right CASE CONTROL panel. It restarts the experience
-   from the briefing, full-screen prompt, name, mode, and side. The ledger and the last
-   25 matches stay; **RESET SCORES** clears them.
+   from the briefing, full-screen prompt, both names, mode, and toss/side, and resets the
+   scoreboard. Every finished match stays; **CLEAR HISTORY** in the history dialog removes
+   them, while **RESET SCORES** only zeros the scoreboard.
 
 ## The coach
 
