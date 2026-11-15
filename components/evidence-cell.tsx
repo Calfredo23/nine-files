@@ -2,7 +2,9 @@
 
 import type { CSSProperties, KeyboardEvent } from "react";
 import { cellLabel, type Mark } from "@/lib/game";
-import { PLAYERS } from "@/lib/players";
+import { playerFor } from "@/lib/players";
+import { useDetectiveName } from "@/hooks/use-detective-name";
+import { useGameSettings } from "@/hooks/use-game-settings";
 import { MarkO, MarkX } from "@/components/marks";
 import { Pushpin } from "@/components/pushpin";
 
@@ -32,7 +34,11 @@ export function EvidenceCell({
   buttonRef: (node: HTMLButtonElement | null) => void;
 }) {
   const label = cellLabel(index);
-  const occupant = mark ? PLAYERS[mark].name : null;
+  const detectiveName = useDetectiveName();
+  const settings = useGameSettings();
+  const occupant = mark
+    ? playerFor(mark, settings, detectiveName).name
+    : null;
 
   return (
     <button

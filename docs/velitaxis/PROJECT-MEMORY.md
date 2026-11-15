@@ -2,8 +2,8 @@
 
 Framework Version: 1.22.1
 Current Execution Mode: QUALITY
-Project Status: NEW_PROJECT
-Lifecycle Stage: 6 — IMPLEMENTATION (design contract at 4)
+Project Status: FEATURE_DEVELOPMENT
+Lifecycle Stage: 8 — QA, SECURITY, ACCESSIBILITY, AND PERFORMANCE
 Owner: Cedrick Alfredo Catimbang (Calfredo)
 
 ## What this is
@@ -16,7 +16,8 @@ are explicitly rewarded.
 Concept: **THE NINE FILES** — a noir case wall. Two detectives (Cross and O'Rourke)
 claim nine clues. The winning line is drawn in red yarn and a CASE CLOSED stamp lands.
 The required behaviours are literal: the cells carry X and O, the buttons say NEW GAME,
-and the result text says WINS or DRAW.
+and the result text says WINS or DRAW. A solo mode adds THE HOUSE, a deliberately
+imperfect minimax opponent, with an X/O side choice and a coin toss.
 
 ## Location and deploy
 
@@ -38,6 +39,8 @@ and the result text says WINS or DRAW.
 
 ## Current state
 
-Repository is public and CI is green at `905f210`: 40 unit, 24 e2e on Ubuntu, axe 0.
-README, MIT license, and screenshots are current; audio defaults on. Only the Vercel
-production deploy and form submission remain, both owner actions.
+Solo mode, coin toss, and full-restart NEW GAME are implemented. Re-verification passed:
+58 unit, 30 e2e, axe 0, typecheck/lint/build clean. Local production server returns 200
+with no console errors. Production smoke also returns 200 with no console errors, but
+confirms the old two-step setup is still deployed. The feature set is staged, and the
+owner authorized the push. Remaining: push, confirm CI/Vercel, then submit.

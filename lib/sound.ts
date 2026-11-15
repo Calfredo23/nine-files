@@ -7,6 +7,7 @@ export type SoundName =
   | "win"
   | "draw"
   | "click"
+  | "coin"
   | "voice";
 
 type AudioContextConstructor = typeof AudioContext;
@@ -357,6 +358,13 @@ class SoundEngine {
       case "click":
         this.tone(320, 0.045, 0.045, "square", 240);
         break;
+      case "coin": {
+        this.burst(0.05, 0.09, "highpass", 3600);
+        this.tone(1760, 0.16, 0.05, "triangle", 2360);
+        this.tone(2637, 0.34, 0.028, "sine", 2610, 0.06);
+        this.tone(880, 0.22, 0.04, "sine", 820, 0.16);
+        break;
+      }
       case "voice": {
         const base = 175 + Math.random() * 95;
         this.tone(base, 0.055, 0.032, "triangle", base * 0.76);

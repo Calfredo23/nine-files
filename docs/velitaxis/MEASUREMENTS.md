@@ -4,10 +4,10 @@ All values measured in this project, not estimated.
 
 ## Tests
 
-- Vitest: 40 passing (3 files: game, coach, history parser).
-- Playwright: 24 tests across game, intro, setup, quality, and screenshots.
-- axe: 0 violations on the opening screen, the win state, the briefing, the setup, and
-  the post-match verdict.
+- Vitest: 58 passing (6 files: game, coach, bot, players, settings, history parser).
+- Playwright: 30 tests across game, intro, setup, mode/solo, quality, and screenshots.
+- axe: 0 violations on the opening screen, the win state, the briefing, the setup, the
+  solo side step, and the post-match verdict.
 - Contrast: 13/13 pairs pass (`scripts/contrast.mjs`).
 
 ## Lighthouse 13.6 (production build, localhost)
@@ -44,17 +44,18 @@ FCP/LCP 0.8 s, TBT 350 ms, CLS 0.
 
 | Key | What | Limit |
 |---|---|---|
-| `nine-files:ledger:v1` | Cross/lead wins, O'Rourke wins, draws | - |
-| `nine-files:matches:v1` | Finished games: winner, moves, date | 25 |
-| `nine-files:name:v1` | The player's detective name (X side) | 18 chars |
+| `nine-files:ledger:v1` | Cross/lead wins, O'Rourke/House wins, draws | - |
+| `nine-files:matches:v1` | Finished games: winner, winner name, moves, date | 25 |
+| `nine-files:name:v1` | The player's detective name (either side) | 18 chars |
+| `nine-files:settings:v1` | Mode (`two`/`single`) and solo side (`X`/`O`) | - |
 | `nine-files:intro:v1` | Story briefing seen | - |
-| `nine-files:setup:v1` | Full-screen/name setup seen | - |
+| `nine-files:setup:v1` | Full-screen/name/mode/side setup seen | - |
 | `nine-files:music:v1` | Music preference | - |
 | `nine-files:sound:v1` | Sound preference | - |
 
 ## Assets
 
-- Repo screenshots (WebP): 9-56 KB each in `docs/screenshots/`.
+- Repo screenshots (WebP): 9-59 KB each in `docs/screenshots/`.
 - No raster art in the app; all marks, pins, textures, the captain, and the grain are
   CSS/SVG.
 - Fonts are self-hosted by `next/font`: Oswald, Source Serif 4, Courier Prime.

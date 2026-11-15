@@ -4,7 +4,7 @@
 
 **A noir tic-tac-toe case in nine clues.**
 
-Two players. Nine cards. One wall.
+One case. Two ways to play. Nine cards.
 
 [**Play the live game**](https://the-nine-files.vercel.app) · [Source](https://github.com/Calfredo23/the-nine-files)
 
@@ -21,38 +21,51 @@ Two players. Nine cards. One wall.
 
 ## Overview
 
-The Nine Files is a two-player tic-tac-toe game dressed as a detective's case wall.
-Cross and O'Rourke claim nine pinned cards; three in a row closes the case. A captain
-watching from the corner grades every move, the winning line is drawn in red yarn, and a
-taped verdict lands on the board.
+The Nine Files is a tic-tac-toe game dressed as a detective's case wall.
+Cross and O'Rourke claim nine pinned cards, or you can take the case solo against the
+House. Three in a row closes it. A captain watching from the corner grades every move,
+the winning line is drawn in red yarn, and a taped verdict lands on the board.
 
 It was built for the **SUpost / CapM junior React + Next.js application test**. The test
 asks for a working two-player game on a public Vercel URL. This is the version I
-submitted.
+submitted, with a solo mode added on top.
 
 The required behaviours come first and are literal:
 
 - Two players alternate. **X** goes first, then **O**.
 - The result is announced: **CROSS WINS — CASE CLOSED**, **O'ROURKE WINS — CASE CLOSED**,
   or **DRAW — COLD CASE**.
-- **NEW GAME** starts a fresh board.
+- **NEW GAME** starts a fresh case and returns to the briefing and setup.
 - The scoreboard counts wins and draws and survives a reload.
 
 The theme never hides the rules: the cells show X and O, the primary button says NEW
 GAME, and the result says WINS or DRAW.
+
+## Modes
+
+| Mode | How it works |
+|---|---|
+| **Two players** | The original brief: Cross and O'Rourke alternate locally on one screen. |
+| **Single player** | Pick X, pick O, or toss the coin. The other side is **THE HOUSE**, a local minimax opponent that waits about 700 ms, shows **THINKING**, and locks the board while it moves. |
+| **Coin toss** | A short CSS flip with a dedicated metallic SFX picks your side. The result is announced and can still be changed before you start. |
+
+The House is not unbeatable. It plays the best move most of the time, with a deliberate
+15% chance to choose a weaker legal move, so a careful player can create a fork and win.
 
 ## Features
 
 | | |
 |---|---|
 | **First-visit briefing** | Capt. Hale sets up the case in three beats. Skippable, replayable. |
-| **Full-screen setup** | A pre-game prompt recommends F11 (or Ctrl+Cmd+F) and asks for your detective name. |
-| **Personalized side** | Your name becomes the X detective: card, turn banner, result, stamp, and coach. |
+| **Full-screen setup** | A pre-game prompt recommends F11 (or Ctrl+Cmd+F), asks for your detective name, then the mode and side. |
+| **Personalized side** | Your name becomes your detective card, turn banner, result, stamp, scoreboard label, and coach voice. |
+| **Local opponent** | Solo mode adds THE HOUSE: minimax, a short thinking beat, a locked board, and a CPU badge. |
+| **Coin toss** | Pick X or O by hand, or let the coin decide with an animated flip and a metallic SFX. |
 | **Move coach** | Every move is graded best / good / inaccuracy / mistake / blunder using minimax plus threat and fork detection. |
 | **Post-match verdict** | 1.6 s after the result, the captain takes over with CONTINUE, TRY AGAIN, ONE MORE, STAY ON THE BOARD, and RESET SCORES. |
-| **Saved history** | The last 25 finished games persist in the browser with winner, move list, and date. |
-| **Scoreboard reset** | A visible, two-step reset that clears the counts and the match log. |
-| **Sound** | A procedural noir loop and a soft per-word voice. MUSIC and SFX toggle independently and default on. |
+| **Saved history** | The last 25 finished games persist in the browser with winner name, move list, and date. |
+| **Full restart** | **NEW GAME** returns to the briefing, full-screen prompt, name, mode, and side. **RESET SCORES** clears the counts and match log. |
+| **Sound** | A procedural noir loop and a soft per-word voice, plus pin, stamp, paper, win, draw, and coin cues. MUSIC and SFX toggle independently and default on. |
 | **Desktop fit** | The whole game fits one screen at 1440×900, 1366×768, 1280×800, and 1024×768 with no page scroll. |
 | **Accessibility** | Keyboard play, focus management, native dialogs, reduced-motion support, measured contrast. |
 
@@ -61,6 +74,10 @@ GAME, and the result says WINS or DRAW.
 | Case briefing | Full-screen and detective name |
 |---|---|
 | ![Case briefing](docs/screenshots/intro.webp) | ![Full-screen and name setup](docs/screenshots/setup.webp) |
+
+| Mode, side, and coin toss | Solo against the House |
+|---|---|
+| ![Mode, side, and coin toss setup](docs/screenshots/setup-side.webp) | ![Solo game against the House](docs/screenshots/desktop-solo.webp) |
 
 | Post-match verdict | Match history |
 |---|---|
@@ -76,15 +93,18 @@ GAME, and the result says WINS or DRAW.
 
 ## How it plays
 
-1. Read the briefing, then enter a detective name. X is your side; O'Rourke takes the
-   other.
+1. Read the briefing, then enter a detective name. Choose **TWO PLAYERS** or **SINGLE
+   PLAYER**. In solo, pick **X**, pick **O**, or toss the coin; the other side is the
+   House. X always opens.
 2. Take turns claiming cards. Three in a row — across, down, or diagonally — closes the
-   case.
-3. The turn banner shows whose move it is. The move history lists every clue.
+   case. In solo the board locks while **THE HOUSE** thinks.
+3. The turn banner shows whose move it is. The move history lists every clue by name.
 4. After the result, the captain offers CONTINUE after your win, TRY AGAIN after a loss,
-   or ONE MORE after a draw.
-5. **NEW GAME** is always in the top-right CASE CONTROL panel. The ledger keeps the
-   scores and the last 25 matches.
+   or ONE MORE after a draw. That button starts a quick rematch with the same mode and
+   side.
+5. **NEW GAME** is always in the top-right CASE CONTROL panel. It restarts the experience
+   from the briefing, full-screen prompt, name, mode, and side. The ledger and the last
+   25 matches stay; **RESET SCORES** clears them.
 
 ## The coach
 
@@ -129,7 +149,7 @@ No backend, no database, no accounts, no analytics, no cookies.
 
 ```bash
 git clone https://github.com/Calfredo23/the-nine-files.git
-cd nine-files
+cd the-nine-files
 npm install
 npm run dev
 ```
@@ -158,8 +178,11 @@ The Playwright suite builds and serves the production app on port 3211.
   and a tested reducer.
 - **The coach** lives in `lib/coach.ts`: minimax values, immediate threats, forks, and
   move grades.
+- **The House** lives in `lib/bot.ts`: the same minimax values, a short list of equally
+  best moves, and a deliberate 15% mistake rate.
 - **Persistence** is localStorage through `useSyncExternalStore`: ledger, 25-match
-  history, detective name, briefing/setup flags, music, and SFX. There is no server.
+  history, detective name, mode and side, briefing/setup flags, music, and SFX. There is
+  no server.
 - **Dialogs** are native `<dialog>` elements for the briefing, setup, match history, and
   post-match verdict; the browser supplies the focus trap and inert background.
 - **Animation** is CSS; the paper burst is the only canvas.
@@ -170,9 +193,9 @@ The Playwright suite builds and serves the production app on port 3211.
 
 | Gate | Result |
 |---|---|
-| Unit tests (Vitest) | **40 passing** |
-| E2E (Playwright) | **24 passing** on Ubuntu CI — game, briefing, setup/name, history, coach, post-match, reset, audio toggles, axe, no-scroll desktop, screenshots |
-| Accessibility | **0 axe violations** on the opening screen, win, briefing, setup, and post-match verdict |
+| Unit tests (Vitest) | **58 passing** — game, minimax coach, bot, players, settings, history |
+| E2E (Playwright) | **30 passing** on Ubuntu CI — game, briefing, setup/name, solo, bot turns, coin toss, restart, history, coach, post-match, reset, audio toggles, axe, no-scroll desktop, screenshots |
+| Accessibility | **0 axe violations** on the opening screen, win, briefing, setup, solo side step, and post-match verdict |
 | Contrast | every measured pair passes WCAG AA (`scripts/contrast.mjs`) |
 | Lighthouse | 100 accessibility, best practices, and SEO; performance 74–99 desktop and 74–92 mobile across repeated runs on a busy host |
 | Desktop fit | no page scroll at 1440×900, 1366×768, 1280×800, or 1024×768 |
@@ -191,8 +214,10 @@ axe and Playwright gates run on every push.
 - Focus rings are visible, tap targets are at least 44px, and the layout fits 360, 390,
   768, and 1440 widths.
 - Reduced motion removes shake, flash, particles, grain drift, rain, lamp flicker,
-  captain motion, subtitle reveal, and the blinking cursor.
+  captain motion, subtitle reveal, the coin flip, and the blinking cursor.
 - X and O differ by shape and material, not only colour.
+- Mode and side are radio groups with visible selection, and the coin result is announced
+  in a live region.
 - Music and SFX are separate labelled toggles; nothing autoplays before a gesture.
 
 ## Deployment
@@ -211,8 +236,8 @@ Set `NEXT_PUBLIC_SITE_URL` to the production URL if it differs from
 ```text
 app/                    layout, page, metadata, OG image, icon, 404
 components/             board, cells, marks, yarn, stamp, captain, coach, dialogs, ledger
-hooks/                  coach, history, detective name, music/SFX preferences, speech
-lib/                    game logic, minimax coach, history, storage, Web Audio, stores
+hooks/                  coach, history, detective name, settings, music/SFX preferences, speech
+lib/                    game logic, minimax coach, House bot, settings, history, storage, Web Audio, stores
 tests/unit/             Vitest
 tests/e2e/              Playwright, axe, screenshot capture
 scripts/                contrast measurement, WebP optimisation
@@ -222,10 +247,11 @@ submission/             reviewer notes and demo script
 
 ## Notes and limits
 
-- **No AI opponent.** The brief asks for two players; the board stays two-player. The
-  coach is analysis, not an opponent: it grades moves and never plays one.
-- **Local data only.** Scores, history, name, and preferences live in localStorage. No
-  account, no leaderboard, no personal data leaves the browser.
+- **The House is local.** It runs the same minimax evaluation as the coach, in the
+  browser, with no network call. It is intentionally imperfect so solo play stays
+  winnable; the two-player mode remains the literal version of the brief.
+- **Local data only.** Scores, history, name, mode, and preferences live in localStorage.
+  No account, no leaderboard, no personal data leaves the browser.
 - **No third-party art or audio.** Textures, cards, pins, the monocle, and the captain
   are CSS or SVG. The music and voice are synthesized.
 - **The screenshots are generated by the Playwright suite** from the production build.

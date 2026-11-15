@@ -6,7 +6,6 @@ import { PLAYERS } from "@/lib/players";
 import { type MatchRecord } from "@/lib/history";
 import { useDialog } from "@/hooks/use-dialog";
 import { cn } from "@/lib/cn";
-
 function formatDate(value: number): string {
   try {
     return new Intl.DateTimeFormat(undefined, {
@@ -100,7 +99,7 @@ export function MatchHistoryDialog({
                   >
                     {match.winner === "draw"
                       ? "DRAW — COLD CASE"
-                      : `${PLAYERS[match.winner].short} WINS`}
+                      : `${match.winnerName ?? PLAYERS[match.winner].short} WINS`}
                   </p>
                   <p className="font-mono text-[9px] tracking-[0.12em] text-smoke">
                     {formatDate(match.finishedAt)}

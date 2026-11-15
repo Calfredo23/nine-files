@@ -20,18 +20,27 @@ import {
   loadDetectiveName,
   saveDetectiveName,
 } from "@/lib/detective";
+import {
+  DEFAULT_SETTINGS,
+  SETTINGS_KEY,
+  loadSettings,
+  saveSettings,
+  type GameSettings,
+} from "@/lib/settings";
 
 const LEDGER_EVENT = "nine-files:ledger-changed";
 const SOUND_EVENT = "nine-files:sound-changed";
 const MUSIC_EVENT = "nine-files:music-changed";
 const MATCHES_EVENT = "nine-files:matches-changed";
 const NAME_EVENT = "nine-files:name-changed";
+const SETTINGS_EVENT = "nine-files:settings-changed";
 const LEDGER_KEY = "nine-files:ledger:v1";
 const EMPTY_MATCHES: MatchRecord[] = [];
 
 let ledgerCache: { raw: string | null; value: Ledger } | null = null;
 let matchCache: { raw: string | null; value: MatchRecord[] } | null = null;
 let nameCache: { raw: string | null; value: string } | null = null;
+let settingsCache: { raw: string | null; value: GameSettings } | null = null;
 
 function read(key: string): string | null {
   if (typeof window === "undefined") {
@@ -218,5 +227,43 @@ export function writeDetectiveName(name: string): void {
   nameCache = { raw: read(NAME_KEY), value: loadDetectiveName() };
   if (typeof window !== "undefined") {
     window.dispatchEvent(new Event(NAME_EVENT));
+  }
+}
+
+export function getSettingsSnapshot(): GameSettings {
+  if (typeof window === "undefined") {
+    return DEFAULT_SETTINGS;
+  }
+  const raw = read(SETTINGS_KEY);
+  if (settingsCache && settingsCache.raw === raw) {
+    return settingsCache.value;
+  }
+  const value = loadSettings();
+  settingsCache = { raw, value };
+  return value;
+}
+
+export function getServerSettingsSnapshot(): GameSettings {
+  return DEFAULT_SETTINGS;
+}
+
+export function subscribeSettings(callback: () => void): () => void {
+  if (typeof window === "undefined") {
+    return () => {};
+  }
+  const handler = () => callback();
+  window.addEventListener(SETTINGS_EVENT, handler);
+  window.addEventListener("storage", handler);
+  return () => {
+    window.removeEventListener(SETTINGS_EVENT, handler);
+    window.removeEventListener("storage", handler);
+  };
+}
+
+export function writeSettings(next: GameSettings): void {
+  saveSettings(next);
+  settingsCache = { raw: read(SETTINGS_KEY), value: loadSettings() };
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event(SETTINGS_EVENT));
   }
 }

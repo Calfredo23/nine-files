@@ -5,6 +5,7 @@ export type MatchWinner = Mark | "draw";
 export type MatchRecord = {
   readonly id: string;
   readonly winner: MatchWinner;
+  readonly winnerName?: string;
   readonly moves: readonly Move[];
   readonly finishedAt: number;
   readonly round: number;
@@ -74,9 +75,16 @@ export function parseMatches(value: unknown): MatchRecord[] {
       continue;
     }
 
+    const winnerName =
+      typeof record.winnerName === "string" &&
+      record.winnerName.trim().length > 0
+        ? record.winnerName.trim().slice(0, 40)
+        : undefined;
+
     matches.push({
       id: record.id,
       winner: record.winner as MatchWinner,
+      ...(winnerName ? { winnerName } : {}),
       moves: (record.moves as Move[]).map((move) => ({
         index: move.index,
         mark: move.mark,

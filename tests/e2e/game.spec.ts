@@ -56,7 +56,9 @@ test("a draw is announced", async ({ page }) => {
   await expect(page.getByTestId("post-match-primary")).toHaveText("ONE MORE");
 });
 
-test("new game clears the board and keeps the ledger", async ({ page }) => {
+test("the verdict starts a quick rematch and keeps the ledger", async ({
+  page,
+}) => {
   await page.goto("/");
   await play(page, [0, 3, 1, 4, 2]);
   await expect(page.getByTestId("ledger-cross")).toHaveText("01");
@@ -64,9 +66,9 @@ test("new game clears the board and keeps the ledger", async ({ page }) => {
   await expect(page.getByTestId("post-match-dialog")).toBeVisible({
     timeout: 4000,
   });
-  await page.getByTestId("post-match-stay").click();
-  await page.getByTestId("new-game").click();
+  await page.getByTestId("post-match-primary").click();
 
+  await expect(page.getByTestId("post-match-dialog")).toBeHidden();
   await expect(page.getByTestId("result")).toHaveCount(0);
   await expect(page.getByTestId("turn-label")).toHaveText("CROSS'S TURN");
   for (let index = 0; index < 9; index += 1) {
@@ -75,6 +77,24 @@ test("new game clears the board and keeps the ledger", async ({ page }) => {
       /empty/,
     );
   }
+  await expect(page.getByTestId("ledger-cross")).toHaveText("01");
+});
+
+test("new game restarts from the briefing", async ({ page }) => {
+  await page.goto("/");
+  await play(page, [0, 3, 1, 4, 2]);
+
+  await expect(page.getByTestId("post-match-dialog")).toBeVisible({
+    timeout: 4000,
+  });
+  await page.getByTestId("post-match-stay").click();
+  await page.getByTestId("new-game").click();
+
+  await expect(page.getByTestId("intro-dialog")).toBeVisible();
+  await page.getByTestId("intro-skip").click();
+  const setup = page.getByTestId("setup-dialog");
+  await expect(setup).toBeVisible();
+  await expect(setup).toContainText("FULL SCREEN");
   await expect(page.getByTestId("ledger-cross")).toHaveText("01");
 });
 

@@ -5,6 +5,7 @@ import { Captain } from "@/components/captain";
 import { CoachBubble } from "@/components/coach-bubble";
 import { useDialog } from "@/hooks/use-dialog";
 import { useDetectiveName } from "@/hooks/use-detective-name";
+import { useGameSettings } from "@/hooks/use-game-settings";
 import { postMatchLine } from "@/lib/coach";
 import { playerFor } from "@/lib/players";
 import type { Outcome } from "@/lib/game";
@@ -23,24 +24,32 @@ export function PostMatchDialog({
 }) {
   const dialogRef = useDialog(true);
   const detectiveName = useDetectiveName();
+  const settings = useGameSettings();
   const [confirming, setConfirming] = useState(false);
 
-  const winner = outcome.kind === "win" ? playerFor(outcome.mark, detectiveName) : null;
-  const userWon = outcome.kind === "win" && outcome.mark === "X";
+  const winner =
+    outcome.kind === "win"
+      ? playerFor(outcome.mark, settings, detectiveName)
+      : null;
+  const userMark = settings.mode === "single" ? settings.userMark : "X";
+  const userWon = outcome.kind === "win" && outcome.mark === userMark;
   const resultText = winner
     ? `${winner.short} WINS — CASE CLOSED`
     : "DRAW — COLD CASE";
-  const note = postMatchLine(outcome, detectiveName);
+  const note = postMatchLine(outcome, settings, detectiveName);
   const primary = userWon
     ? "CONTINUE"
     : outcome.kind === "draw"
       ? "ONE MORE"
       : "TRY AGAIN";
-  const standing = userWon
-    ? "YOUR WIN"
-    : outcome.kind === "draw"
+  const standing =
+    outcome.kind === "draw"
       ? "DRAW"
-      : "O'ROURKE";
+      : userWon
+        ? "YOUR WIN"
+        : settings.mode === "single"
+          ? "THE HOUSE"
+          : winner?.short ?? "WINNER";
 
   const handleReset = () => {
     if (!confirming) {

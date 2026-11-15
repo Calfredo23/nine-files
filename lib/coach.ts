@@ -10,6 +10,7 @@
   type WinLine,
 } from "@/lib/game";
 import { playerFor } from "@/lib/players";
+import { DEFAULT_SETTINGS, type GameSettings } from "@/lib/settings";
 
 export type CoachGrade =
   | "start"
@@ -128,7 +129,34 @@ function pick<T>(pool: readonly T[], seed: number): T {
   return pool[Math.abs(seed) % pool.length];
 }
 
-export function startLine(seed = 0): CoachLine {
+export function startLine(
+  seed = 0,
+  settings: GameSettings = DEFAULT_SETTINGS,
+): CoachLine {
+  if (settings.mode === "single") {
+    return {
+      grade: "start",
+      text:
+        settings.userMark === "X"
+          ? pick(
+              [
+                "You open with X. The center is a good first move.",
+                "New case. X is yours and you move first.",
+                "Nine squares. You open with X.",
+              ],
+              seed,
+            )
+          : pick(
+              [
+                "The House opens with X. Watch the center.",
+                "New case. The House has X and moves first.",
+                "The House opens. X lands first.",
+              ],
+              seed,
+            ),
+    };
+  }
+
   return {
     grade: "start",
     text: pick(
@@ -149,15 +177,29 @@ export function resetScoresLine(): CoachLine {
   };
 }
 
-export function welcomeLine(name: string): CoachLine {
+export function welcomeLine(
+  name: string,
+  settings: GameSettings = DEFAULT_SETTINGS,
+): CoachLine {
+  if (settings.mode === "single") {
+    return {
+      grade: "start",
+      text:
+        settings.userMark === "X"
+          ? `Welcome to the case, ${name}. X is yours, and the House takes O. You open.`
+          : `Welcome to the case, ${name}. O is yours, and the House takes X. The House opens.`,
+    };
+  }
+
   return {
     grade: "start",
-    text: `Welcome to the case, ${name}. X is yours.`,
+    text: `Welcome to the case, ${name}. X is yours. O'Rourke takes the other.`,
   };
 }
 
 export function postMatchLine(
   outcome: Outcome,
+  settings: GameSettings = DEFAULT_SETTINGS,
   detectiveName?: string | null,
 ): CoachLine {
   const lead = detectiveName?.trim() || "Detective";
@@ -166,6 +208,19 @@ export function postMatchLine(
     return {
       grade: "draw",
       text: `A draw. ${lead}, nobody cracked it. One more?`,
+    };
+  }
+
+  if (settings.mode === "single") {
+    if (outcome.mark === settings.userMark) {
+      return {
+        grade: "win",
+        text: `Case closed. ${lead} takes the collar. Nicely played.`,
+      };
+    }
+    return {
+      grade: "loss",
+      text: `The House takes this one. ${lead}, run it back?`,
     };
   }
 
@@ -187,12 +242,13 @@ export function coachForMove(
   index: number,
   mark: Mark,
   seed = 0,
+  settings: GameSettings = DEFAULT_SETTINGS,
   detectiveName?: string | null,
 ): CoachLine {
   const after = place(before, index, mark);
   const outcome = getOutcome(after);
-  const player = playerFor(mark, detectiveName).plain;
-  const opponent = playerFor(otherMark(mark), detectiveName).plain;
+  const player = playerFor(mark, settings, detectiveName).plain;
+  const opponent = playerFor(otherMark(mark), settings, detectiveName).plain;
   const isCentre = index === 4;
   const isCorner = CORNERS.has(index);
 

@@ -21,6 +21,7 @@ export function CaseBoard({
   outcome,
   lastMove,
   round,
+  locked = false,
   onPlay,
 }: {
   board: Board;
@@ -28,11 +29,12 @@ export function CaseBoard({
   outcome: Outcome | null;
   lastMove: Move | null;
   round: number;
+  locked?: boolean;
   onPlay: (index: number) => void;
 }) {
   const [focusIndex, setFocusIndex] = useState(0);
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
-  const disabled = outcome !== null;
+  const disabled = outcome !== null || locked;
 
   const moveFocus = (index: number) => {
     setFocusIndex(index);

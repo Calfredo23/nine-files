@@ -19,6 +19,7 @@ import {
   type Board,
   type Mark,
 } from "../../lib/game";
+import { DEFAULT_SETTINGS } from "../../lib/settings";
 
 function boardWith(entries: ReadonlyArray<readonly [number, Mark]>): Board {
   let board = EMPTY_BOARD;
@@ -156,25 +157,48 @@ describe("coachForMove", () => {
     expect(line.grade).toBe("draw");
     expect(line.text).toMatch(/draw|winner|game/i);
   });
+
+  it("calls the solo opponent the House", () => {
+    const board = boardWith([
+      [0, "X"],
+      [1, "X"],
+      [4, "O"],
+    ]);
+    const line = coachForMove(board, 2, "O", 0, {
+      mode: "single",
+      userMark: "X",
+    });
+    expect(line.grade).toBe("best");
+    expect(line.text).toContain("The House");
+    expect(line.text).toMatch(/block/i);
+  });
 });
 
 describe("postMatchLine", () => {
   it("compliments the user's win by name", () => {
-    const line = postMatchLine({ kind: "win", mark: "X", line: [0, 1, 2] }, "Mara");
+    const line = postMatchLine(
+      { kind: "win", mark: "X", line: [0, 1, 2] },
+      DEFAULT_SETTINGS,
+      "Mara",
+    );
     expect(line.grade).toBe("win");
     expect(line.text).toContain("Mara");
     expect(line.text).toMatch(/nicely|Case closed/i);
   });
 
   it("asks for a rematch after O'Rourke wins", () => {
-    const line = postMatchLine({ kind: "win", mark: "O", line: [0, 1, 2] }, "Mara");
+    const line = postMatchLine(
+      { kind: "win", mark: "O", line: [0, 1, 2] },
+      DEFAULT_SETTINGS,
+      "Mara",
+    );
     expect(line.grade).toBe("loss");
     expect(line.text).toContain("O'Rourke");
     expect(line.text).toMatch(/run it back/i);
   });
 
   it("offers another round after a draw", () => {
-    const line = postMatchLine({ kind: "draw" }, "Mara");
+    const line = postMatchLine({ kind: "draw" }, DEFAULT_SETTINGS, "Mara");
     expect(line.grade).toBe("draw");
     expect(line.text).toMatch(/One more/i);
     expect(line.text).toContain("Mara");
@@ -184,5 +208,33 @@ describe("postMatchLine", () => {
     const line = welcomeLine("Mara");
     expect(line.text).toContain("Mara");
     expect(line.grade).toBe("start");
+  });
+
+  it("names the House when the solo player loses", () => {
+    const line = postMatchLine(
+      { kind: "win", mark: "X", line: [0, 1, 2] },
+      { mode: "single", userMark: "O" },
+      "Mara",
+    );
+    expect(line.grade).toBe("loss");
+    expect(line.text).toContain("The House");
+    expect(line.text).toMatch(/run it back/i);
+  });
+
+  it("celebrates a solo win on either side", () => {
+    const line = postMatchLine(
+      { kind: "win", mark: "O", line: [0, 1, 2] },
+      { mode: "single", userMark: "O" },
+      "Mara",
+    );
+    expect(line.grade).toBe("win");
+    expect(line.text).toContain("Mara");
+  });
+
+  it("welcomes a solo player and names the House", () => {
+    const line = welcomeLine("Mara", { mode: "single", userMark: "O" });
+    expect(line.text).toContain("Mara");
+    expect(line.text).toContain("The House");
+    expect(line.text).toMatch(/O is yours/i);
   });
 });

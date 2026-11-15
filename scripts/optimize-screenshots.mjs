@@ -4,9 +4,11 @@ import sharp from "sharp";
 const jobs = [
   ["intro.png", "intro.webp", 960],
   ["setup.png", "setup.webp", 960],
+  ["setup-side.png", "setup-side.webp", 960],
   ["desktop-board.png", "desktop-board.webp", 1280],
   ["desktop-midgame.png", "desktop-midgame.webp", 1280],
   ["desktop-win.png", "desktop-win.webp", 1280],
+  ["desktop-solo.png", "desktop-solo.webp", 1280],
   ["desktop-post-match.png", "desktop-post-match.webp", 1280],
   ["desktop-history.png", "desktop-history.webp", 1280],
   ["tablet-midgame.png", "tablet-midgame.webp", 768],
@@ -21,9 +23,5 @@ for (const [input, output, width] of jobs) {
     .resize({ width, withoutEnlargement: true })
     .webp({ quality: 82, effort: 5 })
     .toFile(`docs/screenshots/${output}`);
-  console.log(
-    output,
-    `${Math.round(info.size / 1024)} KB`,
-    `${info.width}x${info.height}`,
-  );
+  console.log(output, `${Math.round(info.size / 1024)} KB`, `${info.width}x${info.height}`);
 }

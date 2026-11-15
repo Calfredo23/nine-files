@@ -4,6 +4,7 @@ import type { RefObject } from "react";
 import type { GameState } from "@/lib/game";
 import { playerFor } from "@/lib/players";
 import { useDetectiveName } from "@/hooks/use-detective-name";
+import { useGameSettings } from "@/hooks/use-game-settings";
 import { cn } from "@/lib/cn";
 
 export function TurnBanner({
@@ -14,10 +15,15 @@ export function TurnBanner({
   resultRef: RefObject<HTMLHeadingElement | null>;
 }) {
   const detectiveName = useDetectiveName();
+  const settings = useGameSettings();
   const done = state.outcome !== null;
   const win = state.outcome?.kind === "win" ? state.outcome : null;
-  const player = playerFor(state.turn, detectiveName);
-  const winner = win ? playerFor(win.mark, detectiveName) : null;
+  const player = playerFor(state.turn, settings, detectiveName);
+  const winner = win ? playerFor(win.mark, settings, detectiveName) : null;
+  const houseTurn =
+    settings.mode === "single" &&
+    !done &&
+    state.turn !== settings.userMark;
 
   const resultText = winner
     ? `${winner.short} WINS — CASE CLOSED`
@@ -31,7 +37,9 @@ export function TurnBanner({
     ? `${winner.plain} wins.`
     : done
       ? "It's a draw."
-      : `${player.name}'s turn.`;
+      : player.bot
+        ? "The House is thinking."
+        : `${player.name}'s turn.`;
 
   return (
     <div className="flex min-h-[78px] flex-col gap-1 border-b border-manila/15 pb-2">
@@ -68,7 +76,9 @@ export function TurnBanner({
             {player.short}&apos;S TURN
           </p>
           <p className="font-serif text-xs italic text-smoke">
-            Three in a row wins. X goes first.
+            {houseTurn
+              ? "The House is reading the board."
+              : "Three in a row wins. X goes first."}
           </p>
         </>
       )}

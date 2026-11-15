@@ -3,10 +3,17 @@
 import type { Mark } from "@/lib/game";
 import { playerFor } from "@/lib/players";
 import { useDetectiveName } from "@/hooks/use-detective-name";
+import { useGameSettings } from "@/hooks/use-game-settings";
 import { MarkO, MarkX } from "@/components/marks";
 import { cn } from "@/lib/cn";
 
-export type DetectiveStatus = "TURN" | "WAITING" | "WINNER" | "DRAW" | "OUT";
+export type DetectiveStatus =
+  | "TURN"
+  | "THINKING"
+  | "WAITING"
+  | "WINNER"
+  | "DRAW"
+  | "OUT";
 
 export function DetectiveCard({
   mark,
@@ -18,7 +25,8 @@ export function DetectiveCard({
   status: DetectiveStatus;
 }) {
   const detectiveName = useDetectiveName();
-  const player = playerFor(mark, detectiveName);
+  const settings = useGameSettings();
+  const player = playerFor(mark, settings, detectiveName);
 
   return (
     <article

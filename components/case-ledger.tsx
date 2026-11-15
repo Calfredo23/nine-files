@@ -2,13 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { Ledger } from "@/lib/storage";
+import { playerFor } from "@/lib/players";
+import { useDetectiveName } from "@/hooks/use-detective-name";
+import { useGameSettings } from "@/hooks/use-game-settings";
 import { cn } from "@/lib/cn";
-
-const ROWS = [
-  { key: "cross", label: "CROSS", tone: "text-paper" },
-  { key: "orourke", label: "O'ROURKE", tone: "text-paper" },
-  { key: "cold", label: "DRAWS", tone: "text-smoke" },
-] as const;
 
 export function CaseLedger({
   ledger,
@@ -19,6 +16,23 @@ export function CaseLedger({
 }) {
   const [confirming, setConfirming] = useState(false);
   const timer = useRef<number | null>(null);
+  const detectiveName = useDetectiveName();
+  const settings = useGameSettings();
+  const playerX = playerFor("X", settings, detectiveName);
+  const playerO = playerFor("O", settings, detectiveName);
+  const rows = [
+    {
+      key: "cross" as const,
+      label: playerX.bot ? "HOUSE" : playerX.short,
+      tone: "text-paper",
+    },
+    {
+      key: "orourke" as const,
+      label: playerO.bot ? "HOUSE" : playerO.short,
+      tone: "text-paper",
+    },
+    { key: "cold" as const, label: "DRAWS", tone: "text-smoke" },
+  ];
 
   useEffect(() => {
     return () => {
@@ -63,11 +77,11 @@ export function CaseLedger({
       </div>
 
       <div className="mt-3 grid grid-cols-3 gap-2">
-        {ROWS.map((row) => {
+        {rows.map((row) => {
           const value = ledger[row.key];
           return (
             <div key={row.key} className="border-t border-manila/15 pt-2">
-              <p className="font-mono text-[9px] tracking-[0.18em] text-smoke">
+              <p className="truncate font-mono text-[9px] tracking-[0.18em] text-smoke">
                 {row.label}
               </p>
               <p

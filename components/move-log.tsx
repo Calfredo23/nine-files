@@ -3,10 +3,12 @@
 import { cellLabel, type Move } from "@/lib/game";
 import { playerFor } from "@/lib/players";
 import { useDetectiveName } from "@/hooks/use-detective-name";
+import { useGameSettings } from "@/hooks/use-game-settings";
 import { MarkO, MarkX } from "@/components/marks";
 
 export function MoveLog({ moves }: { moves: readonly Move[] }) {
   const detectiveName = useDetectiveName();
+  const settings = useGameSettings();
   const recent = moves
     .map((move, index) => ({ move, number: index + 1 }))
     .reverse();
@@ -43,7 +45,7 @@ export function MoveLog({ moves }: { moves: readonly Move[] }) {
                 {move.mark === "X" ? <MarkX /> : <MarkO />}
               </span>
               <span className="w-20 truncate text-paper">
-                {playerFor(move.mark, detectiveName).short}
+                {playerFor(move.mark, settings, detectiveName).short}
               </span>
               <span className="ml-auto text-tungsten/80">
                 {cellLabel(move.index)}

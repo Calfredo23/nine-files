@@ -8,8 +8,8 @@ import { cn } from "@/lib/cn";
 
 const BEATS = [
   "Evening. Captain Hale, ninth floor. You're the new lead on the Halver case, and the whole board is watching.",
-  "Nine cards came in tonight. Cross and O'Rourke are working the same wall, and neither one trusts the other.",
-  "Pin three in a row and the file closes. Let it slip and it goes cold. New Game opens a fresh board; the record stays.",
+  "Nine cards came in tonight. Cross and O'Rourke work the wall by the book, but some nights it's just you and the House.",
+  "Pin three in a row and the file closes. Let it slip and it goes cold. New Game restarts the case; the record stays.",
 ] as const;
 
 export function IntroDialog({

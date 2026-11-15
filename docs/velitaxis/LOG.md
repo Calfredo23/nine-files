@@ -147,3 +147,40 @@
   `NEXT_PUBLIC_SITE_URL` is not needed while the project keeps that domain.
 - Repo: `https://github.com/Calfredo23/the-nine-files` (public). Only the application
   form remains.
+
+## 2026-11-15 (k) — solo mode, coin toss, full-restart New Game
+
+- **Solo mode:** `lib/settings.ts` persists `{ mode, userMark }` at
+  `nine-files:settings:v1` (default two players / X). Setup now runs full screen → name →
+  mode → side; single-player can pick X, pick O, or toss the coin.
+- **THE HOUSE:** `lib/bot.ts` reuses the coach's minimax values, picks among equally best
+  moves, and deliberately slips 15% of the time so a careful player can win. It waits
+  700 ms, shows THINKING on its card, and locks the board while it moves. Player naming
+  follows the chosen side; O'Rourke still holds O in two-player mode.
+- **Coin toss:** CSS flip plus a new metallic `coin` SFX; the result is announced and can
+  still be changed before start.
+- **NEW GAME is now a full restart:** briefing → full-screen prompt → name → mode → side.
+  The post-match primary stays a quick rematch with the same mode/side; RESET SCORES
+  still clears the ledger and match log. New Game copy says FULL RESTART · SCORES KEPT.
+- **Mode-aware UI:** cards, turn banner, move log, stamp, scoreboard labels, post-match
+  verdict, and coach lines all read the chosen mode/side. Match history stores
+  `winnerName` so old results do not relabel when the name or mode changes.
+- **Verification:** 58 unit, 30 e2e (including solo X/O, bot turn, coin toss, full
+  restart, and axe on the side step), typecheck/lint/build clean. New screenshots:
+  `setup-side` and `desktop-solo`, regenerated from the production build.
+- **Docs:** README, reviewer notes, demo script, and VELLITAXIS measurements/state
+  updated. Previous release remains live and CI-green at `0cf8f0d`.
+- **Next:** review diff, push, confirm CI + Vercel, smoke live, submit the form.
+
+## 2026-11-15 (l) — release-candidate re-verification
+
+- Re-ran `npm run verify`: typecheck, lint, 58 unit tests, and production build all pass.
+- Re-ran the full Playwright suite: 30/30 pass, including solo X/O, bot turns, coin toss,
+  full restart, responsive layouts, axe checks, and screenshot capture.
+- Restarted the local production server on port 3210 after the build; HTTP 200 and zero
+  browser console errors verified.
+- Smoked `https://the-nine-files.vercel.app`: HTTP 200 and zero browser console errors.
+  The live setup is still the previous full-screen/name flow, so the new feature set is
+  not deployed yet.
+- Working tree remains uncommitted. Next: owner approval to commit/push, then verify CI
+  and Vercel before calling the updated version production-ready.

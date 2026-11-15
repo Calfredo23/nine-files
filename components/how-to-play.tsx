@@ -12,12 +12,12 @@
       </summary>
       <div className="mt-2 space-y-1.5 font-serif text-xs leading-relaxed text-smoke">
         <p>
-          Two players. Nine squares. Take turns; three in a row wins. X goes
-          first.
+          One detective against the House, or two players at the table. Nine
+          squares; three in a row wins. X goes first.
         </p>
         <p>
-          <strong className="text-paper">NEW GAME</strong> clears the board and
-          keeps the scores.{" "}
+          <strong className="text-paper">NEW GAME</strong> restarts the case from
+          the briefing and setup; the record stays.{" "}
           <strong className="text-paper">RESET SCORES</strong> clears the scores,
           not the board.
         </p>

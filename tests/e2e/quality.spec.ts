@@ -150,8 +150,9 @@ test("no console errors or uncaught exceptions during a full game", async ({
     timeout: 4000,
   });
   await page.getByTestId("post-match-stay").click();
-  await page.getByTestId("new-game").click();
   await page.getByTestId("sound-toggle").click();
+  await page.getByTestId("new-game").click();
+  await expect(page.getByTestId("intro-dialog")).toBeVisible();
 
   expect(errors).toEqual([]);
 });

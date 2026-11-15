@@ -1,4 +1,5 @@
 import type { Mark } from "@/lib/game";
+import { DEFAULT_SETTINGS, type GameSettings } from "@/lib/settings";
 
 export type Player = {
   readonly mark: Mark;
@@ -7,8 +8,8 @@ export type Player = {
   readonly plain: string;
   readonly badge: string;
   readonly division: string;
+  readonly bot: boolean;
 };
-
 export const PLAYERS: Record<Mark, Player> = {
   X: {
     mark: "X",
@@ -17,6 +18,7 @@ export const PLAYERS: Record<Mark, Player> = {
     plain: "Cross",
     badge: "X-01",
     division: "DIVISION 9",
+    bot: false,
   },
   O: {
     mark: "O",
@@ -25,23 +27,48 @@ export const PLAYERS: Record<Mark, Player> = {
     plain: "O'Rourke",
     badge: "O-02",
     division: "DIVISION 9",
+    bot: false,
   },
 };
 
-export function playerFor(mark: Mark, detectiveName?: string | null): Player {
-  if (mark === "O") {
-    return PLAYERS.O;
-  }
+function houseFor(mark: Mark): Player {
+  return {
+    mark,
+    name: "THE HOUSE",
+    short: "THE HOUSE",
+    plain: "The House",
+    badge: "CPU",
+    division: "AUTOMATED",
+    bot: true,
+  };
+}
+
+function namedFor(mark: Mark, detectiveName?: string | null): Player {
   const name = detectiveName?.trim();
   if (!name) {
-    return PLAYERS.X;
+    return PLAYERS[mark];
   }
   return {
-    mark: "X",
+    mark,
     name: `DET. ${name.toUpperCase()}`,
     short: name.toUpperCase(),
     plain: name,
-    badge: "X-01",
-    division: "DIVISION 9",
+    badge: PLAYERS[mark].badge,
+    division: PLAYERS[mark].division,
+    bot: false,
   };
+}
+
+export function playerFor(
+  mark: Mark,
+  settings: GameSettings = DEFAULT_SETTINGS,
+  detectiveName?: string | null,
+): Player {
+  if (settings.mode === "single" && mark !== settings.userMark) {
+    return houseFor(mark);
+  }
+  if (settings.mode === "two" && mark === "O") {
+    return PLAYERS.O;
+  }
+  return namedFor(mark, detectiveName);
 }

@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test("full-screen tip then the detective name", async ({ page }) => {
+test("full-screen tip, name, and mode selection", async ({ page }) => {
   await page.goto("/");
 
   const setup = page.getByTestId("setup-dialog");
@@ -22,10 +22,15 @@ test("full-screen tip then the detective name", async ({ page }) => {
   await page.getByTestId("setup-next").click();
   await expect(page.getByTestId("detective-name")).toBeVisible();
   await page.getByTestId("detective-name").fill("Mara");
-  await page.getByTestId("setup-start").click();
+  await page.getByTestId("setup-next").click();
+
+  await expect(setup).toContainText("GAME MODE");
+  await page.getByTestId("setup-mode-two").click();
+  await page.getByTestId("setup-next").click();
 
   await expect(setup).toBeHidden();
   await expect(page.getByTestId("detective-X")).toContainText("DET. MARA");
+  await expect(page.getByTestId("mode-label")).toContainText("TWO PLAYERS");
 
   await page.reload();
   await expect(page.getByTestId("setup-dialog")).toBeHidden();

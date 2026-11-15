@@ -1,48 +1,102 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Captain } from "@/components/captain";
+import { MarkO, MarkX } from "@/components/marks";
 import { useDialog } from "@/hooks/use-dialog";
 import { useSpeechSfx } from "@/hooks/use-speech-sfx";
 import { cleanName } from "@/lib/detective";
+import type { Mark } from "@/lib/game";
+import type { GameMode, GameSettings } from "@/lib/settings";
+import { sound } from "@/lib/sound";
+import { cn } from "@/lib/cn";
 
 export type SetupMode = "setup" | "edit";
+
+const TOTAL_STEPS = 4;
+
+function stepTitle(
+  mode: SetupMode,
+  step: number,
+  fullscreenStep: boolean,
+): string {
+  if (mode === "edit") {
+    return "DETECTIVE NAME";
+  }
+  if (fullscreenStep) {
+    return "FULL SCREEN";
+  }
+  if (step === 1) {
+    return "YOUR NAME";
+  }
+  if (step === 2) {
+    return "GAME MODE";
+  }
+  return "YOUR SIDE";
+}
 
 export function SetupDialog({
   open,
   mode,
   initialName,
+  initialSettings,
   onSave,
   onCancel,
 }: {
   open: boolean;
   mode: SetupMode;
   initialName: string;
-  onSave: (name: string) => void;
+  initialSettings: GameSettings;
+  onSave: (name: string, settings: GameSettings) => void;
   onCancel: () => void;
 }) {
   const dialogRef = useDialog(open);
   const saved = useRef(false);
+  const tossTimer = useRef<number | null>(null);
   const [step, setStep] = useState(mode === "edit" ? 1 : 0);
   const [name, setName] = useState(initialName);
+  const [choice, setChoice] = useState<GameMode>(initialSettings.mode);
+  const [side, setSide] = useState<Mark>(initialSettings.userMark);
+  const [tossing, setTossing] = useState(false);
+  const [tossed, setTossed] = useState(false);
 
   const fullscreenStep = mode === "setup" && step === 0;
+  const modeStep = mode === "setup" && step === 2;
+  const sideStep = mode === "setup" && step === 3;
+  const totalSteps =
+    step >= 2 ? (choice === "single" ? TOTAL_STEPS : TOTAL_STEPS - 1) : TOTAL_STEPS;
 
   useSpeechSfx(
     fullscreenStep
       ? "The case wall is built for a full screen. Press F11 for the best view."
-      : mode === "edit"
-        ? "What should I call you, detective?"
-        : "What should I call you, detective? X is your side. O'Rourke takes the other.",
+      : modeStep
+        ? "One detective against the House, or two players at the table?"
+        : sideStep
+          ? "X or O, detective. Pick a side, or toss for it."
+          : "What should I call you, detective?",
     open,
   );
+
+  useEffect(() => {
+    return () => {
+      if (tossTimer.current) {
+        window.clearTimeout(tossTimer.current);
+      }
+    };
+  }, []);
 
   const save = () => {
     if (saved.current) {
       return;
     }
     saved.current = true;
-    onSave(cleanName(name) || "Detective");
+    const finalSettings: GameSettings =
+      mode === "edit"
+        ? initialSettings
+        : choice === "single"
+          ? { mode: "single", userMark: side }
+          : { mode: "two", userMark: initialSettings.userMark };
+    onSave(cleanName(name) || "Detective", finalSettings);
   };
 
   const close = () => {
@@ -51,6 +105,48 @@ export function SetupDialog({
       return;
     }
     save();
+  };
+
+  const primary = () => {
+    if (mode === "edit" || step === 3) {
+      save();
+      return;
+    }
+    if (step === 0 || step === 1) {
+      setStep(step + 1);
+      return;
+    }
+    if (choice === "single") {
+      setStep(3);
+    } else {
+      save();
+    }
+  };
+
+  const back = () => {
+    if (step > 0) {
+      setStep(step - 1);
+    }
+  };
+
+  const toss = () => {
+    if (tossing) {
+      return;
+    }
+    const result: Mark = Math.random() < 0.5 ? "X" : "O";
+    setTossing(true);
+    setTossed(false);
+    sound.play("coin");
+    if (tossTimer.current) {
+      window.clearTimeout(tossTimer.current);
+    }
+    tossTimer.current = window.setTimeout(() => {
+      setSide(result);
+      setTossed(true);
+      setTossing(false);
+      sound.play("pin");
+      tossTimer.current = null;
+    }, 900);
   };
 
   const requestFullScreen = async () => {
@@ -62,6 +158,17 @@ export function SetupDialog({
       // F11 is the fallback.
     }
   };
+
+  const primaryLabel =
+    mode === "edit"
+      ? "SAVE NAME"
+      : fullscreenStep
+        ? "NEXT"
+        : step === 3
+          ? "START THE CASE"
+          : step === 2 && choice === "two"
+            ? "START THE CASE"
+            : "NEXT";
 
   return (
     <dialog
@@ -86,15 +193,13 @@ export function SetupDialog({
               id="setup-title"
               className="mt-0.5 font-display text-lg font-semibold tracking-[0.14em] text-paper sm:text-xl"
             >
-              {fullscreenStep
-                ? "FULL SCREEN"
-                : mode === "edit"
-                  ? "DETECTIVE NAME"
-                  : "YOUR NAME"}
+              {stepTitle(mode, step, fullscreenStep)}
             </h2>
           </div>
           <p className="font-mono text-[9px] tracking-[0.2em] text-smoke">
-            {mode === "edit" ? "NAME" : fullscreenStep ? "01 / 02" : "02 / 02"}
+            {mode === "edit"
+              ? "NAME"
+              : `${String(step + 1).padStart(2, "0")} / ${String(totalSteps).padStart(2, "0")}`}
           </p>
         </div>
 
@@ -138,12 +243,159 @@ export function SetupDialog({
                   (Mac) for the best view. You can start without it.
                 </p>
               </div>
+            ) : modeStep ? (
+              <div className="mt-2">
+                <p className="font-serif text-[15px] leading-relaxed sm:text-base">
+                  How is the case staffed tonight?
+                </p>
+                <div
+                  role="radiogroup"
+                  aria-label="Game mode"
+                  className="mt-3 grid gap-2"
+                >
+                  <button
+                    type="button"
+                    role="radio"
+                    aria-checked={choice === "two"}
+                    data-testid="setup-mode-two"
+                    onClick={() => setChoice("two")}
+                    className={cn(
+                      "min-h-11 border px-3 py-2 text-left transition",
+                      choice === "two"
+                        ? "border-oxblood bg-oxblood/10"
+                        : "border-ink/25 bg-paper/40 hover:border-ink/50",
+                    )}
+                  >
+                    <span className="flex items-baseline justify-between gap-2">
+                      <span className="font-display text-sm font-semibold tracking-[0.14em]">
+                        TWO PLAYERS
+                      </span>
+                      <span className="font-mono text-[8px] tracking-[0.16em] text-ink/55">
+                        {choice === "two" ? "SELECTED" : "SELECT"}
+                      </span>
+                    </span>
+                    <span className="mt-0.5 block font-serif text-[12px] leading-snug text-ink/70">
+                      Cross and O&apos;Rourke share the wall.
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    role="radio"
+                    aria-checked={choice === "single"}
+                    data-testid="setup-mode-single"
+                    onClick={() => setChoice("single")}
+                    className={cn(
+                      "min-h-11 border px-3 py-2 text-left transition",
+                      choice === "single"
+                        ? "border-oxblood bg-oxblood/10"
+                        : "border-ink/25 bg-paper/40 hover:border-ink/50",
+                    )}
+                  >
+                    <span className="flex items-baseline justify-between gap-2">
+                      <span className="font-display text-sm font-semibold tracking-[0.14em]">
+                        SINGLE PLAYER
+                      </span>
+                      <span className="font-mono text-[8px] tracking-[0.16em] text-ink/55">
+                        {choice === "single" ? "SELECTED" : "SELECT"}
+                      </span>
+                    </span>
+                    <span className="mt-0.5 block font-serif text-[12px] leading-snug text-ink/70">
+                      You against the House. Pick a side, or toss for it.
+                    </span>
+                  </button>
+                </div>
+              </div>
+            ) : sideStep ? (
+              <div className="mt-2">
+                <p className="font-serif text-[15px] leading-relaxed sm:text-base">
+                  X opens the case. Take it, take O, or let the coin decide.
+                </p>
+
+                <div
+                  role="radiogroup"
+                  aria-label="Your side"
+                  className="mt-3 grid grid-cols-2 gap-2"
+                >
+                  {(["X", "O"] as const).map((mark) => (
+                    <button
+                      key={mark}
+                      type="button"
+                      role="radio"
+                      aria-checked={!tossing && side === mark}
+                      data-testid={`setup-side-${mark}`}
+                      disabled={tossing}
+                      onClick={() => {
+                        setSide(mark);
+                        setTossed(false);
+                      }}
+                      className={cn(
+                        "min-h-11 border p-2 text-center transition disabled:opacity-60",
+                        !tossing && side === mark
+                          ? "border-oxblood bg-oxblood/10"
+                          : "border-ink/25 bg-paper/40 hover:border-ink/50",
+                      )}
+                    >
+                      <span className="mx-auto block h-8 w-8 text-ink">
+                        {mark === "X" ? <MarkX /> : <MarkO />}
+                      </span>
+                      <span className="mt-1 block font-display text-xs font-semibold tracking-[0.16em]">
+                        PLAY {mark}
+                      </span>
+                      <span className="block font-mono text-[8px] tracking-[0.12em] text-ink/55">
+                        {mark === "X" ? "FIRST MOVE" : "SECOND MOVE"}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="mt-3 flex items-center gap-3 border border-ink/20 bg-paper/50 p-2">
+                  <div className="coin-stage shrink-0" aria-hidden="true">
+                    <span
+                      className={cn(
+                        "coin-token",
+                        tossing && "coin-toss",
+                      )}
+                    >
+                      {tossing ? "?" : side}
+                    </span>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p
+                      data-testid="coin-result"
+                      aria-live="polite"
+                      className="font-serif text-[13px] leading-snug text-ink"
+                    >
+                      {tossing
+                        ? "The coin is in the air."
+                        : tossed
+                          ? `The coin lands on ${side}. You play ${side}.`
+                          : "The House takes the other side."}
+                    </p>
+                    <button
+                      type="button"
+                      data-testid="setup-toss"
+                      onClick={toss}
+                      disabled={tossing}
+                      className="mt-1 min-h-9 border border-ink/30 px-2 py-1 font-mono text-[9px] tracking-[0.16em] text-ink transition hover:border-oxblood hover:text-oxblood disabled:opacity-60"
+                    >
+                      {tossing ? "TOSSING…" : "TOSS A COIN"}
+                    </button>
+                  </div>
+                </div>
+
+                <p className="mt-2 font-serif text-[11px] leading-snug text-ink/65">
+                  {side === "X"
+                    ? "You move first. The House answers as O."
+                    : "The House opens as X. You answer as O."}
+                </p>
+              </div>
             ) : (
               <form
                 className="mt-2"
                 onSubmit={(event) => {
                   event.preventDefault();
-                  save();
+                  primary();
                 }}
               >
                 <label
@@ -168,8 +420,8 @@ export function SetupDialog({
                   id="detective-name-hint"
                   className="mt-2 font-serif text-[12px] leading-snug text-ink/70"
                 >
-                  X is your side. O&apos;Rourke takes the other. The captain will
-                  use this name.
+                  The captain will use this name at the table. You can change it
+                  later.
                 </p>
               </form>
             )}
@@ -200,7 +452,7 @@ export function SetupDialog({
               <button
                 type="button"
                 data-testid="setup-back"
-                onClick={() => setStep(0)}
+                onClick={back}
                 className="min-h-11 border border-manila/25 px-3 py-2 font-mono text-[10px] tracking-[0.16em] text-smoke transition hover:border-manila/50 hover:text-paper"
               >
                 BACK
@@ -210,21 +462,15 @@ export function SetupDialog({
 
           <button
             type="button"
-            data-testid={fullscreenStep ? "setup-next" : "setup-start"}
-            onClick={() => {
-              if (fullscreenStep) {
-                setStep(1);
-              } else {
-                save();
-              }
-            }}
+            data-testid={
+              mode !== "edit" && (fullscreenStep || (step > 0 && step < 3))
+                ? "setup-next"
+                : "setup-start"
+            }
+            onClick={primary}
             className="min-h-11 border border-oxblood/70 bg-oxblood px-4 py-2 font-display text-xs font-semibold tracking-[0.16em] text-paper transition hover:bg-[#a13540] active:translate-y-px"
           >
-            {fullscreenStep
-              ? "NEXT"
-              : mode === "edit"
-                ? "SAVE NAME"
-                : "START THE CASE"}
+            {primaryLabel}
           </button>
         </div>
       </div>

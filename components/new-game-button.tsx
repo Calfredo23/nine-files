@@ -41,7 +41,7 @@ export function NewGameButton({
           block && "text-center",
         )}
       >
-        NEW BOARD · SCORES KEPT
+        FULL RESTART · SCORES KEPT
       </p>
     </div>
   );
