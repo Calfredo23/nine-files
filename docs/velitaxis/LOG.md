@@ -294,7 +294,7 @@
   two players -> player two "Owen" -> toss -> start. The toss reported "Owen gets X and
   opens. Mara takes O."; the board showed DET. OWEN on X, DET. MARA on O, mode
   `TWO PLAYERS · P1 O`, turn `OWEN'S TURN`, and no console errors.
-- Next: submit the application form. This closeout state update is local-only.
+- Next: submit the application form. This closeout state update is included in the docs commit.
 
 ## 2026-11-15 (w) — submission readiness confirmed
 
@@ -327,3 +327,14 @@
   README, reviewer notes, measurements, design plan, and acceptance criteria.
 - Verification: `npm run verify` passed (61 unit); full Playwright passed **31/31**.
 - Change is local and unpushed.
+
+## 2026-11-15 (z) — reset/history fix deployed
+
+- `e1b739c` pushed. CI run `43725022176` passed both jobs, including 61 unit and 31
+  Playwright tests.
+- Live smoke on the deployed app: finish a match, NEW GAME through setup -> scoreboard
+  `00`, history still shows `CROSS WINS`; RESET SCORES -> history still there; CLEAR
+  HISTORY -> `No finished cases yet`.
+- Match history has no automatic cap. Every completed match persists until CLEAR HISTORY.
+- Next: submit the application form. This closeout state update is local-only.
+

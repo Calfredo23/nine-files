@@ -46,6 +46,8 @@ Solo mode, coin toss, full-restart NEW GAME, the Case Control icon rail, product
 analytics, and the CALFREDO footer are live. Commit `ee4070b` is pushed to `main`; CI
 passes. Two-player setup collects both names, tosses to assign X and the first move, and
 uses Secret Detective 1/2 for blank names; live smoke verified Owen/X vs Mara/O with no
-console errors. Repo is public and the submission assets are current. New Game and RESET
-SCORES reset the scoreboard; every finished match is kept, with no automatic cap, until
-CLEAR HISTORY. This reset/history fix is local and unpushed.
+console errors. Repo is public and the submission assets are current. Commit `e1b739c`
+is live: New Game and RESET SCORES reset the scoreboard; every finished match is kept,
+with no automatic cap, until CLEAR HISTORY. Live smoke confirmed scores at 00 with the
+finished match still listed, history surviving a score reset, and clearing only from
+CLEAR HISTORY. Ready to submit.

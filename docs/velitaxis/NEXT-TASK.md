@@ -19,8 +19,10 @@ Vercel production is live at `https://the-nine-files.vercel.app`. Repo is public
 `https://github.com/Calfredo23/the-nine-files`. Commit `ee4070b` is pushed to `main`;
 GitHub CI passes. Two-player setup collects both names, tosses to assign X and the opening
 move, and uses Secret Detective 1/2 for blank names. Live smoke verified the toss result
-and the correct player-to-mark mapping with no console errors. README, reviewer notes,
-demo script, and refreshed screenshots are updated. The repo is public and the submission
+and the correct player-to-mark mapping with no console errors. New Game and RESET SCORES
+reset the scoreboard; every finished match is kept until CLEAR HISTORY. Live smoke
+confirmed all three behaviors. README, reviewer notes, demo script, and refreshed
+screenshots are updated. The repo is public and the submission
 assets are current.
 
 ## Next action
