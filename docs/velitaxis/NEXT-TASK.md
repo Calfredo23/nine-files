@@ -16,15 +16,15 @@ SUpost / CapM test on a live Vercel URL, and that doubles as a portfolio piece.
 ## Status
 
 Vercel production is live at `https://the-nine-files.vercel.app`. Repo is public at
-`https://github.com/Calfredo23/the-nine-files`. Commit `6473149` is pushed to `main`;
-GitHub CI passes (58 unit, 30 e2e, typecheck/lint/build), and live smoke verified the
-new setup, solo play, coin toss, House response, and full restart. README, reviewer
-notes, demo script, and screenshots are updated. Case Control button polish is complete
-locally and verified; that latest UI change is not pushed yet.
+`https://github.com/Calfredo23/the-nine-files`. Commit `507044e` is pushed to `main`;
+GitHub CI passes, and live smoke verified the Case Control icon rail. README, reviewer
+notes, demo script, and screenshots are updated. Vercel Analytics is integrated for
+production; owner reports Web Analytics enabled on Hobby. Live event reporting remains
+unverified until after deployment.
 
 ## Next action
 
-1. Push the verified Case Control button polish and smoke the updated live panel.
+1. Verify live Analytics routes and dashboard events after the deployment.
 2. Submit the form with the live URL, screenshots, and optional demo.
 
 ## Acceptance criteria

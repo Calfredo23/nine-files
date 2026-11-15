@@ -32,16 +32,16 @@ imperfect minimax opponent, with an X/O side choice and a coin toss.
   TypeScript strict, Tailwind v4. Animations are CSS keyframes/transitions plus one
   canvas burst; no animation library.
 - Public repo and a public production URL are required for submission.
-- No backend, no accounts, no PII, no analytics.
+- No game backend, accounts, or custom PII collection. Vercel Web Analytics is integrated
+  for aggregate traffic metrics; vendor docs state no cookies and no personal identifiers.
 - No copyrighted assets; all art is inline SVG/CSS; fonts are Google Fonts (OFL).
 - Accessibility is non-negotiable: keyboard play, focus states, reduced motion,
   announced results, AA contrast.
 
 ## Current state
 
-Solo mode, coin toss, and full-restart NEW GAME are live. Commit `6473149` is pushed to
-`main`; GitHub CI passes (58 unit, 30 e2e, typecheck/lint/build), and production smoke
-verified the new four-step setup, solo O, coin toss, bot response, and full restart.
-The Case Control utilities now use a compact icon rail locally; typecheck/lint/build,
-58 unit, and 30 e2e pass. This polish is unpushed. Remaining: push the polish and submit
-the application form (owner action).
+Solo mode, coin toss, full-restart NEW GAME, and the Case Control icon rail are live.
+Vercel Analytics is integrated for production only; local/preview builds avoid the Vercel
+endpoint. Owner reports Web Analytics enabled on Hobby; live event reporting has not yet
+been independently verified. Remaining: smoke the analytics endpoint/dashboard, then
+submit the form.

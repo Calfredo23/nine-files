@@ -29,6 +29,9 @@ function summarize(
 
 test("axe finds no violations on the opening screen", async ({ page }) => {
   await page.goto("/");
+  await expect(
+    page.getByText("VERCEL ANALYTICS · AGGREGATED · NO COOKIES"),
+  ).toBeVisible();
   const results = await new AxeBuilder({ page }).analyze();
   expect(summarize(results.violations)).toEqual([]);
 });

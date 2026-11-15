@@ -418,7 +418,10 @@ export function CaseFile() {
         </main>
 
         <footer className="mx-auto flex w-full max-w-[1320px] shrink-0 flex-col gap-1 border-t border-manila/10 px-4 py-2 font-mono text-[9px] tracking-[0.14em] text-smoke sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <p>NEXT.JS 16 · REACT 19 · TAILWIND 4</p>
+          <p className="flex flex-wrap gap-x-3 gap-y-1">
+            <span>NEXT.JS 16 · REACT 19 · TAILWIND 4</span>
+            <span>VERCEL ANALYTICS · AGGREGATED · NO COOKIES</span>
+          </p>
           <p className="flex gap-5">
             <a
               href="https://github.com/Calfredo23/the-nine-files"

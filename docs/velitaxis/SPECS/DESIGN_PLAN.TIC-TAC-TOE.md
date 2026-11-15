@@ -211,3 +211,17 @@ Plain labels where clarity matters (NEW GAME, SCOREBOARD, RESET SCORES, DRAWS).
 - A soft per-word voice blip plays with the subtitle reveal in the coach bubble,
   briefing, setup, and post-match verdict. The SFX toggle mutes it; music is separate.
 - Header gets independent MUSIC and SFX toggles.
+
+## 14. Revision 2026-11-15 — Vercel Web Analytics
+
+- Owner-approved scope change: add the official `@vercel/analytics/next` component to
+  the root layout, rendered only when `VERCEL_ENV=production`. This adds standard
+  page-view analytics only; no custom events. Local/preview builds do not request the
+  Vercel-only endpoint.
+- The visible disclosure reads **VERCEL ANALYTICS · AGGREGATED · NO COOKIES**. Vercel's
+  current privacy documentation states that data is aggregated, does not use cookies,
+  and does not include personal identifiers; visitor recognition uses hashed request data.
+- Dashboard enablement is separate from the code integration. Confirm the project's
+  Vercel plan before enabling collection: Hobby includes 50,000 events/month, while Pro
+  usage is billed per event. The owner reports activation on Hobby; this session could
+  not inspect the dashboard or verify event reporting.

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Courier_Prime, Oswald, Source_Serif_4 } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const display = Oswald({
@@ -27,6 +28,7 @@ const mono = Courier_Prime({
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://the-nine-files.vercel.app";
+const trackAnalytics = process.env.VERCEL_ENV === "production";
 
 const title = "The Nine Files — a tic-tac-toe case";
 const description =
@@ -79,7 +81,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       lang="en"
       className={`${display.variable} ${serif.variable} ${mono.variable} h-full antialiased`}
     >
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        {children}
+        {trackAnalytics ? <Analytics /> : null}
+      </body>
     </html>
   );
 }

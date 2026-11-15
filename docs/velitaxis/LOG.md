@@ -204,4 +204,28 @@
 - Verification: `npm run verify` passed (58 unit); Playwright passed 30/30, including
   axe, 360/768/1440 widths, and no-scroll desktop; Impeccable detector returned no
   findings; screenshot review showed the rail fits desktop and mobile.
-- Change is local and unpushed. Next: owner approves a push, then smoke the live panel.
+- At entry time the change was local and unpushed. Next: owner approves a push, then
+  smoke the live panel.
+
+## 2026-11-15 (o) — Case Control rail deployed
+
+- Owner authorized push; commit `507044e` deployed through Vercel.
+- GitHub CI passed both jobs; production returned HTTP 200 with the three icon actions
+  visible in the Case Control group and no browser console errors.
+- Next: owner submits the application form.
+
+## 2026-11-15 (p) — Vercel Web Analytics integration
+
+- Added `@vercel/analytics` and the required `<Analytics />` component to the root layout.
+  It renders only when Vercel reports `VERCEL_ENV=production`, avoiding the Vercel-only
+  endpoint on localhost and preview builds.
+- Added a visible footer disclosure and updated README, reviewer notes, design plan, and
+  project state. No custom events are sent. Vercel docs describe aggregated metrics, no
+  cookies, and no personal identifiers; visitor recognition hashes request data.
+- Owner reports the project is on Hobby and Web Analytics is enabled. Dashboard access
+  was not available to this session, so live event reporting remains unverified.
+- Verification: `npm run verify` passed (58 unit); Playwright passed 30/30 including axe
+  and no-console; `npm audit --omit=dev` found 0 vulnerabilities. Full `npm audit`
+  reported 8 moderate findings in the existing development toolchain; no forced fix ran.
+- Next: staged secret sweep, push approved integration, verify Vercel route and dashboard
+  events. Vercel's documented Hobby quota is 50,000 events/month.

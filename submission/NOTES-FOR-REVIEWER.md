@@ -41,6 +41,12 @@ so audio starts on the first click or key press.
 **Saved history:** every finished game is recorded in the browser. Open **MATCH HISTORY**
 in the CASE CONTROL panel to see the last 25 results with the winner's name and move list.
 
+**Analytics:** the root layout includes Vercel Web Analytics in production only. Once
+enabled in the Vercel project dashboard, it reports aggregate page views, referrers, and
+coarse location/OS/browser metrics. Vercel documents no cookies and no personal
+identifiers; this app sends no custom events. Dashboard activation on Hobby is
+owner-reported; check the Vercel dashboard for live event data.
+
 **Worth trying:** finish a game to see the yarn and the label, start a solo case and toss
 the coin, press **NEW GAME** in the top-right panel to see the full restart, open **MATCH
 HISTORY**, play a few moves with the arrow keys and Enter, and resize to desktop to confirm
