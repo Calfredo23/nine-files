@@ -27,11 +27,14 @@ It does the required things first:
 - Every finished game is saved in the browser and listed under **MATCH HISTORY**.
 - **NEW GAME** sits in the **CASE CONTROL** panel on the right, so it is always in reach
   on desktop.
+- After every match Capt. Hale **takes over the screen**: he names the winner, then
+  offers **CONTINUE** (your win), **TRY AGAIN** (a loss), or **ONE MORE** (a draw), with
+  **STAY ON THE BOARD** to inspect the final position and **RESET SCORES** right there.
+- The scoreboard's **RESET SCORES** is a visible button; both resets clear the counts and
+  the match log.
 - First-time visitors get a three-beat briefing from Capt. Hale, then a short setup that
   recommends full screen (**F11**) and asks for the player's detective name. X becomes
   your side.
-- After every match Capt. Hale speaks again: he names the winner, compliments your win,
-  or asks for a rematch after a loss.
 
 The game is readable without the theme: the cells show X and O, the main button says
 NEW GAME, and the result says WINS or DRAW.
@@ -53,8 +56,10 @@ screen (**F11**, or **Ctrl+Cmd+F** on Mac) and asks for your detective name. Tha
 becomes the X side: the ID card, turn banner, result, stamp, and coach all use it.
 Skip the briefing or replay it from **BRIEFING**; edit the name from **EDIT NAME**.
 Finished games are recorded in the browser and listed under **MATCH HISTORY** (the last
-25). After the result, the captain speaks again: he names the winner, compliments your
-win, or asks for a rematch after a loss.
+25). After the result, the captain takes over the screen with a verdict: he names the
+winner and offers **CONTINUE** after your win, **TRY AGAIN** after a loss, or **ONE
+MORE** after a draw. **STAY ON THE BOARD** closes the verdict so you can inspect the
+final position; **RESET SCORES** clears the counts and the log from there.
 
 The palette is charcoal, manila, tungsten, and oxblood. The type is Oswald, Source
 Serif 4, and Courier Prime. Textures, cards, pins, the monocle, and the captain are CSS
@@ -73,7 +78,7 @@ All numbers below are from the production build on this machine.
 | Gate | Result |
 |---|---|
 | Unit tests (Vitest) | **40 passing** — win lines, draw, illegal move, reset, minimax grade, history parser, post-match lines |
-| E2E (Playwright) | **21 passing** — alternation, win, draw, New Game, persistence, keyboard, briefing, setup/name, history, coach, post-match, no-scroll desktop |
+| E2E (Playwright) | **23 passing** — alternation, win, draw, New Game, persistence, keyboard, briefing, setup/name, history, coach, post-match takeover, reset, no-scroll desktop |
 | axe (WCAG 2.1 A/AA) | **0 violations** on the opening screen and after a win |
 | Contrast (`scripts/contrast.mjs`) | Every measured pair passes |
 | Lighthouse | **100 accessibility · 100 best practices · 100 SEO** on every run; performance 74–99 desktop and 74–92 mobile across repeated runs on a busy host |
@@ -100,8 +105,8 @@ Measured contrast (WCAG 2.x relative luminance):
 - Turns and the result are announced. Focus moves to the result when the game ends.
 - The captain's note is announced; the portrait is decorative and hidden from assistive
   tech.
-- The briefing, setup, and match history are native dialogs: focus is trapped, Escape
-  closes them, and the page behind is inert.
+- The briefing, setup, match history, and post-match verdict are native dialogs: focus
+  is trapped, Escape closes them, and the page behind is inert.
 - The setup asks for a name with a labelled input; the full-screen button is a real
   request, with the F11 shortcut written out for browsers that block it.
 - Focus rings are visible, tap targets are at least 44px, and the layout fits 360, 390,
@@ -145,8 +150,9 @@ docs/velitaxis/      project state and the design contract
   opponent is the next feature, not a hidden default.
 - **Scores and history are local.** `localStorage` only: no account, no leaderboard,
   no personal data. The match log keeps the last 25 games; **RESET SCORES** clears the
-  counts and the log. The briefing and setup are marked seen per browser; the detective
-  name is editable from **EDIT NAME**.
+  counts and the log, both from the scoreboard and from the post-match verdict. The
+  briefing and setup are marked seen per browser; the detective name is editable from
+  **EDIT NAME**.
 - **Animation is CSS-led.** Keyframes and transitions, at most 44 particles, and a
   complete reduced-motion path. There is no animation library in the bundle.
 - **No third-party art.** Textures, cards, pins, the monocle, and the captain are CSS
@@ -160,13 +166,17 @@ docs/velitaxis/      project state and the design contract
 |---|---|
 | ![Case briefing](docs/screenshots/intro.webp) | ![Full-screen and name setup](docs/screenshots/setup.webp) |
 
-| Match history | Desktop |
+| Post-match verdict | Match history |
 |---|---|
-| ![Match history](docs/screenshots/desktop-history.webp) | ![Desktop board](docs/screenshots/desktop-board.webp) |
+| ![Post-match verdict](docs/screenshots/desktop-post-match.webp) | ![Match history](docs/screenshots/desktop-history.webp) |
 
-| Tablet | Mobile | Mobile win |
-|---|---|---|
-| ![Tablet mid-game](docs/screenshots/tablet-midgame.webp) | ![Mobile board](docs/screenshots/mobile-board.webp) | ![Mobile win](docs/screenshots/mobile-win.webp) |
+| Desktop | Tablet |
+|---|---|
+| ![Desktop board](docs/screenshots/desktop-board.webp) | ![Tablet mid-game](docs/screenshots/tablet-midgame.webp) |
+
+| Mobile | Mobile win |
+|---|---|
+| ![Mobile board](docs/screenshots/mobile-board.webp) | ![Mobile win](docs/screenshots/mobile-win.webp) |
 
 ---
 

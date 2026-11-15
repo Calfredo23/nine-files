@@ -8,6 +8,7 @@ import {
   place,
   type GameState,
   type Mark,
+  type Outcome,
 } from "@/lib/game";
 import {
   coachForMove,
@@ -41,6 +42,7 @@ import { IntroDialog } from "@/components/intro-dialog";
 import { MatchHistoryDialog } from "@/components/match-history-dialog";
 import { MoveLog } from "@/components/move-log";
 import { NewGameButton } from "@/components/new-game-button";
+import { PostMatchDialog } from "@/components/post-match-dialog";
 import { SetupDialog, type SetupMode } from "@/components/setup-dialog";
 import { SoundToggle } from "@/components/sound-toggle";
 import { TurnBanner } from "@/components/turn-banner";
@@ -72,6 +74,7 @@ export function CaseFile() {
   const resultRef = useRef<HTMLHeadingElement | null>(null);
   const postMatchTimer = useRef<number | null>(null);
   const [historyOpen, setHistoryOpen] = useState(false);
+  const [postMatch, setPostMatch] = useState<Outcome | null>(null);
   const [setupSeen, setSetupSeen] = useState(() => loadSetupSeen());
   const [introOpen, setIntroOpen] = useState(() => !loadIntroSeen());
   const [setupOpen, setSetupOpen] = useState(() => {
@@ -163,8 +166,9 @@ export function CaseFile() {
       cancelPostMatch();
       postMatchTimer.current = window.setTimeout(() => {
         coach.say(postMatchLine(outcome, detectiveName));
+        setPostMatch(outcome);
         postMatchTimer.current = null;
-      }, 1700);
+      }, 1600);
       if (outcome.kind === "win") {
         window.setTimeout(() => sound.play("win"), 180);
         window.setTimeout(() => sound.play("pluck"), 420);
@@ -180,6 +184,7 @@ export function CaseFile() {
 
   const handleNewGame = () => {
     cancelPostMatch();
+    setPostMatch(null);
     dispatch({ type: "reset" });
     coach.say(startLine(state.round + 1));
     sound.play("paper");
@@ -345,6 +350,14 @@ export function CaseFile() {
       </div>
 
       <IntroDialog open={introOpen} onClose={closeIntro} />
+      {postMatch ? (
+        <PostMatchDialog
+          outcome={postMatch}
+          onContinue={handleNewGame}
+          onStay={() => setPostMatch(null)}
+          onReset={handleResetLedger}
+        />
+      ) : null}
       <SetupDialog
         key={setupKey}
         open={setupOpen}

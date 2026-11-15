@@ -81,3 +81,17 @@
   hydration failure was fixed and the no-console test passed; the post-match and setup
   tests passed). Lighthouse was not rerun because of the host CPU temperature.
 - Repo: private; deploy still pending owner review.
+
+## 2026-11-14 (f) — post-match takeover and a visible score reset
+
+- **Post-match takeover:** 1.6 s after the result, Capt. Hale opens a native dialog with
+  the verdict, the result, and his note. Primary action follows the user's perspective:
+  **CONTINUE** after an X win, **TRY AGAIN** after an O win, **ONE MORE** after a draw.
+  **STAY ON THE BOARD** closes it; **RESET SCORES** clears counts + match log from there.
+- **Score reset:** the scoreboard reset is now a bordered button, not a tiny text link;
+  it still uses the two-step confirm and clears both the counts and the history.
+- The post-match note uses the same word-by-word subtitle + cursor and the captain
+  animation. Native dialog, focus-trapped, Escape = stay.
+- Gates: 40 unit, 23 e2e defined. The targeted post-match/reset/history/axe/no-console
+  run passed after adding the note test hook; no Lighthouse rerun because of CPU heat.
+- Repo: private; deploy still pending owner review.

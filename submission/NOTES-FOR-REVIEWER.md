@@ -15,8 +15,12 @@ edit the name from **EDIT NAME**.
 **The coach:** Capt. Hale watches from the corner and grades every move (best, good,
 inaccuracy, mistake, blunder, win, draw) with the reason. The grade comes from a full
 minimax evaluation, not a random line. The subtitle reveals word by word while he
-talks; after the match he speaks again, naming the winner and either complimenting the
-win or asking for a rematch.
+talks.
+
+**The verdict:** 1.6 s after a match, the captain takes over the screen. He names the
+winner and offers **CONTINUE** after your win, **TRY AGAIN** after a loss, or **ONE
+MORE** after a draw. **STAY ON THE BOARD** closes it; **RESET SCORES** clears the
+scoreboard and match log from there (the scoreboard has its own visible reset too).
 
 **Saved history:** every finished game is recorded in the browser. Open **MATCH
 HISTORY** in the CASE CONTROL panel to see the last 25 results and move lists.

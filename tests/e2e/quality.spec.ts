@@ -36,7 +36,9 @@ test("axe finds no violations on the opening screen", async ({ page }) => {
 test("axe finds no violations after a win", async ({ page }) => {
   await page.goto("/");
   await play(page, [0, 3, 1, 4, 2]);
-  await expect(page.getByTestId("result")).toBeVisible();
+  await expect(page.getByTestId("post-match-dialog")).toBeVisible({
+    timeout: 4000,
+  });
   const results = await new AxeBuilder({ page }).analyze();
   expect(summarize(results.violations)).toEqual([]);
 });
@@ -124,7 +126,10 @@ test("no console errors or uncaught exceptions during a full game", async ({
 
   await page.goto("/");
   await play(page, [0, 3, 1, 4, 2]);
-  await expect(page.getByTestId("result")).toBeVisible();
+  await expect(page.getByTestId("post-match-dialog")).toBeVisible({
+    timeout: 4000,
+  });
+  await page.getByTestId("post-match-stay").click();
   await page.getByTestId("new-game").click();
   await page.getByTestId("sound-toggle").click();
 

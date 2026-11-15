@@ -42,6 +42,16 @@ async function capture(
   await page.screenshot({ path: `${OUT}/${name}-win.png`, fullPage: true });
 
   if (name === "desktop") {
+    await expect(page.getByTestId("post-match-dialog")).toBeVisible({
+      timeout: 4000,
+    });
+    await page.waitForTimeout(900);
+    await page.screenshot({
+      path: `${OUT}/desktop-post-match.png`,
+      fullPage: false,
+    });
+    await page.getByTestId("post-match-stay").click();
+
     await page.getByTestId("open-history").click();
     await expect(page.getByTestId("history-dialog")).toBeVisible();
     await page.waitForTimeout(400);

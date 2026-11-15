@@ -11,10 +11,10 @@ lines in quotes.
 | 0:19 | Captain | Show the note revealing word by word; pause on the grade. |
 | 0:22 | Board | Hover a card for the ghost mark; play three moves and let the note change. |
 | 0:29 | Finish | Complete the row; let the yarn draw and the CASE CLOSED label land. |
-| 0:36 | Post-match | Let the captain speak again; he names the winner and reacts to the result. |
-| 0:43 | Match history | Open **MATCH HISTORY**; show the saved result and move list. |
-| 0:48 | New Game | Click it. Show the empty board and the score/history kept. |
-| 0:53 | Keyboard | Arrow to a cell, press Enter. Show the focus ring and the turn change. |
+| 0:34 | Verdict | The captain takes over. Show the winner, the note, and **CONTINUE**; pause on **RESET SCORES** / **STAY ON THE BOARD**. |
+| 0:41 | Match history | Continue, then open **MATCH HISTORY** in the CASE CONTROL panel; show the saved result. |
+| 0:47 | New Game | Click it. Show the empty board and the score/history kept. |
+| 0:52 | Keyboard | Arrow to a cell, press Enter. Show the focus ring and the turn change. |
 | 0:57 | Mobile | Cut to 390px; show the full-width New Game and the scoreboard. |
 
 Upload as a public or unlisted Loom, YouTube, or Vimeo link, or attach the file.

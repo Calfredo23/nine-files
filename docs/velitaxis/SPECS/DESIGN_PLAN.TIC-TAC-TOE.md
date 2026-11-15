@@ -193,3 +193,12 @@ Plain labels where clarity matters (NEW GAME, SCOREBOARD, RESET SCORES, DRAWS).
   win, or asks for a rematch after a loss/draw.
 - The character animation is constant so the dialog's localStorage-derived open state
   cannot change the SSR markup (React #418).
+
+## 12. Revision 2026-11-14 — post-match takeover and visible reset
+
+- 1.6 s after a result, a native post-match dialog takes over: verdict, result, and
+  Capt. Hale's note. Primary follows the user's perspective: CONTINUE (X win), TRY
+  AGAIN (O win), ONE MORE (draw). STAY ON THE BOARD closes; RESET SCORES clears counts
+  and the match log from the dialog.
+- The scoreboard reset is a bordered button (two-step confirm) instead of a tiny link.
+- The post-match note uses the subtitle word reveal + cursor and the captain animation.

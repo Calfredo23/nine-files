@@ -56,7 +56,7 @@ export function CaseLedger({
               ? "Confirm reset scores and match history"
               : "Reset scores and match history"
           }
-          className="font-mono text-[9px] tracking-[0.16em] text-smoke underline-offset-4 hover:text-paper hover:underline"
+          className="min-h-8 border border-manila/20 px-2 py-1 font-mono text-[9px] tracking-[0.14em] text-smoke transition hover:border-manila/50 hover:text-paper"
         >
           {confirming ? "CONFIRM RESET" : "RESET SCORES"}
         </button>
