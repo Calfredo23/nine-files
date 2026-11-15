@@ -424,20 +424,12 @@ export function CaseFile() {
           </p>
           <p className="flex gap-5">
             <a
-              href="https://github.com/Calfredo23/the-nine-files"
-              target="_blank"
-              rel="noreferrer"
-              className="transition hover:text-paper"
-            >
-              SOURCE
-            </a>
-            <a
               href="https://calfredo.is-pinoy.dev"
               target="_blank"
               rel="noreferrer"
               className="transition hover:text-paper"
             >
-              PORTFOLIO
+              CALFREDO
             </a>
           </p>
         </footer>

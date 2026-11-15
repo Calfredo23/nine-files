@@ -229,3 +229,23 @@
   reported 8 moderate findings in the existing development toolchain; no forced fix ran.
 - Next: staged secret sweep, push approved integration, verify Vercel route and dashboard
   events. Vercel's documented Hobby quota is 50,000 events/month.
+
+## 2026-11-15 (q) — analytics deployed and live
+
+- Commit `ef4f0ff` pushed after a staged secret sweep with 0 findings; GitHub CI run
+  `43699897554` passed both jobs.
+- Production returned HTTP 200 with no browser console errors. Browser network capture
+  observed the Vercel Analytics `POST /<project-id>/view` returning HTTP 200.
+- Dashboard activation/plan was owner-reported as Hobby; the event request verifies live
+  collection. No cookies or custom events are used by the app.
+- Next: owner submits the application form. This post-deploy state update is local and
+  would require separate authorization to push.
+
+## 2026-11-15 (r) — CALFREDO footer and final screenshots
+
+- Replaced the two footer links with a single **CALFREDO** portfolio signature.
+- Re-ran Playwright screenshot capture and regenerated the README's WebP images; updated
+  README's desktop image caption to call out Case Control and the signature.
+- Verification: `npm run verify` passed (58 unit); Playwright passed 30/30, including
+  footer destination and no-scroll checks. The local production build passed.
+- Changes are local and unpushed. Next: owner authorizes final push, then submit the form.

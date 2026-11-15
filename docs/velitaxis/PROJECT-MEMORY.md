@@ -40,8 +40,10 @@ imperfect minimax opponent, with an X/O side choice and a coin toss.
 
 ## Current state
 
-Solo mode, coin toss, full-restart NEW GAME, and the Case Control icon rail are live.
+Solo mode, coin toss, full-restart NEW GAME, the Case Control icon rail, and production
+analytics are live. Commit `ef4f0ff` is pushed to `main`; CI passes.
 Vercel Analytics is integrated for production only; local/preview builds avoid the Vercel
-endpoint. Owner reports Web Analytics enabled on Hobby; live event reporting has not yet
-been independently verified. Remaining: smoke the analytics endpoint/dashboard, then
-submit the form.
+endpoint. Owner reported Hobby and dashboard activation; a live Analytics `POST /view`
+returned HTTP 200. Latest local polish replaces SOURCE / PORTFOLIO with CALFREDO and
+refreshes all README screenshots; 58 unit and 30 e2e pass. This final polish is unpushed.
+Remaining: push final assets, then submit the application form (owner action).

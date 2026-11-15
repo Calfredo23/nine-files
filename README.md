@@ -84,9 +84,9 @@ The House is not unbeatable. It plays the best move most of the time, with a del
 |---|---|
 | ![Post-match verdict](docs/screenshots/desktop-post-match.webp) | ![Match history](docs/screenshots/desktop-history.webp) |
 
-| Desktop board | Tablet |
+| Desktop board and Case Control | Tablet |
 |---|---|
-| ![Desktop board](docs/screenshots/desktop-board.webp) | ![Tablet mid-game](docs/screenshots/tablet-midgame.webp) |
+| ![Desktop board with Case Control tools and CALFREDO footer](docs/screenshots/desktop-board.webp) | ![Tablet mid-game](docs/screenshots/tablet-midgame.webp) |
 
 | Mobile | Mobile win |
 |---|---|

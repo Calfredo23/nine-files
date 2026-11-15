@@ -32,6 +32,14 @@ test("axe finds no violations on the opening screen", async ({ page }) => {
   await expect(
     page.getByText("VERCEL ANALYTICS · AGGREGATED · NO COOKIES"),
   ).toBeVisible();
+  const footer = page.locator("footer");
+  await expect(footer.getByRole("link")).toHaveCount(1);
+  await expect(footer.getByRole("link", { name: "CALFREDO" })).toHaveAttribute(
+    "href",
+    "https://calfredo.is-pinoy.dev",
+  );
+  await expect(footer).not.toContainText("SOURCE");
+  await expect(footer).not.toContainText("PORTFOLIO");
   const results = await new AxeBuilder({ page }).analyze();
   expect(summarize(results.violations)).toEqual([]);
 });
