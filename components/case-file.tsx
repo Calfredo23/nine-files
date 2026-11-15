@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useReducer, useRef } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import {
   gameReducer,
   getOutcome,
@@ -10,7 +10,9 @@ import {
   type Mark,
 } from "@/lib/game";
 import { coachForMove, resetScoresLine, startLine } from "@/lib/coach";
+import { makeMatchId } from "@/lib/history";
 import { useCoach } from "@/hooks/use-coach";
+import { useHistory } from "@/hooks/use-history";
 import { useLedger } from "@/hooks/use-ledger";
 import { useSoundPreference } from "@/hooks/use-sound-preference";
 import { sound } from "@/lib/sound";
@@ -20,10 +22,14 @@ import { CaseBoard } from "@/components/case-board";
 import { CaseLedger } from "@/components/case-ledger";
 import { DetectiveCard, type DetectiveStatus } from "@/components/detective-card";
 import { HowToPlay } from "@/components/how-to-play";
+import { IntroDialog } from "@/components/intro-dialog";
+import { MatchHistoryDialog } from "@/components/match-history-dialog";
 import { MoveLog } from "@/components/move-log";
 import { NewGameButton } from "@/components/new-game-button";
 import { SoundToggle } from "@/components/sound-toggle";
 import { TurnBanner } from "@/components/turn-banner";
+
+const INTRO_KEY = "nine-files:intro:v1";
 
 function statusFor(mark: Mark, state: GameState): DetectiveStatus {
   if (state.outcome?.kind === "win") {
@@ -45,9 +51,30 @@ function isHighlighted(mark: Mark, state: GameState): boolean {
 export function CaseFile() {
   const [state, dispatch] = useReducer(gameReducer, INITIAL_GAME);
   const { ledger, record, reset: resetLedger } = useLedger();
+  const { matches, add: addMatch, clear: clearHistory } = useHistory();
   const { on: soundOn, toggle: toggleSound } = useSoundPreference();
   const coach = useCoach();
   const resultRef = useRef<HTMLHeadingElement | null>(null);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [introOpen, setIntroOpen] = useState(() => {
+    if (typeof window === "undefined") {
+      return true;
+    }
+    try {
+      return window.localStorage.getItem(INTRO_KEY) !== "seen";
+    } catch {
+      return true;
+    }
+  });
+
+  const closeIntro = () => {
+    try {
+      window.localStorage.setItem(INTRO_KEY, "seen");
+    } catch {
+      // The intro still closes for this visit.
+    }
+    setIntroOpen(false);
+  };
 
   useEffect(() => {
     sound.setMuted(!soundOn);
@@ -79,6 +106,13 @@ export function CaseFile() {
 
     if (outcome) {
       record(outcome);
+      addMatch({
+        id: makeMatchId(),
+        winner: outcome.kind === "win" ? outcome.mark : "draw",
+        moves: [...state.moves, { index, mark: state.turn }],
+        finishedAt: Date.now(),
+        round: state.round,
+      });
       sound.play("stamp");
       if (outcome.kind === "win") {
         window.setTimeout(() => sound.play("win"), 180);
@@ -101,6 +135,7 @@ export function CaseFile() {
 
   const handleResetLedger = () => {
     resetLedger();
+    clearHistory();
     coach.say(resetScoresLine());
     sound.play("click");
   };
@@ -173,16 +208,52 @@ export function CaseFile() {
                 />
               </div>
 
-              <div className="mt-2">
-                <NewGameButton onClick={handleNewGame} />
+              <div className="mt-2 lg:hidden">
+                <NewGameButton
+                  onClick={handleNewGame}
+                  testId="new-game-mobile"
+                  block
+                />
               </div>
             </div>
           </section>
 
           <aside
-            aria-label="Scores and move history"
-            className="order-4 flex min-h-0 flex-col gap-3 lg:col-start-3 lg:row-span-2 lg:row-start-1"
+            aria-label="Case controls and scores"
+            className="order-4 flex min-h-0 flex-col gap-2 lg:col-start-3 lg:row-span-2 lg:row-start-1"
           >
+            <div className="border border-manila/15 bg-coal/60 p-3">
+              <div className="flex items-baseline justify-between gap-2">
+                <h2 className="font-display text-sm font-semibold tracking-[0.18em] text-paper">
+                  CASE CONTROL
+                </h2>
+                <p className="font-mono text-[9px] tracking-[0.14em] text-smoke">
+                  {String(matches.length).padStart(2, "0")} SAVED
+                </p>
+              </div>
+              <div className="mt-2 hidden lg:block">
+                <NewGameButton onClick={handleNewGame} block />
+              </div>
+              <div className="mt-1 flex flex-wrap items-center gap-x-4">
+                <button
+                  type="button"
+                  data-testid="open-briefing"
+                  onClick={() => setIntroOpen(true)}
+                  className="min-h-11 font-mono text-[10px] tracking-[0.16em] text-smoke transition hover:text-paper"
+                >
+                  BRIEFING
+                </button>
+                <button
+                  type="button"
+                  data-testid="open-history"
+                  onClick={() => setHistoryOpen(true)}
+                  className="min-h-11 font-mono text-[10px] tracking-[0.16em] text-smoke transition hover:text-paper"
+                >
+                  MATCH HISTORY
+                </button>
+              </div>
+            </div>
+
             <CaseLedger ledger={ledger} onReset={handleResetLedger} />
             <MoveLog moves={state.moves} />
             <HowToPlay />
@@ -211,6 +282,14 @@ export function CaseFile() {
           </p>
         </footer>
       </div>
+
+      <IntroDialog open={introOpen} onClose={closeIntro} />
+      <MatchHistoryDialog
+        open={historyOpen}
+        matches={matches}
+        onClose={() => setHistoryOpen(false)}
+        onClear={clearHistory}
+      />
     </div>
   );
 }

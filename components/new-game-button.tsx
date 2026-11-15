@@ -1,13 +1,31 @@
 "use client";
 
-export function NewGameButton({ onClick }: { onClick: () => void }) {
+import { cn } from "@/lib/cn";
+
+export function NewGameButton({
+  onClick,
+  block = false,
+  testId = "new-game",
+}: {
+  onClick: () => void;
+  block?: boolean;
+  testId?: string;
+}) {
   return (
-    <div className="flex flex-wrap items-center gap-3">
+    <div
+      className={cn(
+        "flex flex-wrap items-center gap-2",
+        block && "flex-col items-stretch",
+      )}
+    >
       <button
         type="button"
-        data-testid="new-game"
+        data-testid={testId}
         onClick={onClick}
-        className="group inline-flex min-h-12 items-center gap-3 border border-oxblood/70 bg-oxblood px-5 py-3 font-display text-sm font-semibold tracking-[0.18em] text-paper transition hover:bg-[#a13540] active:translate-y-px"
+        className={cn(
+          "group inline-flex min-h-12 items-center gap-3 border border-oxblood/70 bg-oxblood px-5 py-3 font-display text-sm font-semibold tracking-[0.18em] text-paper transition hover:bg-[#a13540] active:translate-y-px",
+          block && "w-full justify-between",
+        )}
       >
         NEW GAME
         <span
@@ -17,7 +35,12 @@ export function NewGameButton({ onClick }: { onClick: () => void }) {
           →
         </span>
       </button>
-      <p className="font-mono text-[10px] tracking-[0.16em] text-smoke">
+      <p
+        className={cn(
+          "font-mono text-[10px] tracking-[0.16em] text-smoke",
+          block && "text-center",
+        )}
+      >
         NEW BOARD · SCORES KEPT
       </p>
     </div>

@@ -1,6 +1,12 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem("nine-files:intro:v1", "seen");
+  });
+});
+
 async function play(page: Page, indexes: readonly number[]) {
   for (const index of indexes) {
     await page.getByTestId(`cell-${index}`).click();

@@ -1,5 +1,11 @@
 ﻿import { expect, test, type Page } from "@playwright/test";
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem("nine-files:intro:v1", "seen");
+  });
+});
+
 async function play(page: Page, indexes: readonly number[]) {
   for (const index of indexes) {
     await page.getByTestId(`cell-${index}`).click();
@@ -72,6 +78,32 @@ test("the ledger survives a reload", async ({ page }) => {
 
   await page.reload();
   await expect(page.getByTestId("ledger-cross")).toHaveText("01");
+});
+
+test("match history survives a reload and clears with the scores", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await play(page, [0, 3, 1, 4, 2]);
+
+  await page.getByTestId("open-history").click();
+  const history = page.getByTestId("history-dialog");
+  await expect(history).toBeVisible();
+  await expect(history).toContainText("CROSS WINS");
+  await expect(history).toContainText("5 moves");
+  await page.getByTestId("history-close").click();
+
+  await page.reload();
+  await page.getByTestId("open-history").click();
+  await expect(page.getByTestId("history-dialog")).toContainText("CROSS WINS");
+  await page.getByTestId("history-close").click();
+
+  await page.getByTestId("reset-ledger").click();
+  await page.getByTestId("reset-ledger").click();
+  await page.getByTestId("open-history").click();
+  await expect(page.getByTestId("history-dialog")).toContainText(
+    "No finished cases yet",
+  );
 });
 
 test("the board is playable with the keyboard", async ({ page }) => {

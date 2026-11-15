@@ -143,7 +143,7 @@ export function startLine(seed = 0): CoachLine {
 export function resetScoresLine(): CoachLine {
   return {
     grade: "start",
-    text: "Scores reset. The board stays.",
+    text: "Scores and history reset. The board stays.",
   };
 }
 

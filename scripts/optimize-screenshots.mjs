@@ -2,9 +2,11 @@ import { mkdir } from "node:fs/promises";
 import sharp from "sharp";
 
 const jobs = [
+  ["intro.png", "intro.webp", 960],
   ["desktop-board.png", "desktop-board.webp", 1280],
   ["desktop-midgame.png", "desktop-midgame.webp", 1280],
   ["desktop-win.png", "desktop-win.webp", 1280],
+  ["desktop-history.png", "desktop-history.webp", 1280],
   ["tablet-midgame.png", "tablet-midgame.webp", 768],
   ["mobile-board.png", "mobile-board.webp", 520],
   ["mobile-win.png", "mobile-win.webp", 520],

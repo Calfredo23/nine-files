@@ -43,3 +43,23 @@
   run; performance 74–99 desktop and 74–92 mobile while a second dev server was live
   (99/92 in quiet runs).
 - Repo: `github.com/Calfredo23/nine-files` (private). Deploy still pending owner review.
+
+## 2026-11-14 (d) — briefing, right-side control, saved match history
+
+- **First-visit briefing:** three beats from Capt. Hale on the Halver case, with the
+  captain animating while the note reveals. Skip or replay from **BRIEFING**; the seen
+  flag is `nine-files:intro:v1`. Native dialog, focus-trapped, Escape closes.
+- **NEW GAME moved to the top-right CASE CONTROL panel** on desktop; a full-width copy
+  sits under the board on mobile. The board grew to `min(560px, calc(100dvh - 280px))`
+  now that the button is out of the centre column.
+- **Match history:** the last 25 finished games are saved in `localStorage`
+  (`nine-files:matches:v1`): winner, move list, date. **MATCH HISTORY** opens a native
+  dialog; **RESET SCORES** clears both the counts and the log.
+- **Bug caught by screenshot:** Tailwind preflight removes the native dialog's
+  `margin: auto`, so modal dialogs sat top-left. `.case-dialog { margin: auto }` restores
+  centering. A second cause was Playwright reusing a stale `:3211` server; the clean
+  build fixed the evidence.
+- Gates from the run: 36 unit, 18 e2e (including briefing, history, axeless briefing,
+  and the no-scroll desktop test), axe 0. Lighthouse was not re-run because the host
+  CPU was at 90 °C; the previous range in `MEASUREMENTS.md` stands.
+- Repo: private; deploy still pending owner review.

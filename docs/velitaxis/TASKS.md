@@ -4,9 +4,10 @@
 
 - TASK-0031 (2026-11-14): THE NINE FILES — tic-tac-toe submission build. **Built and
   tested; deploy pending owner review.** QUALITY mode, noir case-wall concept, core +
-  deep polish, Capt. Hale move coach, single-screen desktop. 31 unit, 15 e2e, axe 0.
-  Repo private at `github.com/Calfredo23/nine-files`. Remaining: `vercel --prod`, make
-  the repo public, submit the form. Acceptance in `NEXT-TASK.md`.
+  deep polish, Capt. Hale move coach, first-visit briefing, right-side CASE CONTROL,
+  saved match history, single-screen desktop. 36 unit, 18 e2e, axe 0. Repo private at
+  `github.com/Calfredo23/nine-files`. Remaining: `vercel --prod`, make the repo public,
+  submit the form. Acceptance in `NEXT-TASK.md`.
 
 ## Ready
 

@@ -17,6 +17,9 @@ async function capture(
   } = {},
 ) {
   const context = await browser.newContext({ viewport, ...options });
+  await context.addInitScript(() => {
+    window.localStorage.setItem("nine-files:intro:v1", "seen");
+  });
   const page = await context.newPage();
 
   await page.goto("/");
@@ -36,6 +39,17 @@ async function capture(
   await expect(page.getByTestId("result")).toBeVisible();
   await page.waitForTimeout(1500);
   await page.screenshot({ path: `${OUT}/${name}-win.png`, fullPage: true });
+
+  if (name === "desktop") {
+    await page.getByTestId("open-history").click();
+    await expect(page.getByTestId("history-dialog")).toBeVisible();
+    await page.waitForTimeout(400);
+    await page.screenshot({
+      path: `${OUT}/desktop-history.png`,
+      fullPage: false,
+    });
+    await page.getByTestId("history-close").click();
+  }
 
   await context.close();
 }

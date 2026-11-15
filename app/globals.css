@@ -65,7 +65,36 @@
 
 @media (min-width: 1024px) and (min-height: 700px) {
   .board-wrap {
-    width: min(100%, 560px, calc(100dvh - 330px));
+    width: min(100%, 560px, calc(100dvh - 280px));
+  }
+}
+
+.case-dialog {
+  width: min(92vw, 760px);
+  max-height: 90dvh;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-paper);
+}
+.case-dialog::backdrop {
+  background: rgba(5, 5, 7, 0.84);
+  backdrop-filter: blur(5px);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .case-dialog[open] .case-dialog-panel {
+    animation: dialog-in 0.18s ease-out both;
+  }
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 

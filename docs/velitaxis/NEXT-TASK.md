@@ -15,9 +15,10 @@ SUpost / CapM test on a live Vercel URL, and that doubles as a portfolio piece.
 
 ## Status
 
-Built and tested. 31 unit, 15 e2e, axe 0, contrast 13/13. Desktop fits one screen with
-no page scroll; Capt. Hale grades every move. Repo private at
-`github.com/Calfredo23/nine-files`. Local preview on `:3210`.
+Built and tested. 36 unit, 18 e2e, axe 0, contrast 13/13. Desktop fits one screen with
+no page scroll; NEW GAME is in the top-right CASE CONTROL panel; Capt. Hale briefs the
+first visit and grades every move; the last 25 matches persist in the browser. Repo
+private at `github.com/Calfredo23/nine-files`. Local preview on `:3210`.
 
 ## Next action
 

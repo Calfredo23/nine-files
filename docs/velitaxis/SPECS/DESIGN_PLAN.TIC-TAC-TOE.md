@@ -165,3 +165,17 @@ Plain labels where clarity matters (NEW GAME, SCOREBOARD, RESET SCORES, DRAWS).
   burst is the only canvas.
 - Labels use plain language where clarity matters: SCOREBOARD, RESET SCORES, DRAWS,
   MOVE HISTORY, NEW GAME, WINNER/OUT.
+
+## 10. Revision 2026-11-14 — briefing, control rail, saved history
+
+- **First-visit briefing:** a three-beat native dialog. Capt. Hale greets the player,
+  sets up the Halver case, names the detectives, and gives the rule. Skip or replay from
+  **BRIEFING**; `nine-files:intro:v1` stores the seen flag.
+- **NEW GAME moved to the top-right CASE CONTROL rail** on desktop so it is always in
+  reach; a full-width copy sits under the board on mobile. The board uses
+  `min(100%, 560px, calc(100dvh - 280px))` now that the control no longer lives under it.
+- **Match history:** the last 25 finished games persist in
+  `nine-files:matches:v1` (winner, move list, date) and open in **MATCH HISTORY**.
+  **RESET SCORES** clears both the counts and the log.
+- Native dialogs handle focus and Escape. `.case-dialog { margin: auto }` is required
+  because Tailwind preflight removes the native centering.

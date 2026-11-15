@@ -51,7 +51,11 @@ export function CaseLedger({
           type="button"
           data-testid="reset-ledger"
           onClick={handleReset}
-          aria-label={confirming ? "Confirm reset scores" : "Reset scores"}
+          aria-label={
+            confirming
+              ? "Confirm reset scores and match history"
+              : "Reset scores and match history"
+          }
           className="font-mono text-[9px] tracking-[0.16em] text-smoke underline-offset-4 hover:text-paper hover:underline"
         >
           {confirming ? "CONFIRM RESET" : "RESET SCORES"}

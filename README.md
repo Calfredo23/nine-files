@@ -24,6 +24,11 @@ It does the required things first:
 - The result is explicit: `CROSS WINS — CASE CLOSED` or `DRAW — COLD CASE`.
 - New Game clears the board and keeps the scores.
 - The scoreboard counts wins and draws and survives a reload.
+- Every finished game is saved in the browser and listed under **MATCH HISTORY**.
+- **NEW GAME** sits in the **CASE CONTROL** panel on the right, so it is always in reach
+  on desktop.
+- First-time visitors get a three-beat briefing from Capt. Hale. Replay it from
+  **BRIEFING**.
 
 The game is readable without the theme: the cells show X and O, the main button says
 NEW GAME, and the result says WINS or DRAW.
@@ -38,6 +43,11 @@ A captain, **Capt. Hale**, watches from the corner. After every move he calls it
 best, good, inaccuracy, mistake, or blunder, and says why. The grade is real: the
 coach runs a full minimax evaluation plus threat detection, so it can tell a fork from
 a wasted edge. The note reveals while he talks.
+
+The first visit opens with a three-beat briefing: the captain sets up the Halver case,
+names the two detectives, and explains the one rule. Skip it or replay it from
+**BRIEFING** in the CASE CONTROL panel. Finished games are recorded in the browser and
+listed under **MATCH HISTORY** (the last 25).
 
 The palette is charcoal, manila, tungsten, and oxblood. The type is Oswald, Source
 Serif 4, and Courier Prime. Textures, cards, pins, the monocle, and the captain are CSS
@@ -55,8 +65,8 @@ All numbers below are from the production build on this machine.
 
 | Gate | Result |
 |---|---|
-| Unit tests (Vitest) | **31 passing** — every win line, draw, illegal move, reset, and a minimax move grade |
-| E2E (Playwright) | **15 passing** — alternation, win, draw, New Game, persistence, keyboard, coach, no-scroll desktop |
+| Unit tests (Vitest) | **36 passing** — every win line, draw, illegal move, reset, minimax grade, and history parser |
+| E2E (Playwright) | **18 passing** — alternation, win, draw, New Game, persistence, keyboard, briefing, history, coach, no-scroll desktop |
 | axe (WCAG 2.1 A/AA) | **0 violations** on the opening screen and after a win |
 | Contrast (`scripts/contrast.mjs`) | Every measured pair passes |
 | Lighthouse | **100 accessibility · 100 best practices · 100 SEO** on every run; performance 74–99 desktop and 74–92 mobile across repeated runs on a busy host |
@@ -83,6 +93,8 @@ Measured contrast (WCAG 2.x relative luminance):
 - Turns and the result are announced. Focus moves to the result when the game ends.
 - The captain's note is announced; the portrait is decorative and hidden from assistive
   tech.
+- The briefing and match history are native dialogs: focus is trapped, Escape closes
+  them, and the page behind is inert.
 - Focus rings are visible, tap targets are at least 44px, and the layout fits 360, 390,
   768, and 1440 widths.
 - Reduced motion removes the shake, flash, paper burst, grain drift, rain, lamp
@@ -108,9 +120,9 @@ land in `submission/screenshots/`.
 
 ```
 app/                 layout, page, metadata, OG image, icon, 404
-components/          board, cells, marks, yarn, stamp, captain, coach, ledger, log
-hooks/               game coach, score, and sound preference
-lib/                 pure game logic, minimax coach, storage, sound, client store
+components/          board, cells, marks, yarn, stamp, captain, coach, dialogs, ledger
+hooks/               game coach, match history, score, and sound preference
+lib/                 pure game logic, minimax coach, history, storage, sound
 tests/unit/          Vitest
 tests/e2e/           Playwright, axe, screenshot capture
 scripts/             contrast measurement, WebP optimisation
@@ -122,8 +134,9 @@ docs/velitaxis/      project state and the design contract
 - **No AI opponent.** The brief asks for two players, so the game stays two-player. The
   coach is analysis, not an opponent: it grades moves and never plays one. A minimax
   opponent is the next feature, not a hidden default.
-- **Scores are local.** `localStorage` only: no account, no leaderboard, no personal
-  data.
+- **Scores and history are local.** `localStorage` only: no account, no leaderboard,
+  no personal data. The match log keeps the last 25 games; **RESET SCORES** clears the
+  counts and the log. The briefing is marked seen per browser and can be replayed.
 - **Animation is CSS-led.** Keyframes and transitions, at most 44 particles, and a
   complete reduced-motion path. There is no animation library in the bundle.
 - **No third-party art.** Textures, cards, pins, the monocle, and the captain are CSS
@@ -132,6 +145,10 @@ docs/velitaxis/      project state and the design contract
   Playwright screenshot test.
 
 ## Screenshots
+
+| Briefing | Match history |
+|---|---|
+| ![Case briefing](docs/screenshots/intro.webp) | ![Match history](docs/screenshots/desktop-history.webp) |
 
 | Desktop | Tablet |
 |---|---|
