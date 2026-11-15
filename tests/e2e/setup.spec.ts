@@ -13,6 +13,7 @@ test("full-screen tip then the detective name", async ({ page }) => {
   const setup = page.getByTestId("setup-dialog");
   await expect(setup).toBeVisible();
   await expect(setup).toContainText("F11");
+  await page.waitForTimeout(400);
   await page.screenshot({
     path: "submission/screenshots/setup.png",
     fullPage: false,
