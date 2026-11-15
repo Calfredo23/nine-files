@@ -23,7 +23,7 @@ export function CaptainCard({
           </p>
         </div>
       </div>
-      <CoachBubble message={message} />
+      <CoachBubble message={message} speaking={speaking} />
     </div>
   );
 }

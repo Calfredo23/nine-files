@@ -19,9 +19,16 @@ const GRADE_DOT: Record<CoachGrade, string> = {
   blunder: "bg-oxblood",
   win: "bg-brass",
   draw: "bg-[#5C6673]",
+  loss: "bg-[#A3402A]",
 };
 
-export function CoachBubble({ message }: { message: CoachMessage }) {
+export function CoachBubble({
+  message,
+  speaking = false,
+}: {
+  message: CoachMessage;
+  speaking?: boolean;
+}) {
   return (
     <div className="relative min-w-0 flex-1">
       <div
@@ -54,7 +61,7 @@ export function CoachBubble({ message }: { message: CoachMessage }) {
           )}
           aria-live="polite"
         >
-          <Typewriter text={message.text} />
+          <Typewriter text={message.text} speaking={speaking} />
         </p>
       </div>
       <span className="coach-tail" aria-hidden="true" />

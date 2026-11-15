@@ -6,9 +6,10 @@
   place,
   type Board,
   type Mark,
+  type Outcome,
   type WinLine,
 } from "@/lib/game";
-import { PLAYERS } from "@/lib/players";
+import { playerFor } from "@/lib/players";
 
 export type CoachGrade =
   | "start"
@@ -18,7 +19,8 @@ export type CoachGrade =
   | "mistake"
   | "blunder"
   | "win"
-  | "draw";
+  | "draw"
+  | "loss";
 
 export type CoachLine = {
   readonly text: string;
@@ -147,16 +149,50 @@ export function resetScoresLine(): CoachLine {
   };
 }
 
+export function welcomeLine(name: string): CoachLine {
+  return {
+    grade: "start",
+    text: `Welcome to the case, ${name}. X is yours.`,
+  };
+}
+
+export function postMatchLine(
+  outcome: Outcome,
+  detectiveName?: string | null,
+): CoachLine {
+  const lead = detectiveName?.trim() || "Detective";
+
+  if (outcome.kind === "draw") {
+    return {
+      grade: "draw",
+      text: `A draw. ${lead}, nobody cracked it. One more?`,
+    };
+  }
+
+  if (outcome.mark === "X") {
+    return {
+      grade: "win",
+      text: `Case closed. ${lead} takes the collar. Nicely played.`,
+    };
+  }
+
+  return {
+    grade: "loss",
+    text: `O'Rourke takes this one. ${lead}, run it back?`,
+  };
+}
+
 export function coachForMove(
   before: Board,
   index: number,
   mark: Mark,
   seed = 0,
+  detectiveName?: string | null,
 ): CoachLine {
   const after = place(before, index, mark);
   const outcome = getOutcome(after);
-  const player = PLAYERS[mark].plain;
-  const opponent = PLAYERS[otherMark(mark)].plain;
+  const player = playerFor(mark, detectiveName).plain;
+  const opponent = playerFor(otherMark(mark), detectiveName).plain;
   const isCentre = index === 4;
   const isCorner = CORNERS.has(index);
 

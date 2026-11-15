@@ -1,4 +1,4 @@
-import { mkdir } from "node:fs/promises";
+﻿import { mkdir } from "node:fs/promises";
 import { expect, test, type Browser } from "@playwright/test";
 
 const OUT = "submission/screenshots";
@@ -19,6 +19,7 @@ async function capture(
   const context = await browser.newContext({ viewport, ...options });
   await context.addInitScript(() => {
     window.localStorage.setItem("nine-files:intro:v1", "seen");
+    window.localStorage.setItem("nine-files:setup:v1", "seen");
   });
   const page = await context.newPage();
 
@@ -67,3 +68,4 @@ test("capture submission screenshots", async ({ browser }) => {
     { isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
   );
 });
+

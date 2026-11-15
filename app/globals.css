@@ -484,13 +484,40 @@
   animation: coach-pop 0.22s ease-out both;
 }
 
-.bubble-reveal {
+.subtitle-word {
   display: inline-block;
-  max-width: 100%;
-  clip-path: inset(0 100% 0 0);
-  animation-name: bubble-reveal;
-  animation-timing-function: steps(24, end);
-  animation-fill-mode: forwards;
+  opacity: 0;
+  transform: translateY(3px);
+  animation: subtitle-word-in 0.28s ease-out forwards;
+}
+
+.subtitle-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 3px;
+  vertical-align: -0.12em;
+  background: currentColor;
+  opacity: 0;
+  animation: subtitle-blink 1s steps(1) infinite;
+}
+
+@keyframes subtitle-word-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes subtitle-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
 }
 
 .move-in {
@@ -661,12 +688,6 @@
   }
 }
 
-@keyframes bubble-reveal {
-  to {
-    clip-path: inset(0 0 0 0);
-  }
-}
-
 @keyframes move-in {
   from {
     opacity: 0;
@@ -699,15 +720,20 @@
   .mark-in,
   .tally,
   .coach-pop,
-  .bubble-reveal,
+  .subtitle-word,
+  .subtitle-cursor,
   .move-in,
   .yarn-path,
   .case-stamp {
     animation: none !important;
   }
 
-  .bubble-reveal {
-    clip-path: none;
+  .subtitle-word {
+    opacity: 1;
+    transform: none;
+  }
+  .subtitle-cursor {
+    display: none;
   }
   .yarn-path {
     stroke-dashoffset: 0;

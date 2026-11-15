@@ -1,8 +1,10 @@
 import type { Outcome } from "@/lib/game";
-import { PLAYERS } from "@/lib/players";
+import { playerFor } from "@/lib/players";
+import { useDetectiveName } from "@/hooks/use-detective-name";
 import { cn } from "@/lib/cn";
 
 export function CaseStamp({ outcome }: { outcome: Outcome }) {
+  const detectiveName = useDetectiveName();
   const isDraw = outcome.kind === "draw";
 
   return (
@@ -16,7 +18,7 @@ export function CaseStamp({ outcome }: { outcome: Outcome }) {
         {isDraw
           ? "NO ANSWER"
           : outcome.kind === "win"
-            ? PLAYERS[outcome.mark].short
+            ? playerFor(outcome.mark, detectiveName).short
             : ""}
       </small>
     </div>

@@ -1,7 +1,8 @@
 ﻿"use client";
 
 import type { Mark } from "@/lib/game";
-import { PLAYERS } from "@/lib/players";
+import { playerFor } from "@/lib/players";
+import { useDetectiveName } from "@/hooks/use-detective-name";
 import { MarkO, MarkX } from "@/components/marks";
 import { cn } from "@/lib/cn";
 
@@ -16,7 +17,8 @@ export function DetectiveCard({
   active: boolean;
   status: DetectiveStatus;
 }) {
-  const player = PLAYERS[mark];
+  const detectiveName = useDetectiveName();
+  const player = playerFor(mark, detectiveName);
 
   return (
     <article

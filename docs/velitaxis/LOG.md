@@ -63,3 +63,21 @@
   and the no-scroll desktop test), axe 0. Lighthouse was not re-run because the host
   CPU was at 90 °C; the previous range in `MEASUREMENTS.md` stands.
 - Repo: private; deploy still pending owner review.
+
+## 2026-11-14 (e) — briefing polish, full-screen/name setup, post-match voice
+
+- **Subtitle animation:** the note now reveals word by word with a blinking cursor while
+  the captain's mouth/head/brow move. CSS only; reduced motion shows the full line.
+- **Full-screen/name setup:** after the story, a native dialog recommends full screen
+  (F11, or Ctrl+Cmd+F on Mac) with a real `requestFullscreen` button, then asks for the
+  player's detective name. The name becomes the X side (card, turn, result, stamp,
+  coach), is stored in `nine-files:name:v1`, and is editable from **EDIT NAME**.
+- **Post-match speech:** after the result, the captain speaks again: names the winner,
+  compliments the user's win, or asks for a rematch after a loss/draw.
+- **Hydration fix:** the intro/setup character animation was conditional on a
+  localStorage-derived open state, so SSR and client markup differed (React #418). The
+  character now animates constantly; the dialog controls visibility natively.
+- Gates: 40 unit, 21 e2e tests (19 of 20 targeted flow tests passed first, then the
+  hydration failure was fixed and the no-console test passed; the post-match and setup
+  tests passed). Lighthouse was not rerun because of the host CPU temperature.
+- Repo: private; deploy still pending owner review.

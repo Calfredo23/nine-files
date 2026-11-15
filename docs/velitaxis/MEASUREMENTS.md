@@ -4,16 +4,17 @@ All values measured in this project, not estimated.
 
 ## Tests
 
-- Vitest: 36 passing (3 files: game, coach, history parser).
-- Playwright: 18 passing (game, intro, quality, screenshots).
-- axe: 0 violations on the opening screen, the win state, and the case briefing.
+- Vitest: 40 passing (3 files: game, coach, history parser).
+- Playwright: 21 tests across game, intro, setup, quality, and screenshots.
+- axe: 0 violations on the opening screen, the win state, the briefing, and the setup.
 - Contrast: 13/13 pairs pass (`scripts/contrast.mjs`).
 
 ## Lighthouse 13.6 (production build, localhost)
 
-Measured before the briefing and match-history additions; those add a small amount of
-markup and a localStorage read. Accessibility, best practices, and SEO were 100 in
-every run. The host was also running a second Next dev server, so performance varied.
+Measured before the briefing, setup, and match-history additions; those add a small
+amount of markup and localStorage reads. Accessibility, best practices, and SEO were
+100 in every run. The host was also running a second Next dev server, so performance
+varied.
 
 | Preset | Performance | A11y | Best practices | SEO |
 |---|---|---|---|---|
@@ -41,9 +42,11 @@ FCP/LCP 0.8 s, TBT 350 ms, CLS 0.
 
 | Key | What | Limit |
 |---|---|---|
-| `nine-files:ledger:v1` | Cross wins, O'Rourke wins, draws | — |
+| `nine-files:ledger:v1` | Cross/lead wins, O'Rourke wins, draws | — |
 | `nine-files:matches:v1` | Finished games: winner, moves, date | 25 |
-| `nine-files:intro:v1` | Briefing seen | — |
+| `nine-files:name:v1` | The player's detective name (X side) | 18 chars |
+| `nine-files:intro:v1` | Story briefing seen | — |
+| `nine-files:setup:v1` | Full-screen/name setup seen | — |
 | `nine-files:sound:v1` | Sound preference | — |
 
 ## Assets

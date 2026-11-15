@@ -1,9 +1,10 @@
-import { expect, test, type Page } from "@playwright/test";
+﻿import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     window.localStorage.setItem("nine-files:intro:v1", "seen");
+    window.localStorage.setItem("nine-files:setup:v1", "seen");
   });
 });
 
@@ -129,3 +130,4 @@ test("no console errors or uncaught exceptions during a full game", async ({
 
   expect(errors).toEqual([]);
 });
+

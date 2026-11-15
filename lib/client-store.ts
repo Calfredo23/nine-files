@@ -13,15 +13,22 @@ import {
   saveMatches,
   type MatchRecord,
 } from "@/lib/history";
+import {
+  NAME_KEY,
+  loadDetectiveName,
+  saveDetectiveName,
+} from "@/lib/detective";
 
 const LEDGER_EVENT = "nine-files:ledger-changed";
 const SOUND_EVENT = "nine-files:sound-changed";
 const MATCHES_EVENT = "nine-files:matches-changed";
+const NAME_EVENT = "nine-files:name-changed";
 const LEDGER_KEY = "nine-files:ledger:v1";
 const EMPTY_MATCHES: MatchRecord[] = [];
 
 let ledgerCache: { raw: string | null; value: Ledger } | null = null;
 let matchCache: { raw: string | null; value: MatchRecord[] } | null = null;
+let nameCache: { raw: string | null; value: string } | null = null;
 
 function read(key: string): string | null {
   if (typeof window === "undefined") {
@@ -139,5 +146,43 @@ export function writeMatches(next: readonly MatchRecord[]): void {
   matchCache = { raw: JSON.stringify(value), value: [...value] };
   if (typeof window !== "undefined") {
     window.dispatchEvent(new Event(MATCHES_EVENT));
+  }
+}
+
+export function getDetectiveNameSnapshot(): string {
+  if (typeof window === "undefined") {
+    return "";
+  }
+  const raw = read(NAME_KEY);
+  if (nameCache && nameCache.raw === raw) {
+    return nameCache.value;
+  }
+  const value = loadDetectiveName();
+  nameCache = { raw, value };
+  return value;
+}
+
+export function getServerDetectiveNameSnapshot(): string {
+  return "";
+}
+
+export function subscribeDetectiveName(callback: () => void): () => void {
+  if (typeof window === "undefined") {
+    return () => {};
+  }
+  const handler = () => callback();
+  window.addEventListener(NAME_EVENT, handler);
+  window.addEventListener("storage", handler);
+  return () => {
+    window.removeEventListener(NAME_EVENT, handler);
+    window.removeEventListener("storage", handler);
+  };
+}
+
+export function writeDetectiveName(name: string): void {
+  saveDetectiveName(name);
+  nameCache = { raw: read(NAME_KEY), value: loadDetectiveName() };
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event(NAME_EVENT));
   }
 }

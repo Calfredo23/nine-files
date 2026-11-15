@@ -4,8 +4,10 @@ import {
   coachForMove,
   isFork,
   lineName,
+  postMatchLine,
   threatCells,
   valueFor,
+  welcomeLine,
   winningMove,
 } from "../../lib/coach";
 import {
@@ -153,5 +155,34 @@ describe("coachForMove", () => {
     const line = coachForMove(state.board, 8, "X", 0);
     expect(line.grade).toBe("draw");
     expect(line.text).toMatch(/draw|winner|game/i);
+  });
+});
+
+describe("postMatchLine", () => {
+  it("compliments the user's win by name", () => {
+    const line = postMatchLine({ kind: "win", mark: "X", line: [0, 1, 2] }, "Mara");
+    expect(line.grade).toBe("win");
+    expect(line.text).toContain("Mara");
+    expect(line.text).toMatch(/nicely|Case closed/i);
+  });
+
+  it("asks for a rematch after O'Rourke wins", () => {
+    const line = postMatchLine({ kind: "win", mark: "O", line: [0, 1, 2] }, "Mara");
+    expect(line.grade).toBe("loss");
+    expect(line.text).toContain("O'Rourke");
+    expect(line.text).toMatch(/run it back/i);
+  });
+
+  it("offers another round after a draw", () => {
+    const line = postMatchLine({ kind: "draw" }, "Mara");
+    expect(line.grade).toBe("draw");
+    expect(line.text).toMatch(/One more/i);
+    expect(line.text).toContain("Mara");
+  });
+
+  it("welcomes the named detective", () => {
+    const line = welcomeLine("Mara");
+    expect(line.text).toContain("Mara");
+    expect(line.grade).toBe("start");
   });
 });

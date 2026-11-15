@@ -3,6 +3,7 @@
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     window.localStorage.setItem("nine-files:intro:v1", "seen");
+    window.localStorage.setItem("nine-files:setup:v1", "seen");
   });
 });
 
@@ -106,6 +107,19 @@ test("match history survives a reload and clears with the scores", async ({
   );
 });
 
+test("the captain names the winner after the match", async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem("nine-files:name:v1", "Cedric");
+  });
+  await page.goto("/");
+  await play(page, [0, 3, 1, 4, 2]);
+
+  await expect(page.getByTestId("result")).toContainText("CEDRIC WINS");
+  const coach = page.locator('[data-testid="coach"]:visible');
+  await expect(coach).toContainText("Cedric", { timeout: 4000 });
+  await expect(coach).toContainText(/nicely|case closed/i, { timeout: 4000 });
+});
+
 test("the board is playable with the keyboard", async ({ page }) => {
   await page.goto("/");
 
@@ -138,3 +152,4 @@ test("an occupied cell cannot be claimed twice", async ({ page }) => {
   await expect(page.getByTestId("turn-label")).toHaveText("O'ROURKE'S TURN");
   await expect(page.getByTestId("move-log")).toContainText("B2");
 });
+

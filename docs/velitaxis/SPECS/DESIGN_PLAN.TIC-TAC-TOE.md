@@ -179,3 +179,17 @@ Plain labels where clarity matters (NEW GAME, SCOREBOARD, RESET SCORES, DRAWS).
   **RESET SCORES** clears both the counts and the log.
 - Native dialogs handle focus and Escape. `.case-dialog { margin: auto }` is required
   because Tailwind preflight removes the native centering.
+
+## 11. Revision 2026-11-14 — setup, personalized X, post-match voice
+
+- After the story, a native setup dialog recommends full screen (F11, or Ctrl+Cmd+F on
+  Mac), offers a real `requestFullscreen` button, then asks for the detective name.
+  The name becomes the X side everywhere (`playerFor`): card, turn, result, stamp, coach.
+- `nine-files:name:v1` and `nine-files:setup:v1` store the name and the seen flag; the
+  name is editable from **EDIT NAME**.
+- The subtitle is a word-by-word CSS reveal with a blinking cursor, synced to the
+  captain's mouth/head/brow. Reduced motion shows the full line.
+- After the result, the captain speaks again: names the winner, compliments the user's
+  win, or asks for a rematch after a loss/draw.
+- The character animation is constant so the dialog's localStorage-derived open state
+  cannot change the SSR markup (React #418).

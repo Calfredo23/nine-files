@@ -27,8 +27,11 @@ It does the required things first:
 - Every finished game is saved in the browser and listed under **MATCH HISTORY**.
 - **NEW GAME** sits in the **CASE CONTROL** panel on the right, so it is always in reach
   on desktop.
-- First-time visitors get a three-beat briefing from Capt. Hale. Replay it from
-  **BRIEFING**.
+- First-time visitors get a three-beat briefing from Capt. Hale, then a short setup that
+  recommends full screen (**F11**) and asks for the player's detective name. X becomes
+  your side.
+- After every match Capt. Hale speaks again: he names the winner, compliments your win,
+  or asks for a rematch after a loss.
 
 The game is readable without the theme: the cells show X and O, the main button says
 NEW GAME, and the result says WINS or DRAW.
@@ -42,12 +45,16 @@ card. A taped CASE CLOSED label lands on the board, and the winner's ID card is 
 A captain, **Capt. Hale**, watches from the corner. After every move he calls it:
 best, good, inaccuracy, mistake, or blunder, and says why. The grade is real: the
 coach runs a full minimax evaluation plus threat detection, so it can tell a fork from
-a wasted edge. The note reveals while he talks.
+a wasted edge. The note reveals word by word while he talks, with a blinking cursor.
 
 The first visit opens with a three-beat briefing: the captain sets up the Halver case,
-names the two detectives, and explains the one rule. Skip it or replay it from
-**BRIEFING** in the CASE CONTROL panel. Finished games are recorded in the browser and
-listed under **MATCH HISTORY** (the last 25).
+names the two detectives, and explains the one rule. A short setup then recommends full
+screen (**F11**, or **Ctrl+Cmd+F** on Mac) and asks for your detective name. That name
+becomes the X side: the ID card, turn banner, result, stamp, and coach all use it.
+Skip the briefing or replay it from **BRIEFING**; edit the name from **EDIT NAME**.
+Finished games are recorded in the browser and listed under **MATCH HISTORY** (the last
+25). After the result, the captain speaks again: he names the winner, compliments your
+win, or asks for a rematch after a loss.
 
 The palette is charcoal, manila, tungsten, and oxblood. The type is Oswald, Source
 Serif 4, and Courier Prime. Textures, cards, pins, the monocle, and the captain are CSS
@@ -65,8 +72,8 @@ All numbers below are from the production build on this machine.
 
 | Gate | Result |
 |---|---|
-| Unit tests (Vitest) | **36 passing** — every win line, draw, illegal move, reset, minimax grade, and history parser |
-| E2E (Playwright) | **18 passing** — alternation, win, draw, New Game, persistence, keyboard, briefing, history, coach, no-scroll desktop |
+| Unit tests (Vitest) | **40 passing** — win lines, draw, illegal move, reset, minimax grade, history parser, post-match lines |
+| E2E (Playwright) | **21 passing** — alternation, win, draw, New Game, persistence, keyboard, briefing, setup/name, history, coach, post-match, no-scroll desktop |
 | axe (WCAG 2.1 A/AA) | **0 violations** on the opening screen and after a win |
 | Contrast (`scripts/contrast.mjs`) | Every measured pair passes |
 | Lighthouse | **100 accessibility · 100 best practices · 100 SEO** on every run; performance 74–99 desktop and 74–92 mobile across repeated runs on a busy host |
@@ -93,8 +100,10 @@ Measured contrast (WCAG 2.x relative luminance):
 - Turns and the result are announced. Focus moves to the result when the game ends.
 - The captain's note is announced; the portrait is decorative and hidden from assistive
   tech.
-- The briefing and match history are native dialogs: focus is trapped, Escape closes
-  them, and the page behind is inert.
+- The briefing, setup, and match history are native dialogs: focus is trapped, Escape
+  closes them, and the page behind is inert.
+- The setup asks for a name with a labelled input; the full-screen button is a real
+  request, with the F11 shortcut written out for browsers that block it.
 - Focus rings are visible, tap targets are at least 44px, and the layout fits 360, 390,
   768, and 1440 widths.
 - Reduced motion removes the shake, flash, paper burst, grain drift, rain, lamp
@@ -136,7 +145,8 @@ docs/velitaxis/      project state and the design contract
   opponent is the next feature, not a hidden default.
 - **Scores and history are local.** `localStorage` only: no account, no leaderboard,
   no personal data. The match log keeps the last 25 games; **RESET SCORES** clears the
-  counts and the log. The briefing is marked seen per browser and can be replayed.
+  counts and the log. The briefing and setup are marked seen per browser; the detective
+  name is editable from **EDIT NAME**.
 - **Animation is CSS-led.** Keyframes and transitions, at most 44 particles, and a
   complete reduced-motion path. There is no animation library in the bundle.
 - **No third-party art.** Textures, cards, pins, the monocle, and the captain are CSS
@@ -146,17 +156,17 @@ docs/velitaxis/      project state and the design contract
 
 ## Screenshots
 
-| Briefing | Match history |
+| Briefing | Full-screen + name setup |
 |---|---|
-| ![Case briefing](docs/screenshots/intro.webp) | ![Match history](docs/screenshots/desktop-history.webp) |
+| ![Case briefing](docs/screenshots/intro.webp) | ![Full-screen and name setup](docs/screenshots/setup.webp) |
 
-| Desktop | Tablet |
+| Match history | Desktop |
 |---|---|
-| ![Desktop board](docs/screenshots/desktop-board.webp) | ![Tablet mid-game](docs/screenshots/tablet-midgame.webp) |
+| ![Match history](docs/screenshots/desktop-history.webp) | ![Desktop board](docs/screenshots/desktop-board.webp) |
 
-| Mobile | Mobile win |
-|---|---|
-| ![Mobile board](docs/screenshots/mobile-board.webp) | ![Mobile win](docs/screenshots/mobile-win.webp) |
+| Tablet | Mobile | Mobile win |
+|---|---|---|
+| ![Tablet mid-game](docs/screenshots/tablet-midgame.webp) | ![Mobile board](docs/screenshots/mobile-board.webp) | ![Mobile win](docs/screenshots/mobile-win.webp) |
 
 ---
 

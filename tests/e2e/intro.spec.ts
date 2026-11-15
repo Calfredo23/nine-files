@@ -1,5 +1,11 @@
-import { expect, test } from "@playwright/test";
+﻿import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem("nine-files:setup:v1", "seen");
+  });
+});
 
 test("the briefing greets first-time visitors and can be replayed", async ({
   page,
@@ -39,3 +45,4 @@ test("the briefing has no axe violations", async ({ page }) => {
     })),
   ).toEqual([]);
 });
+

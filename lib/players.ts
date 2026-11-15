@@ -27,3 +27,21 @@ export const PLAYERS: Record<Mark, Player> = {
     division: "DIVISION 9",
   },
 };
+
+export function playerFor(mark: Mark, detectiveName?: string | null): Player {
+  if (mark === "O") {
+    return PLAYERS.O;
+  }
+  const name = detectiveName?.trim();
+  if (!name) {
+    return PLAYERS.X;
+  }
+  return {
+    mark: "X",
+    name: `DET. ${name.toUpperCase()}`,
+    short: name.toUpperCase(),
+    plain: name,
+    badge: "X-01",
+    division: "DIVISION 9",
+  };
+}

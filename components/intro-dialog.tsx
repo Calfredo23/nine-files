@@ -61,7 +61,7 @@ export function IntroDialog({
 
         <div className="mt-4 flex items-start gap-3">
           <div className="w-[76px] shrink-0 overflow-hidden rounded-sm border border-manila/25 bg-ink/70 sm:w-[112px]">
-            <Captain speaking={open} />
+            <Captain speaking />
             <div className="border-t border-manila/15 px-1 py-1 text-center">
               <p className="font-display text-[8px] font-semibold tracking-[0.1em] text-paper sm:text-[10px]">
                 CAPT. HALE
@@ -85,7 +85,7 @@ export function IntroDialog({
               className="mt-2 font-serif text-[15px] leading-relaxed sm:text-base"
               aria-live="polite"
             >
-              <Typewriter key={beat} text={BEATS[beat]} />
+              <Typewriter key={beat} text={BEATS[beat]} speaking />
             </p>
           </div>
         </div>
@@ -136,7 +136,7 @@ export function IntroDialog({
               }}
               className="min-h-11 border border-oxblood/70 bg-oxblood px-4 py-2 font-display text-xs font-semibold tracking-[0.16em] text-paper transition hover:bg-[#a13540] active:translate-y-px"
             >
-              {last ? "BEGIN THE CASE" : "NEXT"}
+              {last ? "CONTINUE" : "NEXT"}
             </button>
           </div>
         </div>

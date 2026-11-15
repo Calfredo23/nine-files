@@ -39,6 +39,7 @@ and the result text says WINS or DRAW.
 
 ## Current state
 
-TASK-0031 built and tested: 36 unit, 18 e2e, axe 0, single-screen desktop, Capt. Hale
-briefing and move coach, right-side CASE CONTROL, and a persisted 25-match history.
-Deploy pending owner review. See `NEXT-TASK.md` and `TASKS.md`.
+TASK-0031 built and tested: 40 unit, 21 e2e, axe 0, single-screen desktop, Capt. Hale
+briefing and move coach, full-screen/name setup, post-match voice, right-side CASE
+CONTROL, and a persisted 25-match history. Deploy pending owner review. See
+`NEXT-TASK.md` and `TASKS.md`.

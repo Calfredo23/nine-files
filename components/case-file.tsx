@@ -9,12 +9,27 @@ import {
   type GameState,
   type Mark,
 } from "@/lib/game";
-import { coachForMove, resetScoresLine, startLine } from "@/lib/coach";
+import {
+  coachForMove,
+  postMatchLine,
+  resetScoresLine,
+  startLine,
+  welcomeLine,
+} from "@/lib/coach";
+import {
+  cleanName,
+  loadIntroSeen,
+  loadSetupSeen,
+  saveIntroSeen,
+  saveSetupSeen,
+} from "@/lib/detective";
 import { makeMatchId } from "@/lib/history";
 import { useCoach } from "@/hooks/use-coach";
+import { useDetectiveName } from "@/hooks/use-detective-name";
 import { useHistory } from "@/hooks/use-history";
 import { useLedger } from "@/hooks/use-ledger";
 import { useSoundPreference } from "@/hooks/use-sound-preference";
+import { writeDetectiveName } from "@/lib/client-store";
 import { sound } from "@/lib/sound";
 import { Ambient } from "@/components/ambient";
 import { CaptainCard } from "@/components/captain-card";
@@ -26,10 +41,9 @@ import { IntroDialog } from "@/components/intro-dialog";
 import { MatchHistoryDialog } from "@/components/match-history-dialog";
 import { MoveLog } from "@/components/move-log";
 import { NewGameButton } from "@/components/new-game-button";
+import { SetupDialog, type SetupMode } from "@/components/setup-dialog";
 import { SoundToggle } from "@/components/sound-toggle";
 import { TurnBanner } from "@/components/turn-banner";
-
-const INTRO_KEY = "nine-files:intro:v1";
 
 function statusFor(mark: Mark, state: GameState): DetectiveStatus {
   if (state.outcome?.kind === "win") {
@@ -54,27 +68,58 @@ export function CaseFile() {
   const { matches, add: addMatch, clear: clearHistory } = useHistory();
   const { on: soundOn, toggle: toggleSound } = useSoundPreference();
   const coach = useCoach();
+  const detectiveName = useDetectiveName();
   const resultRef = useRef<HTMLHeadingElement | null>(null);
+  const postMatchTimer = useRef<number | null>(null);
   const [historyOpen, setHistoryOpen] = useState(false);
-  const [introOpen, setIntroOpen] = useState(() => {
+  const [setupSeen, setSetupSeen] = useState(() => loadSetupSeen());
+  const [introOpen, setIntroOpen] = useState(() => !loadIntroSeen());
+  const [setupOpen, setSetupOpen] = useState(() => {
     if (typeof window === "undefined") {
-      return true;
+      return false;
     }
-    try {
-      return window.localStorage.getItem(INTRO_KEY) !== "seen";
-    } catch {
-      return true;
-    }
+    return loadIntroSeen() && !loadSetupSeen();
   });
+  const [setupMode, setSetupMode] = useState<SetupMode>("setup");
+  const [setupKey, setSetupKey] = useState(0);
+
+  const openSetup = (mode: SetupMode) => {
+    setSetupMode(mode);
+    setSetupKey((current) => current + 1);
+    setSetupOpen(true);
+  };
 
   const closeIntro = () => {
-    try {
-      window.localStorage.setItem(INTRO_KEY, "seen");
-    } catch {
-      // The intro still closes for this visit.
-    }
+    saveIntroSeen();
     setIntroOpen(false);
+    if (!setupSeen) {
+      openSetup("setup");
+    }
   };
+
+  const handleSaveName = (value: string) => {
+    const name = cleanName(value) || "Detective";
+    writeDetectiveName(name);
+    saveSetupSeen();
+    setSetupSeen(true);
+    setSetupOpen(false);
+    coach.say(welcomeLine(name));
+  };
+
+  const cancelPostMatch = () => {
+    if (postMatchTimer.current) {
+      window.clearTimeout(postMatchTimer.current);
+      postMatchTimer.current = null;
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (postMatchTimer.current) {
+        window.clearTimeout(postMatchTimer.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     sound.setMuted(!soundOn);
@@ -100,6 +145,7 @@ export function CaseFile() {
         index,
         state.turn,
         state.moves.length + state.round * 7 + index,
+        detectiveName,
       ),
     );
     dispatch({ type: "move", index });
@@ -114,6 +160,11 @@ export function CaseFile() {
         round: state.round,
       });
       sound.play("stamp");
+      cancelPostMatch();
+      postMatchTimer.current = window.setTimeout(() => {
+        coach.say(postMatchLine(outcome, detectiveName));
+        postMatchTimer.current = null;
+      }, 1700);
       if (outcome.kind === "win") {
         window.setTimeout(() => sound.play("win"), 180);
         window.setTimeout(() => sound.play("pluck"), 420);
@@ -128,12 +179,14 @@ export function CaseFile() {
   };
 
   const handleNewGame = () => {
+    cancelPostMatch();
     dispatch({ type: "reset" });
     coach.say(startLine(state.round + 1));
     sound.play("paper");
   };
 
   const handleResetLedger = () => {
+    cancelPostMatch();
     resetLedger();
     clearHistory();
     coach.say(resetScoresLine());
@@ -251,6 +304,14 @@ export function CaseFile() {
                 >
                   MATCH HISTORY
                 </button>
+                <button
+                  type="button"
+                  data-testid="open-setup"
+                  onClick={() => openSetup("edit")}
+                  className="min-h-11 font-mono text-[10px] tracking-[0.16em] text-smoke transition hover:text-paper"
+                >
+                  EDIT NAME
+                </button>
               </div>
             </div>
 
@@ -284,6 +345,14 @@ export function CaseFile() {
       </div>
 
       <IntroDialog open={introOpen} onClose={closeIntro} />
+      <SetupDialog
+        key={setupKey}
+        open={setupOpen}
+        mode={setupMode}
+        initialName={detectiveName}
+        onSave={handleSaveName}
+        onCancel={() => setSetupOpen(false)}
+      />
       <MatchHistoryDialog
         open={historyOpen}
         matches={matches}

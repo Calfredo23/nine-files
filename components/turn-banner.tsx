@@ -2,7 +2,8 @@
 
 import type { RefObject } from "react";
 import type { GameState } from "@/lib/game";
-import { PLAYERS } from "@/lib/players";
+import { playerFor } from "@/lib/players";
+import { useDetectiveName } from "@/hooks/use-detective-name";
 import { cn } from "@/lib/cn";
 
 export function TurnBanner({
@@ -12,22 +13,22 @@ export function TurnBanner({
   state: GameState;
   resultRef: RefObject<HTMLHeadingElement | null>;
 }) {
+  const detectiveName = useDetectiveName();
   const done = state.outcome !== null;
   const win = state.outcome?.kind === "win" ? state.outcome : null;
-  const player = PLAYERS[state.turn];
+  const player = playerFor(state.turn, detectiveName);
+  const winner = win ? playerFor(win.mark, detectiveName) : null;
 
-  const resultText = win
-    ? `${PLAYERS[win.mark].short} WINS — CASE CLOSED`
+  const resultText = winner
+    ? `${winner.short} WINS — CASE CLOSED`
     : "DRAW — COLD CASE";
 
-  const resultSub = win
-    ? win.mark === "X"
-      ? "Three in a row. Cross takes the case."
-      : "Three in a row. O'Rourke takes the case."
+  const resultSub = winner
+    ? `Three in a row. ${winner.plain} takes the case.`
     : "Nine moves, no line. The case goes cold.";
 
-  const announcement = win
-    ? `${PLAYERS[win.mark].short} wins.`
+  const announcement = winner
+    ? `${winner.plain} wins.`
     : done
       ? "It's a draw."
       : `${player.name}'s turn.`;
