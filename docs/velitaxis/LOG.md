@@ -108,3 +108,22 @@
   (default on, off, reload, off; SFX off) passed.
 - Gates: 40 unit, 24 e2e defined. No Lighthouse rerun because of CPU heat.
 - Repo: private; deploy still pending owner review.
+
+## 2026-11-15 (h) — submission hardening
+
+- **CI root causes fixed:** `LayoutProps<"/">` failed `npm run typecheck` on a fresh
+  checkout (Next generates it only after build); replaced with `ReactNode`. A UTF-8 BOM
+  in `package.json` broke Turbopack; rewritten clean. The win screenshot fired as the
+  post-match backdrop appeared; captured at 1000 ms instead. The setup screenshot fired
+  before the dialog fade; now waits 400 ms. Both CI jobs are green at `905f210`.
+- **README rewritten** for a public repository: centered hero, CI/stack/license badges,
+  current screenshots, features, how it plays, coach, sound, quick start, scripts,
+  architecture, quality, accessibility, deployment, structure, limits.
+- **MIT LICENSE** added; `license` in `package.json`.
+- **Repo is public.** Screenshots refreshed from the green CI artifact; the setup image
+  and win are correct. Audio defaults on for both MUSIC and SFX.
+- **Deploy:** owner is importing the repo into Vercel manually. Intended production URL
+  `https://nine-files.vercel.app`; if Vercel assigns a suffix, set
+  `NEXT_PUBLIC_SITE_URL` and update the README live link.
+- **Next:** live smoke, screenshots to the form, optional demo, submit at
+  `apply.capm.us` (Tic-Tac-Toe).

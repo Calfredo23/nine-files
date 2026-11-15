@@ -15,12 +15,9 @@ SUpost / CapM test on a live Vercel URL, and that doubles as a portfolio piece.
 
 ## Status
 
-Built and tested. 40 unit, 24 e2e, axe 0, contrast 13/13. Desktop fits one screen with
-no page scroll; NEW GAME is in the top-right CASE CONTROL panel; Capt. Hale briefs the
-first visit, the setup asks for full screen and the player's name, the coach grades
-every move, the post-match verdict offers continue/rematch/stay/reset, and the last 25
-matches persist in the browser. Repo private at `github.com/Calfredo23/nine-files`.
-Local preview on `:3210`.
+Ready to submit after the owner's Vercel deploy. 40 unit, 24 e2e (green on Ubuntu CI),
+axe 0, contrast 13/13. Repo is public; README and screenshots are current; audio defaults
+on. Local preview on `:3210`.
 
 ## Next action
 
