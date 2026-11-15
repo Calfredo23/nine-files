@@ -38,7 +38,7 @@ async function capture(
     await page.getByTestId(`cell-${index}`).click();
   }
   await expect(page.getByTestId("result")).toBeVisible();
-  await page.waitForTimeout(1500);
+  await page.waitForTimeout(1000);
   await page.screenshot({ path: `${OUT}/${name}-win.png`, fullPage: true });
 
   if (name === "desktop") {

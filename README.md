@@ -2,183 +2,63 @@
 
 # THE NINE FILES
 
-### A tic-tac-toe case in nine clues.
+**A noir tic-tac-toe case in nine clues.**
 
-Two players, nine cards, one wall.
+Two players. Nine cards. One wall.
 
-[Source](https://github.com/Calfredo23/nine-files)
+[**Play the live game**](https://nine-files.vercel.app) · [Source](https://github.com/Calfredo23/nine-files)
 
-<img src="docs/screenshots/desktop-win.webp" alt="A noir case wall with three X cards joined by red yarn, a taped CASE CLOSED label, and a captain watching" width="920" />
+[![CI](https://github.com/Calfredo23/nine-files/actions/workflows/ci.yml/badge.svg)](https://github.com/Calfredo23/nine-files/actions/workflows/ci.yml)
+[![Next.js](https://img.shields.io/badge/Next.js-16.4-000000?logo=nextdotjs)](https://nextjs.org)
+[![React](https://img.shields.io/badge/React-19-087EA4?logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
+[![License](https://img.shields.io/badge/license-MIT-8E2B33)](LICENSE)
+
+<img src="docs/screenshots/desktop-win.webp" alt="The Nine Files — a noir tic-tac-toe case wall with the winning line drawn in red yarn and a taped CASE CLOSED label" width="100%" />
 
 </div>
 
-## What this is
+## Overview
 
-Built for the SUpost / CapM junior React + Next.js application test. The brief asks
-for a working two-player tic-tac-toe on a public Vercel URL and says style and
-personality count. This is the version I built.
+The Nine Files is a two-player tic-tac-toe game dressed as a detective's case wall.
+Cross and O'Rourke claim nine pinned cards; three in a row closes the case. A captain
+watching from the corner grades every move, the winning line is drawn in red yarn, and a
+taped verdict lands on the board.
 
-It does the required things first:
+It was built for the **SUpost / CapM junior React + Next.js application test**. The test
+asks for a working two-player game on a public Vercel URL. This is the version I
+submitted.
 
-- Two players alternate. Cross plays X, O'Rourke plays O.
-- The result is explicit: `CROSS WINS — CASE CLOSED` or `DRAW — COLD CASE`.
-- New Game clears the board and keeps the scores.
+The required behaviours come first and are literal:
+
+- Two players alternate. **X** goes first, then **O**.
+- The result is announced: **CROSS WINS — CASE CLOSED**, **O'ROURKE WINS — CASE CLOSED**,
+  or **DRAW — COLD CASE**.
+- **NEW GAME** starts a fresh board.
 - The scoreboard counts wins and draws and survives a reload.
-- Every finished game is saved in the browser and listed under **MATCH HISTORY**.
-- **NEW GAME** sits in the **CASE CONTROL** panel on the right, so it is always in reach
-  on desktop.
-- After every match Capt. Hale **takes over the screen**: he names the winner, then
-  offers **CONTINUE** (your win), **TRY AGAIN** (a loss), or **ONE MORE** (a draw), with
-  **STAY ON THE BOARD** to inspect the final position and **RESET SCORES** right there.
-- The scoreboard's **RESET SCORES** is a visible button; both resets clear the counts and
-  the match log.
-- First-time visitors get a three-beat briefing from Capt. Hale, then a short setup that
-  recommends full screen (**F11**) and asks for the player's detective name. X becomes
-  your side.
-- A procedural noir loop plays under the case, and the captain has a soft per-word
-  voice. **MUSIC** and **SFX** have separate toggles; both are remembered. Browsers
-  require a gesture, so audio starts on the first click or key press.
 
-The game is readable without the theme: the cells show X and O, the main button says
-NEW GAME, and the result says WINS or DRAW.
+The theme never hides the rules: the cells show X and O, the primary button says NEW
+GAME, and the result says WINS or DRAW.
 
-## The board and the captain
+## Features
 
-The board is a cork case wall. Each square is a pinned evidence card. X is a black
-marker tag; O is a brass monocle. The winning line is red yarn pulled from card to
-card. A taped CASE CLOSED label lands on the board, and the winner's ID card is marked.
-
-A captain, **Capt. Hale**, watches from the corner. After every move he calls it:
-best, good, inaccuracy, mistake, or blunder, and says why. The grade is real: the
-coach runs a full minimax evaluation plus threat detection, so it can tell a fork from
-a wasted edge. The note reveals word by word while he talks, with a blinking cursor.
-
-The first visit opens with a three-beat briefing: the captain sets up the Halver case,
-names the two detectives, and explains the one rule. A short setup then recommends full
-screen (**F11**, or **Ctrl+Cmd+F** on Mac) and asks for your detective name. That name
-becomes the X side: the ID card, turn banner, result, stamp, and coach all use it.
-Skip the briefing or replay it from **BRIEFING**; edit the name from **EDIT NAME**.
-Finished games are recorded in the browser and listed under **MATCH HISTORY** (the last
-25). After the result, the captain takes over the screen with a verdict: he names the
-winner and offers **CONTINUE** after your win, **TRY AGAIN** after a loss, or **ONE
-MORE** after a draw. **STAY ON THE BOARD** closes the verdict so you can inspect the
-final position; **RESET SCORES** clears the counts and the log from there.
-
-The palette is charcoal, manila, tungsten, and oxblood. The type is Oswald, Source
-Serif 4, and Courier Prime. Textures, cards, pins, the monocle, and the captain are CSS
-and inline SVG; the app ships no image assets.
-
-## Sound
-
-A procedural noir loop runs under the case: a slow minor progression (Am7, Dm7, E7),
-an upright-style bass, brushed noise, a sparse bell. There are no audio files; it is
-built with the Web Audio API. Capt. Hale's subtitles get a soft per-word voice blip
-while the words reveal, so the character is heard as well as seen.
-
-**MUSIC** and **SFX** are separate toggles in the header, and both preferences persist.
-Browsers block audio until a gesture, so the loop and voice start on the first click,
-tap, or key press.
-
-## Stack
-
-Next.js 16.4 (App Router), React 19.3, TypeScript, and Tailwind CSS 4. No animation
-library: CSS keyframes, transitions, and one canvas burst. Music and voice are generated
-with the Web Audio API; no audio files. No backend, no accounts, no analytics.
-
-## Quality gates
-
-All numbers below are from the production build on this machine.
-
-| Gate | Result |
+| | |
 |---|---|
-| Unit tests (Vitest) | **40 passing** — win lines, draw, illegal move, reset, minimax grade, history parser, post-match lines |
-| E2E (Playwright) | **24 passing** — alternation, win, draw, New Game, persistence, keyboard, briefing, setup/name, history, coach, post-match takeover, reset, audio toggles, no-scroll desktop |
-| axe (WCAG 2.1 A/AA) | **0 violations** on the opening screen and after a win |
-| Contrast (`scripts/contrast.mjs`) | Every measured pair passes |
-| Lighthouse | **100 accessibility · 100 best practices · 100 SEO** on every run; performance 74–99 desktop and 74–92 mobile across repeated runs on a busy host |
-| Production build | Static `/`, `/icon.svg`, `/opengraph-image`; no console errors |
-| Desktop fit | No page scroll at 1440×900, 1366×768, 1280×800, or 1024×768 |
-
-Measured contrast (WCAG 2.x relative luminance):
-
-| Pair | Ratio | Minimum |
-|---|---|---|
-| PAPER on INK | 15.77:1 | 4.5 |
-| INK on MANILA | 11.36:1 | 4.5 |
-| TUNGSTEN on INK | 9.02:1 | 4.5 |
-| SMOKE on COAL | 6.07:1 | 4.5 |
-| PAPER on OXBLOOD | 6.65:1 | 4.5 |
-| COLD on MANILA | 5.45:1 | 4.5 |
-| OXBLOOD on MANILA | 4.79:1 | 4.5 |
-| MANILA on CORK | 4.53:1 | 3.0 (non-text) |
-
-## Accessibility
-
-- The board is a real grid. Arrows move focus, Home and End jump, and Enter or Space
-  plays.
-- Turns and the result are announced. Focus moves to the result when the game ends.
-- The captain's note is announced; the portrait is decorative and hidden from assistive
-  tech.
-- The briefing, setup, match history, and post-match verdict are native dialogs: focus
-  is trapped, Escape closes them, and the page behind is inert.
-- The setup asks for a name with a labelled input; the full-screen button is a real
-  request, with the F11 shortcut written out for browsers that block it.
-- Focus rings are visible, tap targets are at least 44px, and the layout fits 360, 390,
-  768, and 1440 widths.
-- Music and SFX are separate labelled toggles with persisted state; nothing autoplays
-  before a user gesture.
-- Reduced motion removes the shake, flash, paper burst, grain drift, rain, lamp
-  flicker, captain's mouth, note reveal, and mark animation.
-- X and O differ by shape and material, not only colour. Sound is optional and never
-  blocks play.
-- Contrast is measured, not eyeballed.
-
-## Run it
-
-```bash
-npm install
-npm run dev          # http://localhost:3000
-npm test             # unit
-npm run test:e2e     # Playwright + axe + screenshots
-npm run verify       # typecheck + lint + unit + build
-```
-
-The Playwright run builds and starts the production server on port 3211. Screenshots
-land in `submission/screenshots/`.
-
-## Structure
-
-```
-app/                 layout, page, metadata, OG image, icon, 404
-components/          board, cells, marks, yarn, stamp, captain, coach, dialogs, ledger
-hooks/               game coach, match history, score, and sound preference
-lib/                 pure game logic, minimax coach, history, storage, sound
-tests/unit/          Vitest
-tests/e2e/           Playwright, axe, screenshot capture
-scripts/             contrast measurement, WebP optimisation
-docs/velitaxis/      project state and the design contract
-```
-
-## Decisions and limits
-
-- **No AI opponent.** The brief asks for two players, so the game stays two-player. The
-  coach is analysis, not an opponent: it grades moves and never plays one. A minimax
-  opponent is the next feature, not a hidden default.
-- **Scores and history are local.** `localStorage` only: no account, no leaderboard,
-  no personal data. The match log keeps the last 25 games; **RESET SCORES** clears the
-  counts and the log, both from the scoreboard and from the post-match verdict. The
-  briefing and setup are marked seen per browser; the detective name is editable from
-  **EDIT NAME**.
-- **Animation is CSS-led.** Keyframes and transitions, at most 44 particles, and a
-  complete reduced-motion path. There is no animation library in the bundle.
-- **No third-party art or audio.** Textures, cards, pins, the monocle, and the captain
-  are CSS or SVG. The music and speech are synthesized; there is no audio file.
-- **The screenshots are from the production build.** They are regenerated by the
-  Playwright screenshot test.
+| **First-visit briefing** | Capt. Hale sets up the case in three beats. Skippable, replayable. |
+| **Full-screen setup** | A pre-game prompt recommends F11 (or Ctrl+Cmd+F) and asks for your detective name. |
+| **Personalized side** | Your name becomes the X detective: card, turn banner, result, stamp, and coach. |
+| **Move coach** | Every move is graded best / good / inaccuracy / mistake / blunder using minimax plus threat and fork detection. |
+| **Post-match verdict** | 1.6 s after the result, the captain takes over with CONTINUE, TRY AGAIN, ONE MORE, STAY ON THE BOARD, and RESET SCORES. |
+| **Saved history** | The last 25 finished games persist in the browser with winner, move list, and date. |
+| **Scoreboard reset** | A visible, two-step reset that clears the counts and the match log. |
+| **Sound** | A procedural noir loop and a soft per-word voice. MUSIC and SFX toggle independently and default on. |
+| **Desktop fit** | The whole game fits one screen at 1440×900, 1366×768, 1280×800, and 1024×768 with no page scroll. |
+| **Accessibility** | Keyboard play, focus management, native dialogs, reduced-motion support, measured contrast. |
 
 ## Screenshots
 
-| Briefing | Full-screen + name setup |
+| Case briefing | Full-screen and detective name |
 |---|---|
 | ![Case briefing](docs/screenshots/intro.webp) | ![Full-screen and name setup](docs/screenshots/setup.webp) |
 
@@ -186,7 +66,7 @@ docs/velitaxis/      project state and the design contract
 |---|---|
 | ![Post-match verdict](docs/screenshots/desktop-post-match.webp) | ![Match history](docs/screenshots/desktop-history.webp) |
 
-| Desktop | Tablet |
+| Desktop board | Tablet |
 |---|---|
 | ![Desktop board](docs/screenshots/desktop-board.webp) | ![Tablet mid-game](docs/screenshots/tablet-midgame.webp) |
 
@@ -194,6 +74,164 @@ docs/velitaxis/      project state and the design contract
 |---|---|
 | ![Mobile board](docs/screenshots/mobile-board.webp) | ![Mobile win](docs/screenshots/mobile-win.webp) |
 
----
+## How it plays
 
-Built by **Cedrick Alfredo Catimbang** · [calfredo.is-pinoy.dev](https://calfredo.is-pinoy.dev)
+1. Read the briefing, then enter a detective name. X is your side; O'Rourke takes the
+   other.
+2. Take turns claiming cards. Three in a row — across, down, or diagonally — closes the
+   case.
+3. The turn banner shows whose move it is. The move history lists every clue.
+4. After the result, the captain offers CONTINUE after your win, TRY AGAIN after a loss,
+   or ONE MORE after a draw.
+5. **NEW GAME** is always in the top-right CASE CONTROL panel. The ledger keeps the
+   scores and the last 25 matches.
+
+## The coach
+
+Capt. Hale is not a random line generator. Every move is evaluated with minimax values
+plus immediate threat detection, so the grade reflects the position:
+
+- **Best** — the move holds a forced win, blocks a live line, creates a fork, or is the
+  only move that draws.
+- **Good** — a sound centre, corner, or neutral move that keeps the position level.
+- **Inaccuracy** — an edge that does less than the centre.
+- **Mistake** — a better move was available, often a missed win.
+- **Blunder** — the move loses the position or leaves a winning line open.
+
+The note reveals word by word while the captain animates. After the result he speaks
+again on the verdict screen.
+
+## Sound
+
+The score is a procedural noir loop: Am7 / Dm7 / E7 pads, an upright-style bass, brushed
+noise, a sparse bell, and faint vinyl ticks. Capt. Hale's subtitles get a soft per-word
+voice blip. There are no audio files; everything is synthesized with the Web Audio API.
+
+**MUSIC** and **SFX** are independent toggles in the header, both on by default and both
+persisted. Browsers block audio until a user gesture, so the loop and voice start on the
+first click, tap, or key press.
+
+## Tech stack
+
+| Layer | Choice |
+|---|---|
+| Framework | Next.js 16.4 (App Router, static page) |
+| UI | React 19.3, TypeScript strict |
+| Styling | Tailwind CSS 4 with a small custom token layer |
+| Motion | CSS keyframes and transitions; one canvas paper burst |
+| Audio | Web Audio API synthesis; no audio files |
+| Tests | Vitest, Playwright, axe-core |
+| Hosting | Vercel |
+
+No backend, no database, no accounts, no analytics, no cookies.
+
+## Quick start
+
+```bash
+git clone https://github.com/Calfredo23/nine-files.git
+cd nine-files
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). Click once on the page so the
+browser permits audio.
+
+### Scripts
+
+| Command | What it does |
+|---|---|
+| `npm run dev` | Start the development server |
+| `npm run build` | Production build |
+| `npm run start` | Serve the production build |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm run lint` | ESLint |
+| `npm test` | Vitest unit tests |
+| `npm run test:e2e` | Playwright, axe, and screenshot capture |
+| `npm run verify` | typecheck + lint + unit + build |
+
+The Playwright suite builds and serves the production app on port 3211.
+
+## How it works
+
+- **Pure game logic** lives in `lib/game.ts`: board type, win lines, outcome detection,
+  and a tested reducer.
+- **The coach** lives in `lib/coach.ts`: minimax values, immediate threats, forks, and
+  move grades.
+- **Persistence** is localStorage through `useSyncExternalStore`: ledger, 25-match
+  history, detective name, briefing/setup flags, music, and SFX. There is no server.
+- **Dialogs** are native `<dialog>` elements for the briefing, setup, match history, and
+  post-match verdict; the browser supplies the focus trap and inert background.
+- **Animation** is CSS; the paper burst is the only canvas.
+- **Audio** is a small scheduler in `lib/sound.ts` using oscillators, filtered noise, and
+  gain envelopes.
+
+## Quality
+
+| Gate | Result |
+|---|---|
+| Unit tests (Vitest) | **40 passing** |
+| E2E (Playwright) | **24 passing** on Ubuntu CI — game, briefing, setup/name, history, coach, post-match, reset, audio toggles, axe, no-scroll desktop, screenshots |
+| Accessibility | **0 axe violations** on the opening screen, win, briefing, setup, and post-match verdict |
+| Contrast | every measured pair passes WCAG AA (`scripts/contrast.mjs`) |
+| Lighthouse | 100 accessibility, best practices, and SEO; performance 74–99 desktop and 74–92 mobile across repeated runs on a busy host |
+| Desktop fit | no page scroll at 1440×900, 1366×768, 1280×800, or 1024×768 |
+
+The Lighthouse numbers were measured before the briefing, setup, history, and
+post-match additions; those add a small amount of markup and localStorage reads. The
+axe and Playwright gates run on every push.
+
+## Accessibility
+
+- The board is a real ARIA grid: arrows move focus, Home/End jump, and Enter or Space
+  plays.
+- Turns and the result are announced; focus moves to the result when the game ends.
+- The briefing, setup, history, and verdict are native dialogs with focus traps, Escape
+  to close, and an inert page behind.
+- Focus rings are visible, tap targets are at least 44px, and the layout fits 360, 390,
+  768, and 1440 widths.
+- Reduced motion removes shake, flash, particles, grain drift, rain, lamp flicker,
+  captain motion, subtitle reveal, and the blinking cursor.
+- X and O differ by shape and material, not only colour.
+- Music and SFX are separate labelled toggles; nothing autoplays before a gesture.
+
+## Deployment
+
+The app is a static Next.js page, deployed on Vercel.
+
+```bash
+npx vercel --prod
+```
+
+Set `NEXT_PUBLIC_SITE_URL` to the production URL if it differs from
+`https://nine-files.vercel.app`; it feeds the canonical URL and the OG image metadata.
+
+## Project structure
+
+```text
+app/                    layout, page, metadata, OG image, icon, 404
+components/             board, cells, marks, yarn, stamp, captain, coach, dialogs, ledger
+hooks/                  coach, history, detective name, music/SFX preferences, speech
+lib/                    game logic, minimax coach, history, storage, Web Audio, stores
+tests/unit/             Vitest
+tests/e2e/              Playwright, axe, screenshot capture
+scripts/                contrast measurement, WebP optimisation
+docs/velitaxis/         build state, design contract, measurements
+submission/             reviewer notes and demo script
+```
+
+## Notes and limits
+
+- **No AI opponent.** The brief asks for two players; the board stays two-player. The
+  coach is analysis, not an opponent: it grades moves and never plays one.
+- **Local data only.** Scores, history, name, and preferences live in localStorage. No
+  account, no leaderboard, no personal data leaves the browser.
+- **No third-party art or audio.** Textures, cards, pins, the monocle, and the captain
+  are CSS or SVG. The music and voice are synthesized.
+- **The screenshots are generated by the Playwright suite** from the production build.
+- **Audio requires a gesture.** Browsers block autoplay; the first click starts the
+  score. MUSIC and SFX can be turned off at any time.
+
+## License
+
+[MIT](LICENSE) © Cedrick Alfredo Catimbang
