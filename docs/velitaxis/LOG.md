@@ -249,3 +249,12 @@
 - Verification: `npm run verify` passed (58 unit); Playwright passed 30/30, including
   footer destination and no-scroll checks. The local production build passed.
 - Changes are local and unpushed. Next: owner authorizes final push, then submit the form.
+
+## 2026-11-15 (s) — final footer/screenshots release
+
+- Owner authorized push. Commit `9938e7c` pushed to `origin/main`; GitHub CI run
+  `43701253733` passed both jobs.
+- Live smoke returned HTTP 200, found only the CALFREDO footer link, and reported no
+  browser console errors. README WebP images were regenerated from the screenshot suite.
+- Next: owner submits the application form. This post-push log update is local-only and
+  would need separate authorization to push.
