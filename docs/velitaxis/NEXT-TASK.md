@@ -16,21 +16,16 @@ SUpost / CapM test on a live Vercel URL, and that doubles as a portfolio piece.
 ## Status
 
 Vercel production is live at `https://the-nine-files.vercel.app`. Repo is public at
-`https://github.com/Calfredo23/the-nine-files`. Solo mode, side choice, coin toss, and
-full-restart NEW GAME are implemented and verified locally: 58 unit, 30 e2e, axe 0,
-typecheck/lint/build clean. README, reviewer notes, demo script, and screenshots are
-updated. The previous release is CI-green at `0cf8f0d`; these features are uncommitted.
-Latest verification: `npm run verify` and all 30 Playwright tests pass. Live smoke is
-healthy (HTTP 200, no browser console errors), but confirms production still runs the
-previous two-step setup. The feature changes are staged and the owner authorized the
-push. Remaining: commit, push, then confirm CI and the Vercel deploy before submission.
+`https://github.com/Calfredo23/the-nine-files`. Commit `6473149` is pushed to `main`;
+GitHub CI passes (58 unit, 30 e2e, typecheck/lint/build), and live smoke verified the
+new setup, solo play, coin toss, House response, and full restart. README, reviewer
+notes, demo script, and screenshots are updated. Case Control button polish is complete
+locally and verified; that latest UI change is not pushed yet.
 
 ## Next action
 
-1. Commit and push the authorized solo/coin/restart feature set to `main`.
-2. Confirm both CI jobs are green and Vercel redeploys.
-3. Smoke the live URL (two-player, solo, coin toss, full restart) and submit the form
-   with the screenshots and optional demo.
+1. Push the verified Case Control button polish and smoke the updated live panel.
+2. Submit the form with the live URL, screenshots, and optional demo.
 
 ## Acceptance criteria
 

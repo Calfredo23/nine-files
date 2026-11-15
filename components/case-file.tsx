@@ -41,6 +41,7 @@ import { sound } from "@/lib/sound";
 import { Ambient } from "@/components/ambient";
 import { CaptainCard } from "@/components/captain-card";
 import { CaseBoard } from "@/components/case-board";
+import { CaseActionButton } from "@/components/case-action-button";
 import { CaseLedger } from "@/components/case-ledger";
 import { DetectiveCard, type DetectiveStatus } from "@/components/detective-card";
 import { HowToPlay } from "@/components/how-to-play";
@@ -384,31 +385,29 @@ export function CaseFile() {
               <div className="mt-2 hidden lg:block">
                 <NewGameButton onClick={handleRestart} block />
               </div>
-              <div className="mt-1 flex flex-wrap items-center gap-x-4">
-                <button
-                  type="button"
-                  data-testid="open-briefing"
+              <div
+                role="group"
+                aria-label="Case tools"
+                className="mt-2 grid grid-cols-3 gap-1.5"
+              >
+                <CaseActionButton
+                  icon="briefing"
+                  label="BRIEFING"
+                  testId="open-briefing"
                   onClick={() => setIntroOpen(true)}
-                  className="min-h-11 font-mono text-[10px] tracking-[0.16em] text-smoke transition hover:text-paper"
-                >
-                  BRIEFING
-                </button>
-                <button
-                  type="button"
-                  data-testid="open-history"
+                />
+                <CaseActionButton
+                  icon="history"
+                  label="MATCH HISTORY"
+                  testId="open-history"
                   onClick={() => setHistoryOpen(true)}
-                  className="min-h-11 font-mono text-[10px] tracking-[0.16em] text-smoke transition hover:text-paper"
-                >
-                  MATCH HISTORY
-                </button>
-                <button
-                  type="button"
-                  data-testid="open-setup"
+                />
+                <CaseActionButton
+                  icon="identity"
+                  label="EDIT NAME"
+                  testId="open-setup"
                   onClick={() => openSetup("edit")}
-                  className="min-h-11 font-mono text-[10px] tracking-[0.16em] text-smoke transition hover:text-paper"
-                >
-                  EDIT NAME
-                </button>
+                />
               </div>
             </div>
 

@@ -79,10 +79,23 @@ test("layouts fit 360, 768 and 1440 without horizontal scroll", async ({
         smallestCell: Math.min(
           ...cells.map((cell) => cell.getBoundingClientRect().width),
         ),
+        smallestCaseTool: Math.min(
+          ...Array.from(
+            document.querySelectorAll<HTMLElement>(
+              '[data-testid="open-briefing"], [data-testid="open-history"], [data-testid="open-setup"]',
+            ),
+          ).map((button) =>
+            Math.min(
+              button.getBoundingClientRect().width,
+              button.getBoundingClientRect().height,
+            ),
+          ),
+        ),
       };
     });
     expect(report.scrollWidth).toBeLessThanOrEqual(report.innerWidth + 1);
     expect(report.smallestCell).toBeGreaterThanOrEqual(44);
+    expect(report.smallestCaseTool).toBeGreaterThanOrEqual(44);
   }
 });
 

@@ -180,7 +180,28 @@
 - Restarted the local production server on port 3210 after the build; HTTP 200 and zero
   browser console errors verified.
 - Smoked `https://the-nine-files.vercel.app`: HTTP 200 and zero browser console errors.
-  The live setup is still the previous full-screen/name flow, so the new feature set is
-  not deployed yet.
-- Working tree remains uncommitted. Next: owner approval to commit/push, then verify CI
-  and Vercel before calling the updated version production-ready.
+  At that point the live setup was still the previous full-screen/name flow.
+- Working tree remained uncommitted at that point. Next: owner approval to commit/push,
+  then verify CI and Vercel before calling the updated version production-ready.
+
+## 2026-11-15 (m) — feature release pushed and live
+
+- Owner authorized push. Commit `6473149` pushed to `origin/main`.
+- Staged secret sweep: CLEAN, 0 findings. GitHub CI run `43694340932` passed both jobs:
+  typecheck/lint/unit/build and Playwright/axe/screenshots (30/30 e2e).
+- Live production returned HTTP 200 with no browser console errors. Manual smoke verified
+  four-step setup, single-player as O, coin toss result, House response, and NEW GAME
+  returning to briefing and setup.
+- Next: owner submits the application form. This closeout log update is local; a separate
+  push would need fresh authorization.
+
+## 2026-11-15 (n) — Case Control action rail
+
+- Replaced the plain BRIEFING / MATCH HISTORY / EDIT NAME links with a compact, three-tile
+  icon rail. Kept the noir palette, clear labels, original actions, and test IDs; NEW GAME
+  remains visually primary.
+- Added a cross-viewport 44px minimum target assertion for all three tools.
+- Verification: `npm run verify` passed (58 unit); Playwright passed 30/30, including
+  axe, 360/768/1440 widths, and no-scroll desktop; Impeccable detector returned no
+  findings; screenshot review showed the rail fits desktop and mobile.
+- Change is local and unpushed. Next: owner approves a push, then smoke the live panel.

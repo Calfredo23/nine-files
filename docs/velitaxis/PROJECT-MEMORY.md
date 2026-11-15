@@ -39,8 +39,9 @@ imperfect minimax opponent, with an X/O side choice and a coin toss.
 
 ## Current state
 
-Solo mode, coin toss, and full-restart NEW GAME are implemented. Re-verification passed:
-58 unit, 30 e2e, axe 0, typecheck/lint/build clean. Local production server returns 200
-with no console errors. Production smoke also returns 200 with no console errors, but
-confirms the old two-step setup is still deployed. The feature set is staged, and the
-owner authorized the push. Remaining: push, confirm CI/Vercel, then submit.
+Solo mode, coin toss, and full-restart NEW GAME are live. Commit `6473149` is pushed to
+`main`; GitHub CI passes (58 unit, 30 e2e, typecheck/lint/build), and production smoke
+verified the new four-step setup, solo O, coin toss, bot response, and full restart.
+The Case Control utilities now use a compact icon rail locally; typecheck/lint/build,
+58 unit, and 30 e2e pass. This polish is unpushed. Remaining: push the polish and submit
+the application form (owner action).
