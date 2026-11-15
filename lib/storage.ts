@@ -12,6 +12,7 @@ export const EMPTY_LEDGER: Ledger = Object.freeze({
 
 const LEDGER_KEY = "nine-files:ledger:v1";
 const SOUND_KEY = "nine-files:sound:v1";
+const MUSIC_KEY = "nine-files:music:v1";
 const MAX_COUNT = 1_000_000;
 
 function isCount(value: unknown): value is number {
@@ -82,6 +83,28 @@ export function saveSound(on: boolean): void {
   }
   try {
     window.localStorage.setItem(SOUND_KEY, on ? "on" : "off");
+  } catch {
+    // Storage can be unavailable; the preference still holds for this visit.
+  }
+}
+
+export function loadMusic(): boolean {
+  if (typeof window === "undefined") {
+    return true;
+  }
+  try {
+    return window.localStorage.getItem(MUSIC_KEY) !== "off";
+  } catch {
+    return true;
+  }
+}
+
+export function saveMusic(on: boolean): void {
+  if (typeof window === "undefined") {
+    return;
+  }
+  try {
+    window.localStorage.setItem(MUSIC_KEY, on ? "on" : "off");
   } catch {
     // Storage can be unavailable; the preference still holds for this visit.
   }

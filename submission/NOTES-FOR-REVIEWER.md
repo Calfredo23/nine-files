@@ -22,6 +22,10 @@ winner and offers **CONTINUE** after your win, **TRY AGAIN** after a loss, or **
 MORE** after a draw. **STAY ON THE BOARD** closes it; **RESET SCORES** clears the
 scoreboard and match log from there (the scoreboard has its own visible reset too).
 
+**Sound:** a procedural noir loop (no audio files) and a soft per-word voice under the
+captain's subtitles. **MUSIC** and **SFX** are separate toggles in the header and both
+persist. Browsers require a gesture, so audio starts on the first click or key press.
+
 **Saved history:** every finished game is recorded in the browser. Open **MATCH
 HISTORY** in the CASE CONTROL panel to see the last 25 results and move lists.
 

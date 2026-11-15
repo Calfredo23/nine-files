@@ -202,3 +202,12 @@ Plain labels where clarity matters (NEW GAME, SCOREBOARD, RESET SCORES, DRAWS).
   and the match log from the dialog.
 - The scoreboard reset is a bordered button (two-step confirm) instead of a tiny link.
 - The post-match note uses the subtitle word reveal + cursor and the captain animation.
+
+## 13. Revision 2026-11-14 — noir score and voice
+
+- A procedural noir loop (Web Audio, no files): Am7 / Dm7 / E7 pads, upright-style bass,
+  brushed noise, sparse bell, vinyl ticks. Starts on the first gesture; MUSIC toggle;
+  persisted in `nine-files:music:v1`.
+- A soft per-word voice blip plays with the subtitle reveal in the coach bubble,
+  briefing, setup, and post-match verdict. The SFX toggle mutes it; music is separate.
+- Header gets independent MUSIC and SFX toggles.

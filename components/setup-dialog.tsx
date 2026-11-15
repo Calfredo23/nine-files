@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { Captain } from "@/components/captain";
 import { useDialog } from "@/hooks/use-dialog";
+import { useSpeechSfx } from "@/hooks/use-speech-sfx";
 import { cleanName } from "@/lib/detective";
 
 export type SetupMode = "setup" | "edit";
@@ -26,6 +27,15 @@ export function SetupDialog({
   const [name, setName] = useState(initialName);
 
   const fullscreenStep = mode === "setup" && step === 0;
+
+  useSpeechSfx(
+    fullscreenStep
+      ? "The case wall is built for a full screen. Press F11 for the best view."
+      : mode === "edit"
+        ? "What should I call you, detective?"
+        : "What should I call you, detective? X is your side. O'Rourke takes the other.",
+    open,
+  );
 
   const save = () => {
     if (saved.current) {

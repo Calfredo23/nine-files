@@ -1,4 +1,7 @@
+"use client";
+
 import { cn } from "@/lib/cn";
+import { useSpeechSfx } from "@/hooks/use-speech-sfx";
 
 export function Typewriter({
   text,
@@ -12,6 +15,8 @@ export function Typewriter({
   const tokens = text.split(/(\s+)/).filter((part) => part.length > 0);
   const wordCount = tokens.filter((part) => !/^\s+$/.test(part)).length;
   const cursorDelay = Math.max(0, wordCount - 1) * 52 + 420;
+
+  useSpeechSfx(text, speaking);
 
   return (
     <span className={cn("subtitle", className)}>

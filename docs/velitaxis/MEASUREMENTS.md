@@ -5,7 +5,7 @@ All values measured in this project, not estimated.
 ## Tests
 
 - Vitest: 40 passing (3 files: game, coach, history parser).
-- Playwright: 23 tests across game, intro, setup, quality, and screenshots.
+- Playwright: 24 tests across game, intro, setup, quality, and screenshots.
 - axe: 0 violations on the opening screen, the win state, the briefing, the setup, and
   the post-match verdict.
 - Contrast: 13/13 pairs pass (`scripts/contrast.mjs`).
@@ -49,6 +49,7 @@ FCP/LCP 0.8 s, TBT 350 ms, CLS 0.
 | `nine-files:name:v1` | The player's detective name (X side) | 18 chars |
 | `nine-files:intro:v1` | Story briefing seen | - |
 | `nine-files:setup:v1` | Full-screen/name setup seen | - |
+| `nine-files:music:v1` | Music preference | - |
 | `nine-files:sound:v1` | Sound preference | - |
 
 ## Assets
@@ -58,3 +59,5 @@ FCP/LCP 0.8 s, TBT 350 ms, CLS 0.
   CSS/SVG.
 - Fonts are self-hosted by `next/font`: Oswald, Source Serif 4, Courier Prime.
 - No animation library; CSS keyframes and one canvas burst.
+- No audio files; the noir loop and the per-word voice are synthesized with the Web
+  Audio API. MUSIC and SFX toggle independently.

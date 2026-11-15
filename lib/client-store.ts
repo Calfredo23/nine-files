@@ -1,8 +1,10 @@
 import {
   EMPTY_LEDGER,
   loadLedger,
+  loadMusic,
   loadSound,
   saveLedger,
+  saveMusic,
   saveSound,
   type Ledger,
 } from "@/lib/storage";
@@ -21,6 +23,7 @@ import {
 
 const LEDGER_EVENT = "nine-files:ledger-changed";
 const SOUND_EVENT = "nine-files:sound-changed";
+const MUSIC_EVENT = "nine-files:music-changed";
 const MATCHES_EVENT = "nine-files:matches-changed";
 const NAME_EVENT = "nine-files:name-changed";
 const LEDGER_KEY = "nine-files:ledger:v1";
@@ -107,6 +110,37 @@ export function writeSound(next: boolean): void {
   saveSound(next);
   if (typeof window !== "undefined") {
     window.dispatchEvent(new Event(SOUND_EVENT));
+  }
+}
+
+export function getMusicSnapshot(): boolean {
+  if (typeof window === "undefined") {
+    return true;
+  }
+  return loadMusic();
+}
+
+export function getServerMusicSnapshot(): boolean {
+  return true;
+}
+
+export function subscribeMusic(callback: () => void): () => void {
+  if (typeof window === "undefined") {
+    return () => {};
+  }
+  const handler = () => callback();
+  window.addEventListener(MUSIC_EVENT, handler);
+  window.addEventListener("storage", handler);
+  return () => {
+    window.removeEventListener(MUSIC_EVENT, handler);
+    window.removeEventListener("storage", handler);
+  };
+}
+
+export function writeMusic(next: boolean): void {
+  saveMusic(next);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event(MUSIC_EVENT));
   }
 }
 

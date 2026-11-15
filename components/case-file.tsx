@@ -29,6 +29,7 @@ import { useCoach } from "@/hooks/use-coach";
 import { useDetectiveName } from "@/hooks/use-detective-name";
 import { useHistory } from "@/hooks/use-history";
 import { useLedger } from "@/hooks/use-ledger";
+import { useMusicPreference } from "@/hooks/use-music-preference";
 import { useSoundPreference } from "@/hooks/use-sound-preference";
 import { writeDetectiveName } from "@/lib/client-store";
 import { sound } from "@/lib/sound";
@@ -41,6 +42,7 @@ import { HowToPlay } from "@/components/how-to-play";
 import { IntroDialog } from "@/components/intro-dialog";
 import { MatchHistoryDialog } from "@/components/match-history-dialog";
 import { MoveLog } from "@/components/move-log";
+import { MusicToggle } from "@/components/music-toggle";
 import { NewGameButton } from "@/components/new-game-button";
 import { PostMatchDialog } from "@/components/post-match-dialog";
 import { SetupDialog, type SetupMode } from "@/components/setup-dialog";
@@ -69,6 +71,7 @@ export function CaseFile() {
   const { ledger, record, reset: resetLedger } = useLedger();
   const { matches, add: addMatch, clear: clearHistory } = useHistory();
   const { on: soundOn, toggle: toggleSound } = useSoundPreference();
+  const { on: musicOn, toggle: toggleMusic } = useMusicPreference();
   const coach = useCoach();
   const detectiveName = useDetectiveName();
   const resultRef = useRef<HTMLHeadingElement | null>(null);
@@ -224,6 +227,7 @@ export function CaseFile() {
               OPEN
             </span>
             <SoundToggle on={soundOn} onToggle={toggleSound} />
+            <MusicToggle on={musicOn} onToggle={toggleMusic} />
           </div>
         </header>
 

@@ -43,6 +43,26 @@ test("axe finds no violations after a win", async ({ page }) => {
   expect(summarize(results.violations)).toEqual([]);
 });
 
+test("music and SFX toggles persist", async ({ page }) => {
+  await page.goto("/");
+
+  const music = page.getByTestId("music-toggle");
+  await expect(music).toHaveAttribute("aria-pressed", "true");
+  await music.click();
+  await expect(music).toHaveAttribute("aria-pressed", "false");
+
+  await page.reload();
+  await expect(page.getByTestId("music-toggle")).toHaveAttribute(
+    "aria-pressed",
+    "false",
+  );
+
+  const sfx = page.getByTestId("sound-toggle");
+  await expect(sfx).toHaveAttribute("aria-pressed", "true");
+  await sfx.click();
+  await expect(sfx).toHaveAttribute("aria-pressed", "false");
+});
+
 test("layouts fit 360, 768 and 1440 without horizontal scroll", async ({
   page,
 }) => {

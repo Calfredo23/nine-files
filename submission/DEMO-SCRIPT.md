@@ -1,11 +1,11 @@
 # Demo script — about 60 seconds
 
-No voiceover is required; the motion carries it. If you record with voice, use the
-lines in quotes.
+No voiceover is required; the motion and sound carry it. If you record with voice, use
+the lines in quotes.
 
 | Time | Shot | Action |
 |---|---|---|
-| 0:00 | Briefing | Land on the page. "Capt. Hale has the case." Let the three beats play, then **CONTINUE**. |
+| 0:00 | Briefing | Land on the page. "Capt. Hale has the case." Click once so the music and voice start; let the three beats play, then **CONTINUE**. |
 | 0:09 | Setup | Show the full-screen tip (**F11**) and the name input. Enter a name, **START THE CASE**. |
 | 0:15 | Board | "Two players, nine squares. New Game is in the top-right panel." |
 | 0:19 | Captain | Show the note revealing word by word; pause on the grade. |
@@ -16,5 +16,6 @@ lines in quotes.
 | 0:47 | New Game | Click it. Show the empty board and the score/history kept. |
 | 0:52 | Keyboard | Arrow to a cell, press Enter. Show the focus ring and the turn change. |
 | 0:57 | Mobile | Cut to 390px; show the full-width New Game and the scoreboard. |
+| 1:01 | Sound | Tap **MUSIC** off and on; point at **SFX** as the captain's voice control. |
 
 Upload as a public or unlisted Loom, YouTube, or Vimeo link, or attach the file.

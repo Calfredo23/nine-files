@@ -95,3 +95,16 @@
 - Gates: 40 unit, 23 e2e defined. The targeted post-match/reset/history/axe/no-console
   run passed after adding the note test hook; no Lighthouse rerun because of CPU heat.
 - Repo: private; deploy still pending owner review.
+
+## 2026-11-14 (g) — noir music and a speaking voice
+
+- **Background music:** a procedural noir loop (Am7-Dm7-E7, upright-style bass, brushed
+  noise, sparse bell) generated with the Web Audio API. No audio files. It starts on the
+  first user gesture, fades with the MUSIC toggle, and persists in `nine-files:music:v1`.
+- **Speech SFX:** soft per-word blips while Capt. Hale's subtitles reveal, in the coach
+  bubble, briefing, setup, and post-match verdict. The SFX toggle mutes them; the music
+  is independent.
+- The header now has separate **MUSIC** and **SFX** toggles. The music toggle test
+  (default on, off, reload, off; SFX off) passed.
+- Gates: 40 unit, 24 e2e defined. No Lighthouse rerun because of CPU heat.
+- Repo: private; deploy still pending owner review.
