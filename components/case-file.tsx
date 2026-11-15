@@ -135,7 +135,7 @@ export function CaseFile() {
   };
 
   const handleSaveSetup = (value: string, nextSettings: GameSettings) => {
-    const name = cleanName(value) || "Detective";
+    const name = cleanName(value);
     writeDetectiveName(name);
     writeSettings(nextSettings);
     saveSetupSeen();
@@ -152,7 +152,12 @@ export function CaseFile() {
       return;
     }
 
-    coachSay({ grade: "start", text: `Name updated. ${name} is on the file.` });
+    const playerOne = playerFor(
+      nextSettings.userMark,
+      nextSettings,
+      name,
+    ).plain;
+    coachSay({ grade: "start", text: `Name updated. ${playerOne} is on the file.` });
   };
 
   useEffect(() => {
@@ -380,7 +385,7 @@ export function CaseFile() {
               >
                 {isSingle
                   ? `SINGLE · YOU ${settings.userMark}`
-                  : "TWO PLAYERS · LOCAL"}
+                  : `TWO PLAYERS · P1 ${settings.userMark}`}
               </p>
               <div className="mt-2 hidden lg:block">
                 <NewGameButton onClick={handleRestart} block />

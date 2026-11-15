@@ -9,11 +9,13 @@ canvas burst, no animation library. Everything runs in the browser; scores, matc
 history, the detective name, and mode/side live in `localStorage`.
 
 **First visit:** Capt. Hale gives a three-beat case briefing, then a short setup
-recommends full screen (**F11**, or **Ctrl+Cmd+F** on Mac), asks for your detective name,
-and offers **TWO PLAYERS** or **SINGLE PLAYER**. In solo, pick **X**, pick **O**, or toss
-the coin. The name and side follow you into the cards, banner, result, stamp, scoreboard,
-and coach. You can replay the briefing from **BRIEFING** and edit the name from **EDIT
-NAME**.
+recommends full screen (**F11**, or **Ctrl+Cmd+F** on Mac), asks for player one's name,
+and offers **TWO PLAYERS** or **SINGLE PLAYER**. Two-player setup asks for player two's
+name, then tosses to decide who gets X and opens. Solo lets you pick **X**, pick **O**, or
+toss for your side. Blank names become Secret Detective (or Secret Detective 1 and 2 in
+two-player mode). Names follow their marks through the cards, banner, result, stamp,
+scoreboard, coach, and saved match history. You can replay the briefing from **BRIEFING**
+and edit player one's name from **EDIT NAME**.
 
 **The House:** the solo opponent is local. It uses the same minimax values as the coach,
 waits about 700 ms, shows **THINKING**, and locks the board while it moves. It plays the
@@ -31,7 +33,8 @@ after a draw. That primary button starts a quick rematch with the same mode and 
 there (the scoreboard has its own visible reset too).
 
 **NEW GAME:** the top-right button restarts the full experience: briefing, full-screen
-prompt, name, mode, side. Scores and history stay unless you use **RESET SCORES**.
+prompt, both names, mode, and the toss/side. Scores and history stay unless you use
+**RESET SCORES**.
 
 **Sound:** a procedural noir loop (no audio files) and a soft per-word voice under the
 captain's subtitles, plus pin, paper, stamp, win, draw, and coin cues. **MUSIC** and

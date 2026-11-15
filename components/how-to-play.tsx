@@ -12,8 +12,8 @@
       </summary>
       <div className="mt-2 space-y-1.5 font-serif text-xs leading-relaxed text-smoke">
         <p>
-          One detective against the House, or two players at the table. Nine
-          squares; three in a row wins. X goes first.
+          Two players enter their names and toss to decide who gets X and opens,
+          or one detective can face the House. Three in a row wins.
         </p>
         <p>
           <strong className="text-paper">NEW GAME</strong> restarts the case from

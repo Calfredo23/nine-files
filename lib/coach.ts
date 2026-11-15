@@ -182,18 +182,20 @@ export function welcomeLine(
   settings: GameSettings = DEFAULT_SETTINGS,
 ): CoachLine {
   if (settings.mode === "single") {
+    const user = playerFor(settings.userMark, settings, name);
+    const house = playerFor(otherMark(settings.userMark), settings, name);
     return {
       grade: "start",
-      text:
-        settings.userMark === "X"
-          ? `Welcome to the case, ${name}. X is yours, and the House takes O. You open.`
-          : `Welcome to the case, ${name}. O is yours, and the House takes X. The House opens.`,
+      text: `Welcome to the case, ${user.plain}. You have ${user.mark}; ${house.plain} takes ${house.mark}. ${user.mark === "X" ? "You open." : "The House opens."}`,
     };
   }
 
+  const xPlayer = playerFor("X", settings, name);
+  const oPlayer = playerFor("O", settings, name);
+
   return {
     grade: "start",
-    text: `Welcome to the case, ${name}. X is yours. O'Rourke takes the other.`,
+    text: `The toss is in. ${xPlayer.plain} opens with X; ${oPlayer.plain} takes O.`,
   };
 }
 
@@ -202,7 +204,7 @@ export function postMatchLine(
   settings: GameSettings = DEFAULT_SETTINGS,
   detectiveName?: string | null,
 ): CoachLine {
-  const lead = detectiveName?.trim() || "Detective";
+  const lead = playerFor(settings.userMark, settings, detectiveName).plain;
 
   if (outcome.kind === "draw") {
     return {
@@ -224,16 +226,17 @@ export function postMatchLine(
     };
   }
 
-  if (outcome.mark === "X") {
+  if (outcome.mark === settings.userMark) {
     return {
       grade: "win",
       text: `Case closed. ${lead} takes the collar. Nicely played.`,
     };
   }
 
+  const winner = playerFor(outcome.mark, settings, detectiveName).plain;
   return {
     grade: "loss",
-    text: `O'Rourke takes this one. ${lead}, run it back?`,
+    text: `${winner} takes this one. ${lead}, run it back?`,
   };
 }
 

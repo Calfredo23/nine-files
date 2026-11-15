@@ -22,9 +22,10 @@ One case. Two ways to play. Nine cards.
 ## Overview
 
 The Nine Files is a tic-tac-toe game dressed as a detective's case wall.
-Cross and O'Rourke claim nine pinned cards, or you can take the case solo against the
-House. Three in a row closes it. A captain watching from the corner grades every move,
-the winning line is drawn in red yarn, and a taped verdict lands on the board.
+Two named detectives claim nine pinned cards, or you can take the case solo against the
+House. In two-player mode, both names are entered and a coin toss assigns X and the
+opening move. Three in a row closes the case; a captain grades every move, red yarn marks
+the winning line, and a taped verdict lands on the board.
 
 It was built for the **SUpost / CapM junior React + Next.js application test**. The test
 asks for a working two-player game on a public Vercel URL. This is the version I
@@ -32,9 +33,10 @@ submitted, with a solo mode added on top.
 
 The required behaviours come first and are literal:
 
-- Two players alternate. **X** goes first, then **O**.
-- The result is announced: **CROSS WINS — CASE CLOSED**, **O'ROURKE WINS — CASE CLOSED**,
-  or **DRAW — COLD CASE**.
+- Two named players alternate. A coin toss assigns **X** and the first move; **O** follows.
+- Blank names become **Secret Detective 1** and **Secret Detective 2** in two-player mode,
+  or **Secret Detective** in solo mode.
+- The result is announced by winner name with **CASE CLOSED**, or **DRAW — COLD CASE**.
 - **NEW GAME** starts a fresh case and returns to the briefing and setup.
 - The scoreboard counts wins and draws and survives a reload.
 
@@ -45,9 +47,9 @@ GAME, and the result says WINS or DRAW.
 
 | Mode | How it works |
 |---|---|
-| **Two players** | The original brief: Cross and O'Rourke alternate locally on one screen. |
+| **Two players** | Enter both names, then toss to decide who gets X and opens. The other player takes O. |
 | **Single player** | Pick X, pick O, or toss the coin. The other side is **THE HOUSE**, a local minimax opponent that waits about 700 ms, shows **THINKING**, and locks the board while it moves. |
-| **Coin toss** | A short CSS flip with a dedicated metallic SFX picks your side. The result is announced and can still be changed before you start. |
+| **Coin toss** | A short CSS flip with a dedicated metallic SFX. In two-player mode it assigns X and the opening move; in solo it picks your side. The result is announced before you start. |
 
 The House is not unbeatable. It plays the best move most of the time, with a deliberate
 15% chance to choose a weaker legal move, so a careful player can create a fork and win.
@@ -57,14 +59,14 @@ The House is not unbeatable. It plays the best move most of the time, with a del
 | | |
 |---|---|
 | **First-visit briefing** | Capt. Hale sets up the case in three beats. Skippable, replayable. |
-| **Full-screen setup** | A pre-game prompt recommends F11 (or Ctrl+Cmd+F), asks for your detective name, then the mode and side. |
-| **Personalized side** | Your name becomes your detective card, turn banner, result, stamp, scoreboard label, and coach voice. |
+| **Full-screen setup** | A pre-game prompt recommends F11 (or Ctrl+Cmd+F), asks for player one’s name, then the mode. Two-player mode asks for player two’s name and tosses to assign X. |
+| **Personalized sides** | Both names follow their assigned marks through the cards, turn banner, result, stamp, scoreboard, coach, and history. |
 | **Local opponent** | Solo mode adds THE HOUSE: minimax, a short thinking beat, a locked board, and a CPU badge. |
 | **Coin toss** | Pick X or O by hand, or let the coin decide with an animated flip and a metallic SFX. |
 | **Move coach** | Every move is graded best / good / inaccuracy / mistake / blunder using minimax plus threat and fork detection. |
 | **Post-match verdict** | 1.6 s after the result, the captain takes over with CONTINUE, TRY AGAIN, ONE MORE, STAY ON THE BOARD, and RESET SCORES. |
 | **Saved history** | The last 25 finished games persist in the browser with winner name, move list, and date. |
-| **Full restart** | **NEW GAME** returns to the briefing, full-screen prompt, name, mode, and side. **RESET SCORES** clears the counts and match log. |
+| **Full restart** | **NEW GAME** returns to the briefing, full-screen prompt, both names, mode, and the toss/side. **RESET SCORES** clears the counts and match log. |
 | **Sound** | A procedural noir loop and a soft per-word voice, plus pin, stamp, paper, win, draw, and coin cues. MUSIC and SFX toggle independently and default on. |
 | **Analytics** | Vercel Web Analytics reports aggregated page views, referrers, and coarse device/browser/location metrics. Vercel states it uses no cookies and collects no personal identifiers. |
 | **Desktop fit** | The whole game fits one screen at 1440×900, 1366×768, 1280×800, and 1024×768 with no page scroll. |
@@ -72,9 +74,13 @@ The House is not unbeatable. It plays the best move most of the time, with a del
 
 ## Screenshots
 
-| Case briefing | Full-screen and detective name |
+| Case briefing | Full-screen and player one name |
 |---|---|
-| ![Case briefing](docs/screenshots/intro.webp) | ![Full-screen and name setup](docs/screenshots/setup.webp) |
+| ![Case briefing](docs/screenshots/intro.webp) | ![Full-screen and player one name setup](docs/screenshots/setup.webp) |
+
+| Two-player names and first-player toss |
+|---|
+| ![Two-player names and the toss that assigns X](docs/screenshots/setup-two-player-toss.webp) |
 
 | Mode, side, and coin toss | Solo against the House |
 |---|---|
@@ -94,9 +100,10 @@ The House is not unbeatable. It plays the best move most of the time, with a del
 
 ## How it plays
 
-1. Read the briefing, then enter a detective name. Choose **TWO PLAYERS** or **SINGLE
-   PLAYER**. In solo, pick **X**, pick **O**, or toss the coin; the other side is the
-   House. X always opens.
+1. Read the briefing, then enter player one’s name. Choose **TWO PLAYERS** or **SINGLE
+   PLAYER**. In two-player mode, enter player two’s name and toss to decide who gets X
+   and opens. In solo, pick X or O (or toss); X always opens. Blank names get Secret
+   Detective labels.
 2. Take turns claiming cards. Three in a row — across, down, or diagonally — closes the
    case. In solo the board locks while **THE HOUSE** thinks.
 3. The turn banner shows whose move it is. The move history lists every clue by name.
@@ -195,8 +202,8 @@ The Playwright suite builds and serves the production app on port 3211.
 
 | Gate | Result |
 |---|---|
-| Unit tests (Vitest) | **58 passing** — game, minimax coach, bot, players, settings, history |
-| E2E (Playwright) | **30 passing** on Ubuntu CI — game, briefing, setup/name, solo, bot turns, coin toss, restart, history, coach, post-match, reset, audio toggles, axe, no-scroll desktop, screenshots |
+| Unit tests (Vitest) | **61 passing** — game, minimax coach, bot, players, settings, history |
+| E2E (Playwright) | **31 passing** on Ubuntu CI — game, briefing, setup/names, coin-assigned player order, solo, bot turns, coin toss, restart, history, coach, post-match, reset, audio toggles, axe, no-scroll desktop, screenshots |
 | Accessibility | **0 axe violations** on the opening screen, win, briefing, setup, solo side step, and post-match verdict |
 | Contrast | every measured pair passes WCAG AA (`scripts/contrast.mjs`) |
 | Lighthouse | 100 accessibility, best practices, and SEO; performance 74–99 desktop and 74–92 mobile across repeated runs on a busy host |

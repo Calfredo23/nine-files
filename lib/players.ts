@@ -43,8 +43,12 @@ function houseFor(mark: Mark): Player {
   };
 }
 
-function namedFor(mark: Mark, detectiveName?: string | null): Player {
-  const name = detectiveName?.trim();
+function namedFor(
+  mark: Mark,
+  detectiveName: string | null | undefined,
+  fallbackName: string,
+): Player {
+  const name = detectiveName?.trim() || fallbackName;
   if (!name) {
     return PLAYERS[mark];
   }
@@ -67,8 +71,13 @@ export function playerFor(
   if (settings.mode === "single" && mark !== settings.userMark) {
     return houseFor(mark);
   }
-  if (settings.mode === "two" && mark === "O") {
-    return PLAYERS.O;
+  if (settings.mode === "two") {
+    const isPlayerOne = mark === settings.userMark;
+    return namedFor(
+      mark,
+      isPlayerOne ? detectiveName : settings.playerTwoName,
+      isPlayerOne ? "Secret Detective 1" : "Secret Detective 2",
+    );
   }
-  return namedFor(mark, detectiveName);
+  return namedFor(mark, detectiveName, "Secret Detective");
 }

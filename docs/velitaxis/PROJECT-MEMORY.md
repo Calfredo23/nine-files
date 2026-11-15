@@ -13,11 +13,13 @@ application test. The test asks for three working behaviours on a live Vercel UR
 two players alternate, the result is shown, and New Game resets. Style and personality
 are explicitly rewarded.
 
-Concept: **THE NINE FILES** — a noir case wall. Two detectives (Cross and O'Rourke)
-claim nine clues. The winning line is drawn in red yarn and a CASE CLOSED stamp lands.
-The required behaviours are literal: the cells carry X and O, the buttons say NEW GAME,
-and the result text says WINS or DRAW. A solo mode adds THE HOUSE, a deliberately
-imperfect minimax opponent, with an X/O side choice and a coin toss.
+Concept: **THE NINE FILES** — a noir case wall. Two named detectives claim nine clues,
+or a solo player takes on the House. The winning line is drawn in red yarn and a CASE
+CLOSED stamp lands. The required behaviours are literal: the cells carry X and O, the
+buttons say NEW GAME, and the result text says WINS or DRAW. In two-player mode both names
+are collected and a coin toss assigns X and the opening move; blank names become Secret
+Detective 1 and 2. A solo mode adds THE HOUSE, a deliberately imperfect minimax opponent,
+with an X/O side choice and a coin toss.
 
 ## Location and deploy
 
@@ -41,9 +43,8 @@ imperfect minimax opponent, with an X/O side choice and a coin toss.
 ## Current state
 
 Solo mode, coin toss, full-restart NEW GAME, the Case Control icon rail, production
-analytics, and the CALFREDO footer are live. Commit `9938e7c` is pushed to `main`; CI
-passes and refreshed README screenshots are published.
-Vercel Analytics is integrated for production only; local/preview builds avoid the Vercel
-endpoint. Owner reported Hobby and dashboard activation; a live Analytics `POST /view`
-returned HTTP 200. The footer points to the portfolio as CALFREDO; SOURCE/PORTFOLIO are
-removed. Remaining: submit the application form (owner action).
+analytics, and the CALFREDO footer are live. Commit `60c9ded` is pushed to `main`.
+Two-player setup now collects both names and tosses to assign X and the first move;
+blank names become Secret Detective 1/2. Local verification: 61 unit and 31 e2e pass;
+this feature is unpushed. Vercel Analytics is production-only and was verified by a live
+`POST /view` returning HTTP 200. Remaining: push the two-player update, then submit.

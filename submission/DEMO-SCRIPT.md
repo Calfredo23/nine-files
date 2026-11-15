@@ -6,8 +6,8 @@ the lines in quotes.
 | Time | Shot | Action |
 |---|---|---|
 | 0:00 | Briefing | Land on the page. "Capt. Hale has the case." Click once so the music and voice start; let the three beats play, then **CONTINUE**. |
-| 0:09 | Setup | Show the full-screen tip (**F11**), the name input, and **SINGLE PLAYER**. Toss the coin and let it land, then **START THE CASE**. |
-| 0:15 | Board | "One detective against the House. New Game is in the top-right panel." |
+| 0:09 | Setup | Show the full-screen tip (**F11**), enter both player names, choose **TWO PLAYERS**, and toss the coin to assign X / first move. |
+| 0:15 | Board | "Two names, one toss. X opens. New Game is in the top-right panel." |
 | 0:19 | Captain | Show the note revealing word by word; pause on the grade. |
 | 0:22 | House | Play a move; let the board lock, show **THINKING**, and watch the House answer. |
 | 0:28 | Finish | Complete the row; let the yarn draw and the CASE CLOSED label land. |

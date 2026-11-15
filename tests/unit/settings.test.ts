@@ -7,15 +7,26 @@ import {
 
 describe("game settings", () => {
   it("defaults to local two-player with X", () => {
-    expect(DEFAULT_SETTINGS).toEqual({ mode: "two", userMark: "X" });
+    expect(DEFAULT_SETTINGS).toEqual({
+      mode: "two",
+      userMark: "X",
+      playerTwoName: "",
+    });
     expect(parseSettings(null)).toEqual(DEFAULT_SETTINGS);
     expect(parseSettings("nope")).toEqual(DEFAULT_SETTINGS);
   });
 
   it("keeps a valid solo setting", () => {
-    expect(parseSettings({ mode: "single", userMark: "O" })).toEqual({
+    expect(
+      parseSettings({
+        mode: "single",
+        userMark: "O",
+        playerTwoName: "Mara Vale",
+      }),
+    ).toEqual({
       mode: "single",
       userMark: "O",
+      playerTwoName: "Mara Vale",
     });
   });
 
@@ -26,7 +37,14 @@ describe("game settings", () => {
     expect(parseSettings({ mode: "single", userMark: "Q" })).toEqual({
       mode: "single",
       userMark: "X",
+      playerTwoName: "",
     });
+  });
+
+  it("normalizes the second player's stored name", () => {
+    expect(
+      parseSettings({ mode: "two", userMark: "O", playerTwoName: "  Mara   Vale  " }),
+    ).toEqual({ mode: "two", userMark: "O", playerTwoName: "Mara Vale" });
   });
 
   it("uses a versioned storage key", () => {

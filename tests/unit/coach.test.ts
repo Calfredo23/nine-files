@@ -189,12 +189,22 @@ describe("postMatchLine", () => {
   it("asks for a rematch after O'Rourke wins", () => {
     const line = postMatchLine(
       { kind: "win", mark: "O", line: [0, 1, 2] },
-      DEFAULT_SETTINGS,
+      { ...DEFAULT_SETTINGS, playerTwoName: "O'Rourke" },
       "Mara",
     );
     expect(line.grade).toBe("loss");
     expect(line.text).toContain("O'Rourke");
     expect(line.text).toMatch(/run it back/i);
+  });
+
+  it("uses the tossed side to identify player one's win", () => {
+    const line = postMatchLine(
+      { kind: "win", mark: "O", line: [0, 1, 2] },
+      { mode: "two", userMark: "O", playerTwoName: "Mara" },
+      "Cedric",
+    );
+    expect(line.grade).toBe("win");
+    expect(line.text).toContain("Cedric");
   });
 
   it("offers another round after a draw", () => {
@@ -235,6 +245,6 @@ describe("postMatchLine", () => {
     const line = welcomeLine("Mara", { mode: "single", userMark: "O" });
     expect(line.text).toContain("Mara");
     expect(line.text).toContain("The House");
-    expect(line.text).toMatch(/O is yours/i);
+    expect(line.text).toMatch(/You have O/i);
   });
 });

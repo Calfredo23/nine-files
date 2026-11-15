@@ -31,7 +31,7 @@ export function PostMatchDialog({
     outcome.kind === "win"
       ? playerFor(outcome.mark, settings, detectiveName)
       : null;
-  const userMark = settings.mode === "single" ? settings.userMark : "X";
+  const userMark = settings.userMark;
   const userWon = outcome.kind === "win" && outcome.mark === userMark;
   const resultText = winner
     ? `${winner.short} WINS — CASE CLOSED`

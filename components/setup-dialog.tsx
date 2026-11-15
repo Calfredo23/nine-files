@@ -13,12 +13,14 @@ import { cn } from "@/lib/cn";
 
 export type SetupMode = "setup" | "edit";
 
-const TOTAL_STEPS = 4;
+const SINGLE_PLAYER_STEPS = 4;
+const TWO_PLAYER_STEPS = 5;
 
 function stepTitle(
   mode: SetupMode,
   step: number,
   fullscreenStep: boolean,
+  choice: GameMode,
 ): string {
   if (mode === "edit") {
     return "DETECTIVE NAME";
@@ -32,7 +34,10 @@ function stepTitle(
   if (step === 2) {
     return "GAME MODE";
   }
-  return "YOUR SIDE";
+  if (step === 3) {
+    return choice === "two" ? "PLAYER TWO" : "YOUR SIDE";
+  }
+  return "COIN TOSS";
 }
 
 export function SetupDialog({
@@ -55,6 +60,9 @@ export function SetupDialog({
   const tossTimer = useRef<number | null>(null);
   const [step, setStep] = useState(mode === "edit" ? 1 : 0);
   const [name, setName] = useState(initialName);
+  const [playerTwoName, setPlayerTwoName] = useState(
+    initialSettings.playerTwoName ?? "",
+  );
   const [choice, setChoice] = useState<GameMode>(initialSettings.mode);
   const [side, setSide] = useState<Mark>(initialSettings.userMark);
   const [tossing, setTossing] = useState(false);
@@ -62,15 +70,27 @@ export function SetupDialog({
 
   const fullscreenStep = mode === "setup" && step === 0;
   const modeStep = mode === "setup" && step === 2;
-  const sideStep = mode === "setup" && step === 3;
+  const sideStep = mode === "setup" && choice === "single" && step === 3;
+  const playerTwoNameStep =
+    mode === "setup" && choice === "two" && step === 3;
+  const twoPlayerCoinStep =
+    mode === "setup" && choice === "two" && step === 4;
   const totalSteps =
-    step >= 2 ? (choice === "single" ? TOTAL_STEPS : TOTAL_STEPS - 1) : TOTAL_STEPS;
+    choice === "two" ? TWO_PLAYER_STEPS : SINGLE_PLAYER_STEPS;
+  const playerOneDisplayName =
+    cleanName(name) ||
+    (choice === "two" ? "Secret Detective 1" : "Secret Detective");
+  const playerTwoDisplayName = cleanName(playerTwoName) || "Secret Detective 2";
 
   useSpeechSfx(
     fullscreenStep
       ? "The case wall is built for a full screen. Press F11 for the best view."
       : modeStep
         ? "One detective against the House, or two players at the table?"
+        : playerTwoNameStep
+          ? "What should I call player two?"
+          : twoPlayerCoinStep
+            ? "The coin decides who gets X and the first move."
         : sideStep
           ? "X or O, detective. Pick a side, or toss for it."
           : "What should I call you, detective?",
@@ -94,9 +114,14 @@ export function SetupDialog({
       mode === "edit"
         ? initialSettings
         : choice === "single"
-          ? { mode: "single", userMark: side }
-          : { mode: "two", userMark: initialSettings.userMark };
-    onSave(cleanName(name) || "Detective", finalSettings);
+          ? { ...initialSettings, mode: "single", userMark: side }
+          : {
+              ...initialSettings,
+              mode: "two",
+              userMark: side,
+              playerTwoName: cleanName(playerTwoName),
+            };
+    onSave(cleanName(name), finalSettings);
   };
 
   const close = () => {
@@ -108,18 +133,22 @@ export function SetupDialog({
   };
 
   const primary = () => {
-    if (mode === "edit" || step === 3) {
+    if (mode === "edit" || sideStep) {
       save();
       return;
     }
-    if (step === 0 || step === 1) {
+    if (twoPlayerCoinStep) {
+      if (tossed) {
+        save();
+      }
+      return;
+    }
+    if (step === 3 && choice === "two") {
+      setStep(4);
+      return;
+    }
+    if (step < 3) {
       setStep(step + 1);
-      return;
-    }
-    if (choice === "single") {
-      setStep(3);
-    } else {
-      save();
     }
   };
 
@@ -164,11 +193,9 @@ export function SetupDialog({
       ? "SAVE NAME"
       : fullscreenStep
         ? "NEXT"
-        : step === 3
+        : sideStep || twoPlayerCoinStep
           ? "START THE CASE"
-          : step === 2 && choice === "two"
-            ? "START THE CASE"
-            : "NEXT";
+          : "NEXT";
 
   return (
     <dialog
@@ -177,9 +204,19 @@ export function SetupDialog({
       aria-labelledby="setup-title"
       className="case-dialog"
       onClose={close}
+      onCancel={(event) => {
+        if (mode === "setup") {
+          event.preventDefault();
+          back();
+        }
+      }}
       onClick={(event) => {
         if (event.target === event.currentTarget) {
-          close();
+          if (mode === "edit") {
+            close();
+          } else {
+            back();
+          }
         }
       }}
     >
@@ -193,7 +230,7 @@ export function SetupDialog({
               id="setup-title"
               className="mt-0.5 font-display text-lg font-semibold tracking-[0.14em] text-paper sm:text-xl"
             >
-              {stepTitle(mode, step, fullscreenStep)}
+              {stepTitle(mode, step, fullscreenStep, choice)}
             </h2>
           </div>
           <p className="font-mono text-[9px] tracking-[0.2em] text-smoke">
@@ -275,7 +312,7 @@ export function SetupDialog({
                       </span>
                     </span>
                     <span className="mt-0.5 block font-serif text-[12px] leading-snug text-ink/70">
-                      Cross and O&apos;Rourke share the wall.
+                      Name both players. The toss assigns X and the first move.
                     </span>
                   </button>
 
@@ -305,6 +342,52 @@ export function SetupDialog({
                     </span>
                   </button>
                 </div>
+              </div>
+            ) : twoPlayerCoinStep ? (
+              <div className="mt-2">
+                <p className="font-serif text-[15px] leading-relaxed sm:text-base">
+                  One toss decides who gets X and the first move.
+                </p>
+
+                <div className="mt-3 flex items-center gap-3 border border-ink/20 bg-paper/50 p-2">
+                  <div className="coin-stage shrink-0" aria-hidden="true">
+                    <span className={cn("coin-token", tossing && "coin-toss")}>
+                      {tossing ? "?" : tossed ? (side === "X" ? "1" : "2") : "?"}
+                    </span>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p
+                      data-testid="coin-result"
+                      aria-live="polite"
+                      className="font-serif text-[13px] leading-snug text-ink"
+                    >
+                      {tossing
+                        ? "The coin is in the air."
+                        : tossed
+                          ? side === "X"
+                            ? `${playerOneDisplayName} gets X and opens. ${playerTwoDisplayName} takes O.`
+                            : `${playerTwoDisplayName} gets X and opens. ${playerOneDisplayName} takes O.`
+                          : "Toss to decide who opens as X."}
+                    </p>
+                    <button
+                      type="button"
+                      data-testid="setup-toss"
+                      onClick={toss}
+                      disabled={tossing}
+                      className="mt-1 min-h-9 border border-ink/30 px-2 py-1 font-mono text-[9px] tracking-[0.16em] text-ink transition hover:border-oxblood hover:text-oxblood disabled:opacity-60"
+                    >
+                      {tossing
+                        ? "TOSSING…"
+                        : tossed
+                          ? "TOSS AGAIN"
+                          : "TOSS THE COIN"}
+                    </button>
+                  </div>
+                </div>
+
+                <p className="mt-2 font-serif text-[11px] leading-snug text-ink/65">
+                  X always opens; the coin decides which player gets it.
+                </p>
               </div>
             ) : sideStep ? (
               <div className="mt-2">
@@ -399,29 +482,44 @@ export function SetupDialog({
                 }}
               >
                 <label
-                  htmlFor="detective-name"
+                  htmlFor={playerTwoNameStep ? "player-two-name" : "detective-name"}
                   className="font-serif text-[15px] leading-relaxed sm:text-base"
                 >
-                  What should I call you, detective?
+                  {playerTwoNameStep
+                    ? "What should I call player two?"
+                    : "What should I call you, detective?"}
                 </label>
                 <input
-                  id="detective-name"
-                  data-testid="detective-name"
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
+                  id={playerTwoNameStep ? "player-two-name" : "detective-name"}
+                  data-testid={
+                    playerTwoNameStep ? "player-two-name" : "detective-name"
+                  }
+                  value={playerTwoNameStep ? playerTwoName : name}
+                  onChange={(event) =>
+                    playerTwoNameStep
+                      ? setPlayerTwoName(event.target.value)
+                      : setName(event.target.value)
+                  }
                   maxLength={18}
                   autoFocus
                   autoComplete="off"
-                  placeholder="Your name"
+                  placeholder={
+                    playerTwoNameStep ? "Player two's name" : "Your name"
+                  }
                   className="mt-2 w-full border border-ink/25 bg-paper px-3 py-2 font-serif text-base text-ink outline-none placeholder:text-ink/35 focus:border-oxblood"
-                  aria-describedby="detective-name-hint"
+                  aria-describedby={
+                    playerTwoNameStep ? "player-two-name-hint" : "detective-name-hint"
+                  }
                 />
                 <p
-                  id="detective-name-hint"
+                  id={
+                    playerTwoNameStep ? "player-two-name-hint" : "detective-name-hint"
+                  }
                   className="mt-2 font-serif text-[12px] leading-snug text-ink/70"
                 >
-                  The captain will use this name at the table. You can change it
-                  later.
+                  {playerTwoNameStep
+                    ? "Leave this blank for Secret Detective 2. The coin toss decides who gets X."
+                    : "Leave this blank for Secret Detective. In two-player mode it becomes Secret Detective 1."}
                 </p>
               </form>
             )}
@@ -463,12 +561,14 @@ export function SetupDialog({
           <button
             type="button"
             data-testid={
-              mode !== "edit" && (fullscreenStep || (step > 0 && step < 3))
+              mode !== "edit" &&
+              (fullscreenStep || step === 1 || modeStep || playerTwoNameStep)
                 ? "setup-next"
                 : "setup-start"
             }
             onClick={primary}
-            className="min-h-11 border border-oxblood/70 bg-oxblood px-4 py-2 font-display text-xs font-semibold tracking-[0.16em] text-paper transition hover:bg-[#a13540] active:translate-y-px"
+            disabled={twoPlayerCoinStep && !tossed}
+            className="min-h-11 border border-oxblood/70 bg-oxblood px-4 py-2 font-display text-xs font-semibold tracking-[0.16em] text-paper transition hover:bg-[#a13540] active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50"
           >
             {primaryLabel}
           </button>

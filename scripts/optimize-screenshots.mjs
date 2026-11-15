@@ -4,6 +4,7 @@ import sharp from "sharp";
 const jobs = [
   ["intro.png", "intro.webp", 960],
   ["setup.png", "setup.webp", 960],
+  ["setup-two-player-toss.png", "setup-two-player-toss.webp", 960],
   ["setup-side.png", "setup-side.webp", 960],
   ["desktop-board.png", "desktop-board.webp", 1280],
   ["desktop-midgame.png", "desktop-midgame.webp", 1280],

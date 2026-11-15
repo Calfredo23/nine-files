@@ -225,3 +225,19 @@ Plain labels where clarity matters (NEW GAME, SCOREBOARD, RESET SCORES, DRAWS).
   Vercel plan before enabling collection: Hobby includes 50,000 events/month, while Pro
   usage is billed per event. The owner reports activation on Hobby; this session could
   not inspect the dashboard or verify event reporting.
+
+## 15. Revision 2026-11-15 — two-player identities and toss-assigned sides
+
+- Two-player setup now runs full screen -> player one name -> mode -> player two name ->
+  coin toss. The toss assigns X and the opening move; the other player takes O.
+- The assigned mark persists as `settings.userMark` (Player 1's mark). Player two's name
+  persists as `settings.playerTwoName`. Both names follow their marks through the
+  detective cards, turn banner, move log, winner stamp, scoreboard labels, coach, and
+  saved match history.
+- Blank names fall back to **Secret Detective** in solo mode and **Secret Detective 1 /
+  Secret Detective 2** in two-player mode. The setup never shows an empty name.
+- The standalone `PLAYERS` Cross/O'Rourke records remain only as the historical fallback
+  for match records saved before this revision.
+- `EDIT NAME` continues to edit player one only; a full restart reaches both names.
+- Verification: 61 unit tests, 31 Playwright tests, axe 0, refreshed two-player toss
+  screenshot.

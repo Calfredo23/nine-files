@@ -16,22 +16,27 @@ SUpost / CapM test on a live Vercel URL, and that doubles as a portfolio piece.
 ## Status
 
 Vercel production is live at `https://the-nine-files.vercel.app`. Repo is public at
-`https://github.com/Calfredo23/the-nine-files`. Commit `9938e7c` is pushed to `main`;
+`https://github.com/Calfredo23/the-nine-files`. Commit `60c9ded` is pushed to `main`;
 GitHub CI passes, and live smoke verified the CALFREDO footer and an Analytics `POST
-/view` returning HTTP 200. Owner reports Web Analytics enabled on Hobby. README, reviewer
-notes, demo script, and refreshed screenshots are published.
+/view` returning HTTP 200. Owner reports Web Analytics enabled on Hobby. Two-player
+setup now collects both names and tosses to assign X and the opening move; blank names
+become Secret Detective 1/2. Locally verified with 61 unit and 31 e2e tests, unpushed.
+README, reviewer notes, demo script, and refreshed screenshots are updated.
 
 ## Next action
 
-1. Submit the form with the live URL, refreshed screenshots, and optional demo.
+1. Push the two-player naming/toss update, then submit the form with the live URL,
+   refreshed screenshots, and optional demo.
 
 ## Acceptance criteria
 
 1. Live production URL: two players alternate; win and draw are shown; NEW GAME resets.
 2. Solo works on either side: THE HOUSE moves, the board locks while it thinks, and the
    player can win.
-3. The coin toss picks a side, animates, and plays a dedicated SFX.
-4. NEW GAME restarts from briefing, full-screen prompt, name, mode, and side; RESET
+3. Two-player setup asks for both names and a coin toss assigns X and the opening move;
+   blank names become Secret Detective 1 and 2. Solo toss picks the player's side. Both
+   animate and play a dedicated SFX.
+4. NEW GAME restarts from briefing, full-screen prompt, names, mode, and toss/side; RESET
    SCORES clears the ledger and match history.
 5. Scoreboard counts wins and draws and survives a reload.
 6. 360 / 768 / 1440 layouts have no horizontal scroll and 44px tap targets.

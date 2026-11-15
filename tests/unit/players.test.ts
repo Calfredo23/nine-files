@@ -1,40 +1,54 @@
 import { describe, expect, it } from "vitest";
-import { PLAYERS, playerFor } from "../../lib/players";
+import { playerFor } from "../../lib/players";
 
 describe("playerFor", () => {
-  it("keeps Cross and O'Rourke in two-player mode", () => {
-    expect(playerFor("X", { mode: "two", userMark: "X" }, "Cedric")).toMatchObject(
-      {
-        name: "DET. CEDRIC",
-        short: "CEDRIC",
-        bot: false,
-      },
+  it("maps both names to the coin-assigned marks", () => {
+    const playerOneX = playerFor(
+      "X",
+      { mode: "two", userMark: "X", playerTwoName: "O'Rourke" },
+      "Cedric",
     );
-    expect(playerFor("O", { mode: "two", userMark: "X" }, "Cedric")).toBe(
-      PLAYERS.O,
+    const playerTwoO = playerFor(
+      "O",
+      { mode: "two", userMark: "X", playerTwoName: "O'Rourke" },
+      "Cedric",
     );
+    expect(playerOneX).toMatchObject({ name: "DET. CEDRIC", mark: "X" });
+    expect(playerTwoO).toMatchObject({ name: "DET. O'ROURKE", mark: "O" });
+
+    const playerOneO = playerFor(
+      "O",
+      { mode: "two", userMark: "O", playerTwoName: "Mara" },
+      "Cedric",
+    );
+    const playerTwoX = playerFor(
+      "X",
+      { mode: "two", userMark: "O", playerTwoName: "Mara" },
+      "Cedric",
+    );
+    expect(playerOneO).toMatchObject({ name: "DET. CEDRIC", mark: "O" });
+    expect(playerTwoX).toMatchObject({ name: "DET. MARA", mark: "X" });
   });
 
-  it("puts the solo player on their chosen mark", () => {
-    const x = playerFor("X", { mode: "single", userMark: "X" }, "Mara");
-    const o = playerFor("O", { mode: "single", userMark: "X" }, "Mara");
-    expect(x.short).toBe("MARA");
-    expect(x.bot).toBe(false);
-    expect(o.name).toBe("THE HOUSE");
-    expect(o.bot).toBe(true);
-
-    const xAsHouse = playerFor("X", { mode: "single", userMark: "O" }, "Mara");
-    const oAsUser = playerFor("O", { mode: "single", userMark: "O" }, "Mara");
-    expect(xAsHouse.name).toBe("THE HOUSE");
-    expect(oAsUser.short).toBe("MARA");
+  it("uses numbered secret detectives when both two-player names are blank", () => {
+    const settings = { mode: "two", userMark: "O" } as const;
+    expect(playerFor("O", settings, "").plain).toBe("Secret Detective 1");
+    expect(playerFor("X", settings, "").plain).toBe("Secret Detective 2");
   });
 
-  it("falls back to the district names without a detective name", () => {
-    expect(
-      playerFor("O", { mode: "single", userMark: "O" }, "").plain,
-    ).toBe("O'Rourke");
-    expect(playerFor("X", { mode: "two", userMark: "X" }, null).name).toBe(
-      "DET. CROSS",
-    );
+  it("uses the secret detective fallback for a blank solo name", () => {
+    const settings = { mode: "single", userMark: "O" } as const;
+    expect(playerFor("O", settings, "").plain).toBe("Secret Detective");
+    expect(playerFor("X", settings, "").name).toBe("THE HOUSE");
+  });
+
+  it("uses a numbered fallback for only the blank two-player name", () => {
+    const settings = {
+      mode: "two",
+      userMark: "X",
+      playerTwoName: "Mara",
+    } as const;
+    expect(playerFor("X", settings, "").plain).toBe("Secret Detective 1");
+    expect(playerFor("O", settings, "").plain).toBe("Mara");
   });
 });

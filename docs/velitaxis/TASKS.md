@@ -6,8 +6,8 @@
   complete; push and submit remain.** QUALITY mode, noir case-wall concept, core +
   deep polish, Capt. Hale briefing, move coach, post-match voice, full-screen/name/mode/
   side setup, solo THE HOUSE opponent, coin toss, full-restart NEW GAME, saved match
-  history, post-match takeover, visible score reset, single-screen desktop. 58 unit,
-  30 e2e. Repo public at `github.com/Calfredo23/the-nine-files`. Remaining: push, live
+  history, post-match takeover, visible score reset, single-screen desktop. 61 unit,
+  31 e2e. Repo public at `github.com/Calfredo23/the-nine-files`. Remaining: push, live
   smoke, submit the form. Acceptance in `NEXT-TASK.md`.
 
 ## Ready

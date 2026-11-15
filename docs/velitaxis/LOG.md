@@ -258,3 +258,19 @@
   browser console errors. README WebP images were regenerated from the screenshot suite.
 - Next: owner submits the application form. This post-push log update is local-only and
   would need separate authorization to push.
+
+## 2026-11-15 (t) — two-player names and toss-assigned sides
+
+- Two-player setup now collects player one's name, then player two's name, then runs the
+  coin toss. The toss assigns X and the opening move; the other player takes O. The
+  assigned mark is persisted in `settings.userMark`, so mode labels, cards, turn banner,
+  coach, result, stamp, ledger labels, and history follow the correct player.
+- Player two's name persists at `settings.playerTwoName`. Blank names fall back to
+  **Secret Detective** in solo and **Secret Detective 1/2** in two-player mode; no blank
+  card is ever shown.
+- `POST-MATCH` and the coach now resolve the winner from the assigned mark instead of
+  assuming X. EDIT NAME still updates player one only.
+- Verification: `npm run verify` passed with **61 unit** tests; Playwright passed
+  **31/31**, including a two-player toss start, blank-name fallbacks, axe, and layouts.
+  Refreshed `setup-two-player-toss.webp` and the README references.
+- Change is local and unpushed. Next: owner authorizes push, then submit.

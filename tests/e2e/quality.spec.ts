@@ -5,6 +5,11 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     window.localStorage.setItem("nine-files:intro:v1", "seen");
     window.localStorage.setItem("nine-files:setup:v1", "seen");
+    window.localStorage.setItem("nine-files:name:v1", "Cross");
+    window.localStorage.setItem(
+      "nine-files:settings:v1",
+      JSON.stringify({ mode: "two", userMark: "X", playerTwoName: "O'Rourke" }),
+    );
   });
 });
 

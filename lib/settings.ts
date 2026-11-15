@@ -4,12 +4,15 @@ export type GameMode = "single" | "two";
 
 export type GameSettings = {
   readonly mode: GameMode;
+  // The solo player's mark, or Player 1's mark when two people play.
   readonly userMark: Mark;
+  readonly playerTwoName?: string;
 };
 
 export const DEFAULT_SETTINGS: GameSettings = Object.freeze({
   mode: "two",
   userMark: "X",
+  playerTwoName: "",
 });
 
 export const SETTINGS_KEY = "nine-files:settings:v1";
@@ -23,7 +26,11 @@ export function parseSettings(value: unknown): GameSettings {
     record.mode === "single" || record.mode === "two" ? record.mode : "two";
   const userMark: Mark =
     record.userMark === "X" || record.userMark === "O" ? record.userMark : "X";
-  return { mode, userMark };
+  const playerTwoName =
+    typeof record.playerTwoName === "string"
+      ? record.playerTwoName.replace(/\s+/g, " ").trim().slice(0, 18)
+      : "";
+  return { mode, userMark, playerTwoName };
 }
 
 export function loadSettings(): GameSettings {
