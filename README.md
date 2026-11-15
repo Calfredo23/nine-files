@@ -6,7 +6,7 @@
 
 Two players. Nine cards. One wall.
 
-[**Play the live game**](https://nine-files.vercel.app) · [Source](https://github.com/Calfredo23/the-nine-files)
+[**Play the live game**](https://the-nine-files.vercel.app) · [Source](https://github.com/Calfredo23/the-nine-files)
 
 [![CI](https://github.com/Calfredo23/the-nine-files/actions/workflows/ci.yml/badge.svg)](https://github.com/Calfredo23/the-nine-files/actions/workflows/ci.yml)
 [![Next.js](https://img.shields.io/badge/Next.js-16.4-000000?logo=nextdotjs)](https://nextjs.org)
@@ -204,7 +204,7 @@ npx vercel --prod
 ```
 
 Set `NEXT_PUBLIC_SITE_URL` to the production URL if it differs from
-`https://nine-files.vercel.app`; it feeds the canonical URL and the OG image metadata.
+`https://the-nine-files.vercel.app`; it feeds the canonical URL and the OG image metadata.
 
 ## Project structure
 

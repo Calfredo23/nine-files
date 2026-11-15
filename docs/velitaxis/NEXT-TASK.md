@@ -15,9 +15,10 @@ SUpost / CapM test on a live Vercel URL, and that doubles as a portfolio piece.
 
 ## Status
 
-Ready to submit after the owner's Vercel deploy. 40 unit, 24 e2e (green on Ubuntu CI),
-axe 0, contrast 13/13. Repo is public; README and screenshots are current; audio defaults
-on. Local preview on `:3210`.
+Vercel production is live at `https://the-nine-files.vercel.app`. Repo is public at
+`https://github.com/Calfredo23/the-nine-files`; 40 unit, 24 e2e on Ubuntu CI, axe 0,
+contrast 13/13. README, MIT license, and screenshots are current; audio defaults on.
+Only the application form remains.
 
 ## Next action
 

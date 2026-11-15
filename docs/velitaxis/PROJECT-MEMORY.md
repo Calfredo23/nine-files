@@ -23,8 +23,7 @@ and the result text says WINS or DRAW.
 - Local: `EPIC PORTFOLIO INCOMING/tic-tac-toe/` — own git repo; the hub `.gitignore`
   ignores everything outside `docs/`, so this folder is not tracked by the hub.
 - Public repo: `github.com/Calfredo23/the-nine-files`
-- Live: pending the Vercel deploy; intended `nine-files.vercel.app` (fallback
-  `tic-tac-toe-calfredo.vercel.app`)
+- Live: `https://the-nine-files.vercel.app`
 
 ## Constraints
 

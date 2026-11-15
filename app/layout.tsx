@@ -26,7 +26,7 @@ const mono = Courier_Prime({
 });
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://nine-files.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://the-nine-files.vercel.app";
 
 const title = "The Nine Files — a tic-tac-toe case";
 const description =

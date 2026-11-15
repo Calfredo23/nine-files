@@ -137,3 +137,13 @@
 - The owner is renaming the Vercel project manually. The README live links and
   `metadataBase` will be updated when the new production URL is known.
 - Submission repo URL: `https://github.com/Calfredo23/the-nine-files`.
+
+## 2026-11-15 (j) — production URL live
+
+- The owner renamed the Vercel project; production is live at
+  **`https://the-nine-files.vercel.app`** (200, title “The Nine Files — a tic-tac-toe
+  case”). The old `nine-files.vercel.app` returns 404.
+- README live links, `metadataBase`, and project state point to the new production URL.
+  `NEXT_PUBLIC_SITE_URL` is not needed while the project keeps that domain.
+- Repo: `https://github.com/Calfredo23/the-nine-files` (public). Only the application
+  form remains.
